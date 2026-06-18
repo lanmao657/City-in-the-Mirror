@@ -2,48 +2,48 @@
 ## 所有正式美术素材在此统一管理
 ## 开发阶段使用纯色占位，正式制作时替换为实际图片
 
-## ── 背景图 ─────────────────────────────────────────────
+## ── 背景图（全部接入实际素材）─────────────────────────────
 
 ## 通用
 image bg black = Solid("#0A0A15")
 image bg white = Solid("#F5F5F5")
 
-## 镜墙（已接入实际素材）
+## 镜墙
 image bg mirror_crack = "images/backgrounds/mirror_crack.png"
-image bg mirror_wall_outside = Solid("#2A2A3E")
-image bg mirror_inside = Solid("#303045")
-image bg mirror_center = Solid("#353550")
+image bg mirror_wall_outside = "images/backgrounds/mirror_wall_outside.png"
+image bg mirror_inside = "images/backgrounds/mirror_inside.png"
+image bg mirror_center = "images/backgrounds/mirror_center.png"
 
-## 左城（已接入实际素材）
+## 左城
 image bg left_city_entrance = "images/backgrounds/left_city_entrance.png"
-image bg left_city_street = Solid("#222838")
-image bg left_city_workshop = Solid("#1E2430")
-image bg left_city_garden = Solid("#1A2830")
-image bg left_city_square = Solid("#202830")
+image bg left_city_street = "images/backgrounds/left_city_street.png"
+image bg left_city_workshop = "images/backgrounds/left_city_workshop.png"
+image bg left_city_garden = "images/backgrounds/left_city_garden.png"
+image bg left_city_square = "images/backgrounds/left_city_square.png"
 
-## 右城（已接入实际素材）
+## 右城
 image bg right_city_entrance = "images/backgrounds/right_city_entrance.png"
-image bg right_city_studio = Solid("#3E3228")
-image bg right_city_square = Solid("#403428")
-image bg right_city_hospital = Solid("#382E24")
-image bg smile_garden = Solid("#3E2E20")
+image bg right_city_studio = "images/backgrounds/right_city_studio.png"
+image bg right_city_square = "images/backgrounds/right_city_square.png"
+image bg right_city_hospital = "images/backgrounds/right_city_hospital.png"
+image bg smile_garden = "images/backgrounds/smile_garden.png"
 
 ## 闪回
-image bg flashback_house = Solid("#2E2818")
-image bg flashback_rain = Solid("#1A1E28")
-image bg flashback_hospital = Solid("#282020")
-image bg flashback_river = Solid("#1A1A25")
-image bg flashback_child_room = Solid("#2A2418")
+image bg flashback_house = "images/backgrounds/flashback_house.png"
+image bg flashback_rain = "images/backgrounds/flashback_rain.png"
+image bg flashback_hospital = "images/backgrounds/flashback_hospital.png"
+image bg flashback_river = "images/backgrounds/flashback_river.png"
+image bg flashback_child_room = "images/backgrounds/flashback_child_room.png"
 
 ## 结局
-image bg city_merge_chaos = Solid("#2A2A2A")
-image bg city_merge_center = Solid("#303030")
-image bg ending_truth = Solid("#1A2A3E")
-image bg ending_lie = Solid("#3A2E20")
-image bg ending_split = Solid("#2A2E30")
-image bg ending_silent = Solid("#202025")
-image bg river = Solid("#1A1A28")
-image bg river_sunset = Solid("#2A1E18")
+image bg city_merge_chaos = "images/backgrounds/city_merge_chaos.png"
+image bg city_merge_center = "images/backgrounds/city_merge_center.png"
+image bg ending_truth = "images/backgrounds/ending_truth.png"
+image bg ending_lie = "images/backgrounds/ending_lie.png"
+image bg ending_split = "images/backgrounds/ending_split.png"
+image bg ending_silent = "images/backgrounds/ending_silent.png"
+image bg river = "images/backgrounds/river.png"
+image bg river_sunset = "images/backgrounds/river_sunset.png"
 
 ## ── 角色立绘占位 ──────────────────────────────────────────
 ## 使用 Solid 配合 Transform 来模拟立绘占位区域
