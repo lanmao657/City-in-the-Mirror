@@ -1,0 +1,133 @@
+{
+    "meta": {
+        "description": "关键选择分支与后果映射表",
+        "version": "1.0"
+    },
+    "choices": {
+        "ch1_direction": {
+            "description": "第一个选择：向左还是向右",
+            "type": "menu",
+            "options": {
+                "left": {
+                    "effects": {"flag": "first_direction_left", "city": "left"},
+                    "unlocks": "chapter1_left"
+                },
+                "right": {
+                    "effects": {"flag": "first_direction_right", "city": "right"},
+                    "unlocks": "chapter1_right"
+                }
+            },
+            "consequence_delay": null
+        },
+        "ch1_baisui_meet": {
+            "description": "对白岁的第一句话",
+            "type": "wheel",
+            "options": {
+                "truth": {
+                    "text": "我不知道自己是哪里的人。",
+                    "effects": {"rel_baisui": 5, "city_left": 2},
+                    "consequence": "baisui_trusts_you"
+                },
+                "lie": {
+                    "text": "我是从很远的地方来的。",
+                    "effects": {"rel_baisui": -3},
+                    "consequence": "baisui_suspicious"
+                },
+                "silent": {
+                    "text": "",
+                    "effects": {"rel_baisui": 8},
+                    "consequence": "baisui_respects_silence"
+                }
+            },
+            "consequence_delay": "ch3"
+        },
+        "ch2_relay": {
+            "description": "如何帮助砾和瑶",
+            "type": "wheel",
+            "options": {
+                "truth": {
+                    "effects": {"rel_li": 5, "rel_yao": 3, "city_left": 5, "city_right": 3},
+                    "consequence": "li_yao_direct"
+                },
+                "lie": {
+                    "effects": {"rel_li": 3, "rel_yao": 5},
+                    "consequence": "li_yao_indirect"
+                },
+                "silent": {
+                    "effects": {"rel_li": 8, "rel_yao": 8, "memory": "memory_mirror_heart"},
+                    "consequence": "li_yao_silent"
+                }
+            },
+            "consequence_delay": "ch5"
+        },
+        "ch4_save_right": {
+            "description": "如何拯救右城",
+            "type": "wheel",
+            "options": {
+                "truth": {
+                    "effects": {"city_right": -5, "city_left": 3},
+                    "consequence": "right_reform"
+                },
+                "lie": {
+                    "effects": {"city_right": 5},
+                    "consequence": "right_temporary_fix"
+                },
+                "silent": {
+                    "effects": {"city_right": 2, "memory": "memory_tower_crack"},
+                    "consequence": "right_third_way"
+                }
+            },
+            "consequence_delay": "ch6"
+        },
+        "ch7_final": {
+            "description": "最终选择",
+            "type": "menu",
+            "options": {
+                "truth": {
+                    "effects": {"flag": "ending_truth"},
+                    "unlocks": "ending_truth"
+                },
+                "lie": {
+                    "effects": {"flag": "ending_lie"},
+                    "unlocks": "ending_lie"
+                },
+                "split": {
+                    "effects": {"flag": "ending_split"},
+                    "unlocks": "ending_split"
+                },
+                "silent": {
+                    "effects": {"flag": "ending_silent"},
+                    "unlocks": "ending_silent"
+                }
+            },
+            "consequence_delay": null
+        }
+    },
+    "endings": {
+        "ending_truth": {
+            "name": "真话",
+            "condition": "mirror.truth_ratio > 0.7",
+            "unlock_achievement": "truth"
+        },
+        "ending_lie": {
+            "name": "假话",
+            "condition": "mirror.lie_ratio > 0.7",
+            "unlock_achievement": "ferry"
+        },
+        "ending_split": {
+            "name": "分别说话",
+            "condition": "mirror.truth_ratio >= 0.3 && mirror.lie_ratio >= 0.3",
+            "unlock_achievement": "ferry"
+        },
+        "ending_silent": {
+            "name": "沉默",
+            "condition": "mirror.silent_ratio > 0.4 && all_memories",
+            "unlock_achievement": "ferry"
+        },
+        "epilogue": {
+            "name": "归家",
+            "condition": "ending_silent && all_memories_collected",
+            "unlock_achievement": "epilogue"
+        }
+    }
+}

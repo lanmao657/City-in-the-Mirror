@@ -1,0 +1,139 @@
+{
+    "meta": {
+        "version": "1.0",
+        "description": "《镜中城》对话数据（扩展参考，主对话在 .rpy 脚本中）"
+    },
+    "chapter1": {
+        "sculptor_first_meet": {
+            "speaker": "白岁",
+            "city": "left",
+            "lines": [
+                {
+                    "id": "bai_01",
+                    "text": "你不是这里的人。",
+                    "type": "auto"
+                },
+                {
+                    "id": "bai_02",
+                    "type": "choice",
+                    "context": "石匠停下手里的刻刀，看着你。",
+                    "choices": {
+                        "truth": {
+                            "text": "我不知道自己是哪里的人。",
+                            "response": "真话。但没有温度。",
+                            "effects": {
+                                "rel_baisui": 5,
+                                "city_left": 2
+                            }
+                        },
+                        "lie": {
+                            "text": "我是从很远的地方来的。",
+                            "response": "……你可以说假话。你是右城的人？",
+                            "effects": {
+                                "rel_baisui": -3,
+                                "flag": "ch1_lied_to_baisui"
+                            }
+                        },
+                        "silent": {
+                            "text": "",
+                            "response": "你选择沉默。聪明。在左城，沉默是最好的通行证。",
+                            "effects": {
+                                "rel_baisui": 8,
+                                "flag": "ch1_silent_to_baisui"
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "painter_first_meet": {
+            "speaker": "云裳",
+            "city": "right",
+            "lines": [
+                {
+                    "id": "yun_01",
+                    "text": "天哪——你是我见过最好看的人！",
+                    "type": "auto"
+                },
+                {
+                    "id": "yun_02",
+                    "type": "choice",
+                    "context": "画师看着你，眼睛里有真诚的期待。",
+                    "choices": {
+                        "truth": {
+                            "text": "我不记得自己长什么样，所以无法确认你的话。",
+                            "response": "不记得……没关系。在我的画里，你会比你想象的更美。",
+                            "effects": {
+                                "rel_yunshang": 2,
+                                "flag": "ch1_truth_to_yunshang"
+                            }
+                        },
+                        "lie": {
+                            "text": "你的画一定很美，我非常期待。",
+                            "response": "真的吗？你真的期待吗？我一定会画出你最美的样子！",
+                            "effects": {
+                                "rel_yunshang": 5,
+                                "city_right": 2
+                            }
+                        },
+                        "silent": {
+                            "text": "",
+                            "response": "你……不说话？没关系。有些人用眼神说话。",
+                            "effects": {
+                                "rel_yunshang": 8
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    "chapter2": {
+        "li_yao_relay": {
+            "speaker": "砾",
+            "city": "mirror",
+            "lines": [
+                {
+                    "id": "li_01",
+                    "text": "她每天都在那边听我念诗。",
+                    "type": "auto"
+                },
+                {
+                    "id": "li_02",
+                    "type": "choice",
+                    "context": "砾请你帮忙传达一句话。那句话是真话。",
+                    "choices": {
+                        "truth": {
+                            "text": "传达砾的真话——「我喜欢你」——给瑶。",
+                            "response": "谢谢你。",
+                            "effects": {
+                                "rel_li": 5,
+                                "rel_yao": 3,
+                                "city_left": 5,
+                                "city_right": 3
+                            }
+                        },
+                        "lie": {
+                            "text": "对瑶说砾想听她的回应，引导她自己说出来。",
+                            "response": "……也好。",
+                            "effects": {
+                                "rel_li": 3,
+                                "rel_yao": 5,
+                                "flag": "ch2_taught_truth"
+                            }
+                        },
+                        "silent": {
+                            "text": "",
+                            "response": "（砾和瑶开始用各自的方式「对话」）",
+                            "effects": {
+                                "rel_li": 8,
+                                "rel_yao": 8,
+                                "memory": "memory_mirror_heart"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

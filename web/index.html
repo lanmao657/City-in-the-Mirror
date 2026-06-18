@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>镜中城 | City of Mirrors</title>
+<style>
+/* ══════════════════════════════════════════════════════════
+   《镜中城》 网页交互版
+   ══════════════════════════════════════════════════════════ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+@keyframes fadeIn    { from { opacity: 0 } to { opacity: 1 } }
+@keyframes fadeOut   { from { opacity: 1 } to { opacity: 0 } }
+@keyframes slideUp   { from { opacity: 0; transform: translateY(30px) } to { opacity: 1; transform: translateY(0) } }
+@keyframes slideDown { from { opacity: 1; transform: translateY(0) } to { opacity: 0; transform: translateY(30px) } }
+@keyframes breathe   { 0%,100% { opacity: .15 } 50% { opacity: .35 } }
+@keyframes float     { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+@keyframes glow      { 0%,100% { opacity: .2 } 50% { opacity: .5 } }
+@keyframes typewriter{ from { width: 0 } to { width: 100% } }
+@keyframes pulse     { 0%,100% { transform: scale(1) } 50% { transform: scale(1.05) } }
+@keyframes shimmer   { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
+@keyframes sparkle   { 0%,100% { opacity: 0; transform: scale(0) } 50% { opacity: 1; transform: scale(1) } }
+
+:root {
+  --left-primary:   #3A4A5C;  --left-accent: #4A90D9;  --left-light: #B8C4D0;
+  --left-dark:      #1A1A2E;  --left-glow:   #4A6FA5;
+  --right-primary:  #D4A574;  --right-accent:#E8B88C;  --right-light: #FFF8E7;
+  --right-dark:     #3A2E20;  --right-glow:  #FFE4C0;
+  --mirror:         #C0C0C0;  --mirror-light:#E8E8E8;
+  --silent:         #9B9B9B;  --bg: #0A0A15;
+  --dialogue-h: 240px;
+}
+
+body {
+  background: #000; display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; font-family: "Noto Serif SC","Source Han Serif SC","Songti SC",Georgia,serif;
+  overflow: hidden; color: #E8E8E8;
+}
+
+#game-container {
+  position: relative; width: 1280px; height: 720px;
+  background: var(--bg); overflow: hidden; border-radius: 4px;
+  box-shadow: 0 0 80px rgba(0,0,0,.8);
+}
+
+/* ── Background Layer ── */
+#bg-layer {
+  position: absolute; inset: 0; transition: opacity 1s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+#bg-layer .bg-gradient {
+  position: absolute; inset: 0; transition: background 1.2s ease;
+}
+#bg-layer .bg-content {
+  position: relative; z-index: 1; font-size: 14px; color: #606060;
+  letter-spacing: .1em; opacity: .4;
+}
+#bg-layer .vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.6) 100%);
+  z-index: 2;
+}
+
+/* ── Particle Layer ── */
+#particles {
+  position: absolute; inset: 0; pointer-events: none; z-index: 5; overflow: hidden;
+}
+.particle {
+  position: absolute; border-radius: 50%; pointer-events: none; opacity: 0;
+}
+.particle.frost { background: rgba(74,144,217,.4); }
+.particle.petal { background: rgba(212,165,116,.4); }
+.particle.mirror-p { background: rgba(192,192,192,.3); }
+
+/* ── Center Line (mirror wall) ── */
+.center-line {
+  position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(192,192,192,.15), transparent);
+  z-index: 4; pointer-events: none;
+}
+
+/* ── Chapter Title ── */
+#chapter-title {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; z-index: 50;
+  background: rgba(0,0,0,.85); opacity: 0; pointer-events: none;
+  transition: opacity .8s ease;
+}
+#chapter-title.show { opacity: 1; pointer-events: auto; }
+#chapter-title .zh { font-size: 42px; color: var(--mirror-light); letter-spacing: .15em; margin-bottom: 8px; }
+#chapter-title .en { font-size: 16px; color: #808080; font-style: italic; letter-spacing: .05em; }
+
+/* ── Character Layer ── */
+#character-layer {
+  position: absolute; inset: 0; z-index: 10; pointer-events: none;
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: var(--dialogue-h);
+}
+.char-sprite {
+  display: flex; flex-direction: column; align-items: center;
+  margin: 0 30px; opacity: 0; transform: translateY(20px);
+  transition: all .6s ease;
+}
+.char-sprite.visible { opacity: 1; transform: translateY(0); }
+.char-body {
+  width: 120px; height: 280px; border-radius: 4px 4px 0 0;
+  position: relative; overflow: hidden;
+}
+.char-body::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+  background: linear-gradient(to top, rgba(0,0,0,.3), transparent);
+}
+.char-name-tag {
+  margin-top: 8px; padding: 4px 16px; font-size: 13px;
+  letter-spacing: .1em; border-radius: 2px;
+}
+
+/* ── Dialogue Box ── */
+#dialogue-box {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: var(--dialogue-h); z-index: 20;
+  display: flex; flex-direction: column;
+  transition: all .5s ease;
+}
+#dialogue-box.city-left {
+  background: linear-gradient(to right, rgba(26,26,46,.92), rgba(26,26,46,.88));
+  border-top: 1px solid rgba(74,144,217,.3);
+}
+#dialogue-box.city-right {
+  background: linear-gradient(to right, rgba(58,46,32,.9), rgba(58,46,32,.85));
+  border-top: 1px solid rgba(212,165,116,.3);
+}
+#dialogue-box.city-mirror {
+  background: linear-gradient(to right, rgba(20,20,35,.92), rgba(20,20,35,.88));
+  border-top: 1px solid rgba(192,192,192,.2);
+}
+#dialogue-box.city-narrator {
+  background: rgba(0,0,0,.6); border-top: none;
+  align-items: center; justify-content: center;
+}
+#dialogue-box.hidden { opacity: 0; pointer-events: none; transform: translateY(20px); }
+
+#speaker-name {
+  padding: 10px 24px 6px; font-size: 16px; font-weight: 600;
+  letter-spacing: .08em; min-height: 30px;
+}
+#dialogue-text {
+  flex: 1; padding: 8px 24px 16px; font-size: 18px; line-height: 1.7;
+  letter-spacing: .02em; cursor: pointer; position: relative;
+  overflow-y: auto;
+}
+#dialogue-text.narrator-text {
+  text-align: center; font-style: italic; color: #B0B0B0;
+  font-size: 17px; line-height: 1.8; padding: 20px 60px;
+}
+#skip-hint {
+  position: absolute; bottom: 12px; right: 20px;
+  font-size: 12px; color: rgba(255,255,255,.25);
+  animation: breathe 3s ease-in-out infinite;
+}
+
+/* ── HUD ── */
+#hud { position: absolute; inset: 0; z-index: 30; pointer-events: none; }
+#hud-chapter {
+  position: absolute; top: 16px; left: 20px;
+  font-size: 14px; color: #909090; letter-spacing: .05em;
+  opacity: 0; transition: opacity .5s;
+}
+#hud-chapter.show { opacity: 1; }
+#hud-menu-btn {
+  position: absolute; top: 14px; right: 18px;
+  font-size: 22px; color: rgba(255,255,255,.4); cursor: pointer;
+  pointer-events: auto; transition: color .3s; z-index: 35;
+}
+#hud-menu-btn:hover { color: #fff; }
+#mirror-bar-container {
+  position: absolute; bottom: 252px; right: 24px;
+  width: 150px; height: 6px; background: rgba(0,0,0,.4);
+  border-radius: 3px; overflow: hidden;
+}
+#mirror-bar-fill {
+  height: 100%; border-radius: 3px; width: 50%;
+  background: linear-gradient(to right, var(--left-accent), var(--right-primary));
+  transition: width .6s ease;
+}
+#mirror-labels {
+  position: absolute; bottom: 260px; right: 24px; width: 150px;
+  display: flex; justify-content: space-between;
+  font-size: 10px; opacity: .4;
+}
+#mirror-labels .lbl-truth { color: var(--left-accent); }
+#mirror-labels .lbl-lie   { color: var(--right-primary); }
+#hud-alignment {
+  position: absolute; bottom: 268px; right: 24px; width: 150px;
+  text-align: center; font-size: 11px; color: #707070;
+  opacity: 0; transition: opacity .4s;
+}
+#hud-alignment.show { opacity: 1; }
+
+/* ── Language Wheel ── */
+#wheel-overlay {
+  position: absolute; inset: 0; z-index: 40;
+  background: rgba(0,0,0,.55); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .4s ease;
+}
+#wheel-overlay.show { opacity: 1; pointer-events: auto; }
+#wheel-container {
+  width: 780px; background: rgba(26,26,46,.95);
+  border: 1px solid rgba(192,192,192,.15); border-radius: 8px;
+  padding: 28px 32px; transform: scale(.9);
+  transition: transform .4s ease; box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+#wheel-overlay.show #wheel-container { transform: scale(1); }
+#wheel-context {
+  text-align: center; font-size: 15px; color: #808080;
+  font-style: italic; margin-bottom: 20px; letter-spacing: .03em;
+}
+#wheel-options { display: flex; gap: 20px; margin-bottom: 14px; }
+.wheel-btn {
+  flex: 1; padding: 22px 18px; border: none; border-radius: 4px;
+  cursor: pointer; transition: all .3s; position: relative; overflow: hidden;
+  min-height: 200px; display: flex; flex-direction: column;
+}
+.wheel-btn::before {
+  content: ''; position: absolute; inset: 0; opacity: 0;
+  transition: opacity .3s;
+}
+.wheel-btn:hover::before { opacity: 1; }
+.wheel-btn.truth-btn {
+  background: linear-gradient(135deg, #2A3A4C, #3A4A5C);
+  border: 1px solid rgba(74,144,217,.3);
+}
+.wheel-btn.truth-btn::before { background: linear-gradient(135deg, #3A4A5C, #4A6FA5); }
+.wheel-btn.truth-btn:hover { border-color: rgba(74,144,217,.6); box-shadow: 0 0 20px rgba(74,144,217,.2); }
+.wheel-btn.lie-btn {
+  background: linear-gradient(135deg, #3A2E20, #4A3A2C);
+  border: 1px solid rgba(212,165,116,.3);
+}
+.wheel-btn.lie-btn::before { background: linear-gradient(135deg, #4A3A2C, #6A5A40); }
+.wheel-btn.lie-btn:hover { border-color: rgba(212,165,116,.6); box-shadow: 0 0 20px rgba(212,165,116,.2); }
+.wheel-btn .wb-icon { font-size: 20px; margin-bottom: 10px; position: relative; z-index: 1; }
+.wheel-btn.truth-btn .wb-icon { color: var(--left-accent); }
+.wheel-btn.lie-btn .wb-icon   { color: var(--right-primary); }
+.wheel-btn .wb-text {
+  font-size: 16px; line-height: 1.6; text-align: left; position: relative; z-index: 1;
+}
+.wheel-btn.truth-btn .wb-text { color: var(--left-light); }
+.wheel-btn.lie-btn .wb-text   { color: var(--right-light); }
+.wheel-btn .wb-key {
+  position: absolute; bottom: 8px; right: 12px;
+  font-size: 11px; color: rgba(255,255,255,.2); z-index: 1;
+}
+#wheel-silent-wrap { text-align: center; }
+#wheel-silent-btn {
+  padding: 10px 40px; background: rgba(155,155,155,.12);
+  border: 1px dashed rgba(155,155,155,.25); border-radius: 4px;
+  color: var(--silent); font-size: 15px; cursor: pointer;
+  transition: all .3s; animation: breathe 4s ease-in-out infinite;
+  font-family: inherit; letter-spacing: .05em;
+}
+#wheel-silent-btn:hover {
+  background: rgba(155,155,155,.25); border-color: rgba(155,155,155,.4);
+  animation: none; opacity: 1 !important;
+}
+#wheel-silent-hint {
+  margin-top: 6px; font-size: 11px; color: #404040;
+}
+
+/* ── Main Menu ── */
+#main-menu {
+  position: absolute; inset: 0; z-index: 100;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #0A0A15 0%, #12121F 50%, #0A0A15 100%);
+}
+#main-menu.hidden { display: none; }
+.menu-crack {
+  position: absolute; left: 50%; top: 0; bottom: 0; width: 3px;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, transparent 10%, rgba(192,192,192,.12) 30%,
+    rgba(192,192,192,.18) 50%, rgba(192,192,192,.12) 70%, transparent 90%);
+}
+.menu-glow-l {
+  position: absolute; left: 20%; top: 50%; width: 300px; height: 300px;
+  transform: translate(-50%,-50%); border-radius: 50%;
+  background: radial-gradient(circle, rgba(74,144,217,.06), transparent 70%);
+  animation: glow 6s ease-in-out infinite;
+}
+.menu-glow-r {
+  position: absolute; right: 20%; top: 30%; width: 300px; height: 300px;
+  transform: translate(50%,-50%); border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,165,116,.06), transparent 70%);
+  animation: glow 6s ease-in-out infinite 3s;
+}
+.menu-title {
+  position: relative; z-index: 2; text-align: center; margin-bottom: 50px;
+}
+.menu-title h1 {
+  font-size: 52px; font-weight: 400; color: #E8E8E8; letter-spacing: .2em;
+  margin-bottom: 8px; text-shadow: 0 0 30px rgba(192,192,192,.15);
+}
+.menu-title .subtitle {
+  font-size: 16px; color: #606060; font-style: italic; letter-spacing: .08em;
+}
+.menu-buttons {
+  position: relative; z-index: 2; display: flex; flex-direction: column; gap: 6px;
+}
+.menu-btn {
+  background: none; border: none; color: #707070; font-size: 20px;
+  padding: 14px 50px; cursor: pointer; transition: all .3s;
+  font-family: inherit; letter-spacing: .12em; position: relative;
+  text-align: center; min-width: 240px;
+}
+.menu-btn::before {
+  content: ''; position: absolute; left: 0; top: 50%; width: 3px; height: 0;
+  background: var(--mirror); transform: translateY(-50%);
+  transition: height .3s;
+}
+.menu-btn:hover { color: #FFFFFF; }
+.menu-btn:hover::before { height: 20px; }
+.menu-version {
+  position: absolute; bottom: 16px; left: 20px;
+  font-size: 12px; color: #303030; z-index: 2;
+}
+
+/* ── Pause Menu ── */
+#pause-overlay {
+  position: absolute; inset: 0; z-index: 90;
+  background: rgba(0,0,0,.7); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+#pause-overlay.show { opacity: 1; pointer-events: auto; }
+#pause-box {
+  background: rgba(26,26,46,.95); border: 1px solid rgba(192,192,192,.1);
+  border-radius: 6px; padding: 30px 40px; min-width: 280px;
+}
+.pause-item {
+  display: block; width: 100%; background: none; border: none;
+  color: #B0B0B0; font-size: 20px; padding: 14px 20px;
+  cursor: pointer; transition: all .2s; text-align: center;
+  font-family: inherit; letter-spacing: .08em;
+}
+.pause-item:hover { color: #fff; background: rgba(255,255,255,.06); }
+
+/* ── Achievement Toast ── */
+#achievement-toast {
+  position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+  z-index: 80; background: rgba(26,26,46,.95);
+  border: 1px solid rgba(192,192,192,.15); border-radius: 6px;
+  padding: 14px 28px; display: flex; align-items: center; gap: 12px;
+  transition: top .5s ease; white-space: nowrap;
+}
+#achievement-toast.show { top: 20px; }
+#achievement-toast .ach-icon { font-size: 22px; color: var(--mirror); }
+#achievement-toast .ach-text { font-size: 16px; color: #E8E8E8; }
+#achievement-toast .ach-desc { font-size: 13px; color: #808080; margin-top: 2px; }
+
+/* ── Responsive ── */
+@media (max-width: 1300px) {
+  #game-container { width: 100vw; height: 56.25vw; max-height: 100vh; border-radius: 0; }
+}
+@media (max-width: 800px) {
+  #wheel-options { flex-direction: column; }
+  .wheel-btn { min-height: 120px; }
+  #wheel-container { width: 92%; padding: 18px; }
+  .menu-title h1 { font-size: 36px; }
+  .menu-btn { font-size: 17px; padding: 12px 30px; }
+  #dialogue-text { font-size: 16px; }
+  .char-body { width: 80px; height: 180px; }
+}
+</style>
+</head>
+<body>
+<div id="game-container">
+  <!-- Background -->
+  <div id="bg-layer">
+    <div class="bg-gradient"></div>
+    <div class="bg-content"></div>
+    <div class="vignette"></div>
+  </div>
+  <div class="center-line"></div>
+  <div id="particles"></div>
+
+  <!-- Characters -->
+  <div id="character-layer"></div>
+
+  <!-- Dialogue -->
+  <div id="dialogue-box" class="city-mirror hidden">
+    <div id="speaker-name"></div>
+    <div id="dialogue-text"><span id="skip-hint">点击继续 ▷</span></div>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div id="hud-chapter"></div>
+    <div id="hud-menu-btn" onclick="togglePause()">≡</div>
+    <div id="hud-alignment">行者</div>
+    <div id="mirror-labels"><span class="lbl-truth">❄</span><span class="lbl-lie">✿</span></div>
+    <div id="mirror-bar-container"><div id="mirror-bar-fill"></div></div>
+  </div>
+
+  <!-- Chapter Title -->
+  <div id="chapter-title"><div class="zh"></div><div class="en"></div></div>
+
+  <!-- Language Wheel -->
+  <div id="wheel-overlay">
+    <div id="wheel-container">
+      <div id="wheel-context"></div>
+      <div id="wheel-options">
+        <button class="wheel-btn truth-btn" onclick="choose('truth')">
+          <div class="wb-icon">❄ 真话</div>
+          <div class="wb-text" id="wb-truth-text"></div>
+          <div class="wb-key">按 1</div>
+        </button>
+        <button class="wheel-btn lie-btn" onclick="choose('lie')">
+          <div class="wb-icon">假话 ✿</div>
+          <div class="wb-text" id="wb-lie-text"></div>
+          <div class="wb-key">按 2</div>
+        </button>
+      </div>
+      <div id="wheel-silent-wrap">
+        <button id="wheel-silent-btn" onclick="choose('silent')">沉默</button>
+        <div id="wheel-silent-hint">按 S 键</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Menu -->
+  <div id="main-menu">
+    <div class="menu-crack"></div>
+    <div class="menu-glow-l"></div>
+    <div class="menu-glow-r"></div>
+    <div class="menu-title">
+      <h1>镜 中 城</h1>
+      <div class="subtitle">City of Mirrors</div>
+    </div>
+    <div class="menu-buttons">
+      <button class="menu-btn" onclick="startGame()">开 始 游 戏</button>
+      <button class="menu-btn" onclick="showAbout()">关      于</button>
+    </div>
+    <div class="menu-version">v0.1.0 Web</div>
+  </div>
+
+  <!-- Pause Menu -->
+  <div id="pause-overlay">
+    <div id="pause-box">
+      <button class="pause-item" onclick="togglePause()">返回游戏</button>
+      <button class="pause-item" onclick="returnToMenu()">返回主菜单</button>
+    </div>
+  </div>
+
+  <!-- Achievement Toast -->
+  <div id="achievement-toast">
+    <div class="ach-icon">✦</div>
+    <div><div class="ach-text" id="ach-name"></div><div class="ach-desc" id="ach-desc"></div></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   《镜中城》 Game Engine
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── State ────────────────────────────────────────────────── */
+const S = {
+  truthScore: 0, lieScore: 0, silentCount: 0,
+  relationships: { baisui:30, xiaoxue:30, shiyan:20, yan:30, li:30,
+                   yunshang:30, miyu:30, huayan:20, ming:30, yao:30, ying:50 },
+  flags: {}, memories: new Set(), achievements: new Set(),
+  leftHealth: 100, rightHealth: 100,
+  sceneQueue: [], sceneIndex: 0, choiceCallback: null,
+  typing: false, typeTimer: null, paused: false,
+  currentBg: '', currentCity: 'mirror',
+};
+
+/* ── Scenes Database ──────────────────────────────────────── */
+const SCENES = {
+
+/* ─────── Prologue ─────── */
+prologue: {
+  bg: 'radial-gradient(ellipse at 50% 60%, #1A1A2E 0%, #0A0A15 100%)',
+  bgLabel: '镜墙裂缝',
+  city: 'narrator',
+  chapter: { zh: '', en: '' },
+  dialogue: [
+    { text: '你醒来时，面前是一面镜子。' },
+    { text: '镜子里的人，是你。但你不知道那是谁。' },
+    { speaker: '?', text: '你的手里有一张纸条，上面写着一个字——' },
+    { speaker: '?', text: '「勿言」' },
+    { text: '你不记得这是你的名字，还是一个命令。' },
+    { text: '裂缝的两边，各有微弱的光。一边是冷蓝色，一边是暖金色。' },
+    {
+      choice: {
+        context: '向哪边走？',
+        truth: { label: '向左走', text: '冷蓝色的光', next: 'ch1_left_arrive' },
+        lie:   { label: '向右走', text: '暖金色的光', next: 'ch1_right_arrive' },
+      }
+    }
+  ]
+},
+
+/* ─────── Chapter 1 — Left City ─────── */
+ch1_left_arrive: {
+  bg: 'linear-gradient(135deg, #1A2A3E 0%, #222838 50%, #1A1A2E 100%)',
+  bgLabel: '左城入口',
+  city: 'left',
+  chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
+  dialogue: [
+    { text: '空气里有一种奇怪的安静。' },
+    { text: '不是寂静——而是所有的声音都被削去了圆润的部分，只剩下棱角。' },
+    { speaker: '?', text: '你不是这里的人。' },
+    { charShow: 'baisui', charColor: '#3A4A5C', charNameColor: '#4A90D9' },
+    { speaker: '白岁', text: '你不是这里的人。' },
+    {
+      choice: {
+        context: '石匠停下手里的刻刀，看着你。',
+        truth:  { text: '我不知道自己是哪里的人。', next: 'ch1_baisui_truth' },
+        lie:    { text: '我是从很远的地方来的。',   next: 'ch1_baisui_lie' },
+        silent: { next: 'ch1_baisui_silent' },
+      }
+    }
+  ]
+},
+ch1_baisui_truth: {
+  bg: 'linear-gradient(135deg, #1A2A3E 0%, #222838 50%, #1A1A2E 100%)',
+  city: 'left', effect: { rel: ['baisui', 5], city: ['left', 2] },
+  dialogue: [
+    { speaker: '白岁', text: '真话。但没有温度。' },
+    { speaker: '白岁', text: '左城的人不欢迎外人。不是因为敌意——' },
+    { speaker: '白岁', text: '而是因为我们不知道如何跟外人说话。' },
+    { text: '石匠带你走进了街道。灰色的建筑棱角分明，像被真话切割过的几何体。' },
+    { text: '偶尔有人走过，但没有人说话。他们的嘴唇紧闭，眼神锐利得像刀。' },
+    { autoNext: 'ch1_workshop' }
+  ]
+},
+ch1_baisui_lie: {
+  bg: 'linear-gradient(135deg, #1A2A3E 0%, #222838 50%, #1A1A2E 100%)',
+  city: 'left', effect: { rel: ['baisui', -3], flag: 'ch1_lied_to_baisui' },
+  dialogue: [
+    { speaker: '白岁', text: '……你可以说假话。' },
+    { speaker: '白岁', text: '你是右城的人？' },
+    { text: '石匠的眼神锐利起来，手不自觉地握紧了刻刀。' },
+    { speaker: '白岁', text: '……但你的眼睛不像右城的人。右城的人，眼里没有这样的迷茫。' },
+    { text: '他沉默了一会儿，然后转身走向街道。' },
+    { speaker: '白岁', text: '跟我来。但别说假话。' },
+    { autoNext: 'ch1_workshop' }
+  ]
+},
+ch1_baisui_silent: {
+  bg: 'linear-gradient(135deg, #1A2A3E 0%, #222838 50%, #1A1A2E 100%)',
+  city: 'left', effect: { rel: ['baisui', 8], flag: 'ch1_silent_to_baisui' },
+  dialogue: [
+    { text: '你沉默着站在原地。' },
+    { text: '石匠看着你，过了很久，点了点头。' },
+    { speaker: '白岁', text: '你选择沉默。聪明。' },
+    { speaker: '白岁', text: '在左城，沉默是最好的通行证。' },
+    { speaker: '白岁', text: '……但也是一种逃避。' },
+    { text: '他把刻刀收起来，转身走向街道深处。你跟了上去。' },
+    { autoNext: 'ch1_workshop' }
+  ]
+},
+ch1_workshop: {
+  bg: 'linear-gradient(135deg, #1E2430 0%, #282E38 50%, #1A1A2E 100%)',
+  bgLabel: '白岁工坊',
+  city: 'left', chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
+  dialogue: [
+    { text: '白岁的工坊在石之区的深处。四周摆满了石雕——每一座都是人的脸。但所有的脸都没有表情。' },
+    { text: '你在角落里发现了一座未完成的雕像。那是一张女人的脸。嘴角微微上扬——这是一个微笑。' },
+    { text: '但在左城，微笑是不可能的。' },
+    { speaker: '白岁', text: '……那是我的妻子。她二十年前去了右城。再也没有回来。' },
+    {
+      choice: {
+        context: '白岁看着未完成的雕像，刻刀悬在半空。',
+        truth:  { text: '你想去找她吗？', next: 'ch1_statue_truth' },
+        lie:    { text: '她一定在等你。', next: 'ch1_statue_lie' },
+        silent: { next: 'ch1_statue_silent' },
+      }
+    }
+  ]
+},
+ch1_statue_truth: {
+  bg: 'linear-gradient(135deg, #1E2430 0%, #282E38 50%, #1A1A2E 100%)',
+  city: 'left', effect: { rel: ['baisui', 3], memory: 'memory_sculptor_truth' },
+  dialogue: [
+    { speaker: '白岁', text: '……想。' },
+    { speaker: '白岁', text: '但我害怕。我只会说真话。我不知道如何对一个听了二十年假话的人说真话。' },
+    { speaker: '白岁', text: '真话像石头。扔出去就收不回来了。' },
+    { text: '他摸了摸雕像的脸。手指粗糙，动作却极轻。' },
+    { autoNext: 'ch1_mirror_left' }
+  ]
+},
+ch1_statue_lie: {
+  bg: 'linear-gradient(135deg, #1E2430 0%, #282E38 50%, #1A1A2E 100%)',
+  city: 'left', effect: { rel: ['baisui', -2], city: ['left', -1] },
+  dialogue: [
+    { speaker: '白岁', text: '……你又在说假话了。' },
+    { speaker: '白岁', text: '你怎么知道她在等我？你连她是谁都不知道。' },
+    { text: '空气里凝结了冰霜。白岁的手冻伤了一点。' },
+    { speaker: '白岁', text: '……但谢谢你的善意。善意的假话，在左城是有毒的。但我知道你的心意。' },
+    { autoNext: 'ch1_mirror_left' }
+  ]
+},
+ch1_statue_silent: {
+  bg: 'linear-gradient(135deg, #1E2430 0%, #282E38 50%, #1A1A2E 100%)',
+  city: 'left', effect: { rel: ['baisui', 5], memory: 'memory_sculptor_silence' },
+  dialogue: [
+    { text: '你什么都没说。只是和白岁一起看着那座未完成的雕像。' },
+    { text: '工坊里很安静。远处有凿石的声音。' },
+    { text: '过了很久，白岁轻声说——' },
+    { speaker: '白岁', text: '你是第一个不问我「为什么不把她雕完」的人。' },
+    { speaker: '白岁', text: '有些人的问题，不需要答案。只需要有人陪着看。' },
+    { autoNext: 'ch1_mirror_left' }
+  ]
+},
+
+/* ─────── Chapter 1 — Right City ─────── */
+ch1_right_arrive: {
+  bg: 'linear-gradient(135deg, #3A2E20 0%, #403428 50%, #2E2418 100%)',
+  bgLabel: '右城入口',
+  city: 'right',
+  chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
+  dialogue: [
+    { text: '空气里有一种奇怪的温暖。' },
+    { text: '不是真正的温暖——而是所有的声音都被加了蜜，连风声都像在低语赞美。' },
+    { charShow: 'yunshang', charColor: '#4A3A2C', charNameColor: '#D4A574' },
+    { speaker: '云裳', text: '天哪——你是我见过最好看的人！你的眉眼……像是从画里走出来的。' },
+    { speaker: '云裳', text: '可以让我为你画一幅肖像吗？' },
+    {
+      choice: {
+        context: '画师看着你，眼睛里有真诚的期待。',
+        truth:  { text: '我不记得自己长什么样，所以无法确认你的话。', next: 'ch1_yunshang_truth' },
+        lie:    { text: '你的画一定很美，我非常期待。', next: 'ch1_yunshang_lie' },
+        silent: { next: 'ch1_yunshang_silent' },
+      }
+    }
+  ]
+},
+ch1_yunshang_truth: {
+  bg: 'linear-gradient(135deg, #3A2E20 0%, #403428 50%, #2E2418 100%)',
+  city: 'right', effect: { rel: ['yunshang', 2], flag: 'ch1_truth_to_yunshang' },
+  dialogue: [
+    { speaker: '云裳', text: '不记得……没关系。' },
+    { speaker: '云裳', text: '在我的画里，你会比你想象的更美。' },
+    { text: '她轻声对自己说——' },
+    { speaker: '云裳', text: '有时候，画里的真实比现实的真实……更值得存在。' },
+    { text: '你看到她的眼睛里有一瞬间的——不是悲伤，是某种更深的东西。是困惑。' },
+    { autoNext: 'ch1_studio' }
+  ]
+},
+ch1_yunshang_lie: {
+  bg: 'linear-gradient(135deg, #3A2E20 0%, #403428 50%, #2E2418 100%)',
+  city: 'right', effect: { rel: ['yunshang', 5], city: ['right', 2] },
+  dialogue: [
+    { speaker: '云裳', text: '真的吗？你真的期待吗？' },
+    { text: '她的眼睛亮起来，开始快速调色。花瓣光点在她周围飘散。' },
+    { speaker: '云裳', text: '我一定会画出你最美的样子！' },
+    { text: '她画画的时候，空气里弥漫着花香。这是假话的治愈力量。' },
+    { autoNext: 'ch1_studio' }
+  ]
+},
+ch1_yunshang_silent: {
+  bg: 'linear-gradient(135deg, #3A2E20 0%, #403428 50%, #2E2418 100%)',
+  city: 'right', effect: { rel: ['yunshang', 8], memory: 'memory_painter_silence' },
+  dialogue: [
+    { text: '你什么都没说，只是微微点了点头。' },
+    { text: '云裳看着你，过了好一会儿。' },
+    { speaker: '云裳', text: '你……不说话？' },
+    { text: '这次她的微笑不太一样——更安静，更真实。' },
+    { speaker: '云裳', text: '没关系。有些人用眼神说话。你的眼睛……在说很多话。' },
+    { autoNext: 'ch1_studio' }
+  ]
+},
+ch1_studio: {
+  bg: 'linear-gradient(135deg, #3E3228 0%, #483C30 50%, #2E2418 100%)',
+  bgLabel: '云裳画室',
+  city: 'right', chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
+  dialogue: [
+    { text: '云裳的画室在绘梦区的最高处。四面墙上挂满了肖像——每一幅里的人都在微笑。' },
+    { text: '但仔细看，这些微笑都太过完美。完美到不像真的。' },
+    { speaker: '云裳', text: '我画了无数人的肖像。但——' },
+    { text: '她的声音低了下来。' },
+    { speaker: '云裳', text: '我从未画过自己。' },
+    {
+      choice: {
+        context: '云裳站在一幅空白画布前，手里拿着画笔。',
+        truth:  { text: '因为你不知道自己的真实长什么样？', next: 'ch1_portrait_truth' },
+        lie:    { text: '你太美了，画不出比你本人更美的画。', next: 'ch1_portrait_lie' },
+        silent: { next: 'ch1_portrait_silent' },
+      }
+    }
+  ]
+},
+ch1_portrait_truth: {
+  bg: 'linear-gradient(135deg, #3E3228 0%, #483C30 50%, #2E2418 100%)',
+  city: 'right', effect: { rel: ['yunshang', 5], memory: 'memory_painter_truth' },
+  dialogue: [
+    { text: '云裳的手微微颤抖了一下。' },
+    { speaker: '云裳', text: '……你说得对。我不知道。' },
+    { speaker: '云裳', text: '在右城，我们只知道如何美化一切。但「真实」……那个词，我已经很久没听过了。' },
+    { text: '她看着空白画布，画笔在手里，没有动。' },
+    { speaker: '云裳', text: '也许……我应该试着画一次。一次就好。不美化，不修饰。' },
+    { autoNext: 'ch1_mirror_right' }
+  ]
+},
+ch1_portrait_lie: {
+  bg: 'linear-gradient(135deg, #3E3228 0%, #483C30 50%, #2E2418 100%)',
+  city: 'right', effect: { rel: ['yunshang', 2], city: ['right', 1] },
+  dialogue: [
+    { speaker: '云裳', text: '谢谢你。' },
+    { text: '她微笑。但她的微笑没有到达眼睛。' },
+    { speaker: '云裳', text: '你知道吗……在右城，每个人都会说这种话。' },
+    { speaker: '云裳', text: '但我第一次……不确定自己是否相信了。' },
+    { autoNext: 'ch1_mirror_right' }
+  ]
+},
+ch1_portrait_silent: {
+  bg: 'linear-gradient(135deg, #3E3228 0%, #483C30 50%, #2E2418 100%)',
+  city: 'right', effect: { rel: ['yunshang', 6], memory: 'memory_blank_canvas' },
+  dialogue: [
+    { text: '你走到空白画布前，和她一起看着。' },
+    { text: '画布上什么都没有。但你们一起看了很久。' },
+    { speaker: '云裳', text: '（轻声）也许……空白也是一种真实。' },
+    { speaker: '云裳', text: '不画任何东西，比画一幅美丽的谎言……更诚实。' },
+    { text: '你们在画室里坐了很久。窗外的花瓣光点慢慢飘落。' },
+    { autoNext: 'ch1_mirror_right' }
+  ]
+},
+
+/* ─────── Chapter 1 — Mirror Wall (converging point) ─────── */
+ch1_mirror_left: {
+  bg: 'radial-gradient(ellipse at 50% 60%, #2A2A3E 0%, #1A1A2E 70%, #0A0A15 100%)',
+  bgLabel: '镜墙',
+  city: 'mirror',
+  chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
+  dialogue: [
+    { text: '你来到镜墙前。镜面光滑如水，倒映着你的样子——但你不知道那是谁。' },
+    { charHide: 'baisui' },
+    { charShow: 'ying', charColor: '#3A3A4A', charNameColor: '#C0C0C0' },
+    { speaker: '影', text: '你做了选择。每一个选择，都会改变这条裂缝的形状。' },
+    { speaker: '影', text: '但你还不明白——裂缝的形状，就是你的形状。' },
+    { autoNext: 'ch1_ending' }
+  ]
+},
+ch1_mirror_right: {
+  bg: 'radial-gradient(ellipse at 50% 60%, #2A2A3E 0%, #1A1A2E 70%, #0A0A15 100%)',
+  bgLabel: '镜墙',
+  city: 'mirror',
+  chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
+  dialogue: [
+    { text: '你来到镜墙前。镜面光滑如水，倒映着你的样子——但你不知道那是谁。' },
+    { charHide: 'yunshang' },
+    { charShow: 'ying', charColor: '#3A3A4A', charNameColor: '#C0C0C0' },
+    { speaker: '影', text: '你做了选择。每一个选择，都会改变这条裂缝的形状。' },
+    { speaker: '影', text: '但你还不明白——裂缝的形状，就是你的形状。' },
+    { autoNext: 'ch1_ending' }
+  ]
+},
+ch1_ending: {
+  bg: 'radial-gradient(ellipse at 50% 50%, #1A1A2E 0%, #0A0A15 100%)',
+  city: 'narrator',
+  chapter: { zh: '', en: '' },
+  dialogue: [
+    { charHide: 'ying' },
+    { text: '你闭上眼睛。' },
+    { text: '在黑暗中，你看到了一个模糊的画面——一个孩子，在笑。' },
+    { text: '你伸手想触碰，但画面碎裂了。' },
+    { text: '你睁开眼睛。镜墙在你身后，安静地矗立着。' },
+    { text: '你还不知道，这面墙是谁建的。' },
+    { text: '但你已经知道了——' },
+    { text: '它不该存在。' },
+    { achievement: { id: 'awaken', name: '醒', desc: '你开始了旅程' } },
+    { autoNext: 'ch2_start' }
+  ]
+},
+
+/* ─────── Chapter 2: Crack ─────── */
+ch2_start: {
+  bg: 'radial-gradient(ellipse at 50% 60%, #2A2A3E 0%, #1A1A2E 70%, #0A0A15 100%)',
+  bgLabel: '镜墙前',
+  city: 'mirror',
+  chapter: { zh: '第二章：裂', en: 'Chapter 2: Crack' },
+  dialogue: [
+    { text: '镜墙前，有两个年轻人隔着镜面对视。' },
+    { text: '左边是一个拿着石刻诗集的少年。右边是一个手里握着画笔的女孩。' },
+    { speaker: '砾', text: '她每天都在那边听我念诗。但我念的都是真话——真话像刀子。' },
+    { speaker: '砾', text: '我不知道她为什么还愿意听。' },
+    { speaker: '瑶', text: '他每天都在那边念诗。每一句都像在切开什么。' },
+    { speaker: '瑶', text: '但——每一句里都有温度。只是他自己不知道。' },
+    { speaker: '砾', text: '你能帮我……传达一句话吗？' },
+    {
+      choice: {
+        context: '砾请你帮忙传达一句话给瑶。那句话是真话——「我喜欢你」。',
+        truth:  { text: '传达砾的真话给瑶。', next: 'ch2_truth' },
+        lie:    { text: '引导瑶自己说出来。', next: 'ch2_lie' },
+        silent: { next: 'ch2_silent' },
+      }
+    }
+  ]
+},
+ch2_truth: {
+  bg: 'linear-gradient(135deg, #1A2A3E 0%, #3A2E20 100%)',
+  city: 'mirror',
+  effect: { rel: ['li', 5], rel2: ['yao', 3], city: ['left', 5], city2: ['right', 3] },
+  dialogue: [
+    { speaker: '砾', text: '谢谢你。' },
+    { text: '你把砾的话带给了瑶。' },
+    { text: '瑶听到后，嘴唇微微颤抖。' },
+    { speaker: '瑶', text: '我……我没办法说出真话回应。但——' },
+    { text: '她拿起画笔，画了一幅画。画里是砾的样子。比真人更真实。' },
+    { speaker: '瑶', text: '告诉他……画里的人，在笑。' },
+    { text: '砾看到画后，第一次——流泪了。不是因为悲伤。而是因为画里的自己在笑，而他已经忘了怎么笑。' },
+    { autoNext: 'ch2_end' }
+  ]
+},
+ch2_lie: {
+  bg: 'linear-gradient(135deg, #1A2A3E 0%, #3A2E20 100%)',
+  city: 'mirror',
+  effect: { rel: ['li', 3], rel2: ['yao', 5] },
+  dialogue: [
+    { text: '你没有直接传达砾的话。而是来到瑶身边，坐在镜墙前。' },
+    { text: '你对瑶说——「你可以试试，说出一句真话。不一定要回应砾。只是——对镜子里的自己说。」' },
+    { text: '瑶犹豫了很久。然后，她对着镜子里的自己——' },
+    { speaker: '瑶', text: '我……可能真的喜欢他。' },
+    { text: '她的嘴唇裂开，渗出血丝。在右城，说真话是有代价的。但她笑了。一个真实的、不完美的笑。' },
+    { text: '砾听到了。隔着镜墙，他听到了。' },
+    { speaker: '砾', text: '……她说了真话。她真的说了真话。' },
+    { text: '砾第一次流泪了。' },
+    { autoNext: 'ch2_end' }
+  ]
+},
+ch2_silent: {
+  bg: 'linear-gradient(135deg, #1A2A3E 0%, #3A2E20 100%)',
+  city: 'mirror',
+  effect: { rel: ['li', 8], rel2: ['yao', 8], memory: 'memory_mirror_heart' },
+  dialogue: [
+    { text: '你什么都没做。你坐在镜墙前，看着他们。' },
+    { text: '砾开始在镜墙上刻下石头心。瑶开始在镜墙另一侧画画。' },
+    { text: '两个人不知道对方在做什么——但他们的手，隔着镜墙，做着同样的事。' },
+    { text: '几天后——石头心和画在裂缝处相遇。形成了一个完整的图案。' },
+    { text: '没有语言。没有翻译。没有桥梁。只是两个人，在用各自的方式，说着同一句话。' },
+    { achievement: { id: 'crack', name: '裂', desc: '你看到了爱的两面' } },
+    { autoNext: 'ch2_end' }
+  ]
+},
+ch2_end: {
+  bg: 'radial-gradient(ellipse at 50% 50%, #1A1A2E 0%, #0A0A15 100%)',
+  city: 'narrator',
+  chapter: { zh: '', en: '' },
+  dialogue: [
+    { text: '镜墙的裂缝，好像变大了一点。但也变得更美了。' },
+    { text: '—— 体验版结束 ——' },
+    { text: '感谢游玩《镜中城》交互演示。' },
+    {
+      text: function() {
+        const a = S.truthScore, b = S.lieScore, c = S.silentCount;
+        const t = a+b+c || 1;
+        let al = '行者';
+        if(c/t>.4) al='沉默者'; else if(a/t>.7) al='言真者';
+        else if(b/t>.7) al='织谎者'; else if(a/t>=.3) al='渡者';
+        return `你的选择：真话 ${a} · 假话 ${b} · 沉默 ${c} · 倾向「${al}」`;
+      }
+    },
+    { text: '完整版包含七章剧情、十二个角色、四种结局与后日谈。' },
+  ]
+},
+};
+
+/* ── Helpers ──────────────────────────────────────────────── */
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+function clamp(v,min,max){ return Math.max(min,Math.min(max,v)); }
+
+/* ── Display ─────────────────────────────────────────────── */
+function setBg(grad, label) {
+  const bg = $('.bg-gradient');
+  bg.style.background = grad;
+  $('.bg-content').textContent = label || '';
+  S.currentBg = grad;
+}
+
+function setCity(city) {
+  S.currentCity = city;
+  const db = $('#dialogue-box');
+  db.className = 'city-' + city;
+}
+
+function showChapterTitle(zh, en) {
+  const ct = $('#chapter-title');
+  if (!zh) { ct.classList.remove('show'); return; }
+  ct.querySelector('.zh').textContent = zh;
+  ct.querySelector('.en').textContent = en || '';
+  ct.classList.add('show');
+  return new Promise(r => setTimeout(() => { ct.classList.remove('show'); setTimeout(r,400); }, 2500));
+}
+
+function showCharacter(id, color, nameColor) {
+  let el = document.getElementById('char-'+id);
+  if(!el) {
+    el = document.createElement('div');
+    el.id = 'char-'+id;
+    el.className = 'char-sprite';
+    const names = {baisui:'白岁',yunshang:'云裳',ying:'影',xiaoxue:'小雪',
+      shiyan:'石言',yan:'岩',li:'砾',yao:'瑶',miyu:'蜜语',huayan:'花言',ming:'明',hua_child:'画'};
+    const nc = nameColor || '#B0B0B0';
+    el.innerHTML = `<div class="char-body" style="background:${color||'#3A4A5C'}"></div>
+      <div class="char-name-tag" style="color:${nc};background:${color||'#3A4A5C'}40">${names[id]||id}</div>`;
+    $('#character-layer').appendChild(el);
+  }
+  requestAnimationFrame(()=> el.classList.add('visible'));
+}
+function hideCharacter(id) {
+  const el = document.getElementById('char-'+id);
+  if(el) el.classList.remove('visible');
+}
+
+function showDialogue(speaker, text) {
+  const db = $('#dialogue-box');
+  db.classList.remove('hidden');
+  const sn = $('#speaker-name');
+  sn.textContent = speaker || '';
+  if(!speaker) sn.style.display='none'; else sn.style.display='block';
+  const dt = $('#dialogue-text');
+  if(!speaker && S.currentCity==='narrator') dt.classList.add('narrator-text');
+  else dt.classList.remove('narrator-text');
+  typeText(dt, text);
+}
+function hideDialogue() { $('#dialogue-box').classList.add('hidden'); }
+
+function typeText(el, text) {
+  if(S.typeTimer) clearInterval(S.typeTimer);
+  S.typing = true;
+  el.innerHTML = '<span id="skip-hint">点击继续 ▷</span>';
+  const span = document.createElement('span');
+  span.id = 'typed-text';
+  el.insertBefore(span, el.firstChild);
+  let i = 0;
+  S.typeTimer = setInterval(() => {
+    if(i < text.length) { span.textContent += text[i]; i++; }
+    else { clearInterval(S.typeTimer); S.typeTimer=null; S.typing=false; }
+  }, 35);
+}
+
+function updateHUD() {
+  const t=S.truthScore, l=S.lieScore, s=S.silentCount, total=t+l;
+  const ratio = total? l/total : .5;
+  $('#mirror-bar-fill').style.width = (ratio*100)+'%';
+  let al='行者';
+  const ta=t+l+s||1;
+  if(s/ta>.4) al='沉默者'; else if(t/(total||1)>.7) al='言真者';
+  else if(l/(total||1)>.7) al='织谎者'; else if(t/(total||1)>=.3) al='渡者';
+  $('#hud-alignment').textContent = al;
+  if(total>0) $('#hud-alignment').classList.add('show');
+}
+
+function updateParticles(city) {
+  const pc = $('#particles');
+  pc.innerHTML = '';
+  const cls = city==='left'?'frost': city==='right'?'petal':'mirror-p';
+  for(let i=0; i<15; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle '+cls;
+    const sz = 2+Math.random()*4;
+    p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;
+      opacity:0;animation:float ${4+Math.random()*6}s ease-in-out infinite ${Math.random()*5}s,
+      fadeIn 2s ease ${Math.random()*3}s forwards;`;
+    pc.appendChild(p);
+  }
+}
+
+/* ── Wheel ────────────────────────────────────────────────── */
+function showWheel(context, truthText, lieText, hasSilent) {
+  $('#wheel-context').textContent = context || '';
+  $('#wb-truth-text').textContent = truthText || '';
+  $('#wb-lie-text').textContent = lieText || '';
+  $('#wheel-silent-wrap').style.display = hasSilent!==false ? 'block' : 'none';
+  $('#wheel-overlay').classList.add('show');
+}
+function hideWheel() { $('#wheel-overlay').classList.remove('show'); }
+
+function choose(type) {
+  hideWheel();
+  if(type==='truth') S.truthScore++;
+  else if(type==='lie') S.lieScore++;
+  else S.silentCount++;
+  updateHUD();
+  if(S.choiceCallback) { const cb=S.choiceCallback; S.choiceCallback=null; cb(type); }
+}
+
+/* ── Achievement ──────────────────────────────────────────── */
+function showAchievement(id, name, desc) {
+  if(S.achievements.has(id)) return;
+  S.achievements.add(id);
+  $('#ach-name').textContent = name;
+  $('#ach-desc').textContent = desc;
+  const t = $('#achievement-toast');
+  t.classList.add('show');
+  setTimeout(()=> t.classList.remove('show'), 3500);
+}
+
+/* ── Apply Effects ────────────────────────────────────────── */
+function applyEffects(eff) {
+  if(!eff) return;
+  if(eff.rel) { S.relationships[eff.rel[0]] = clamp((S.relationships[eff.rel[0]]||0)+eff.rel[1],0,100); }
+  if(eff.rel2) { S.relationships[eff.rel2[0]] = clamp((S.relationships[eff.rel2[0]]||0)+eff.rel2[1],0,100); }
+  if(eff.city) { if(eff.city[0]==='left') S.leftHealth=clamp(S.leftHealth+eff.city[1],0,100); else S.rightHealth=clamp(S.rightHealth+eff.city[1],0,100); }
+  if(eff.city2) { if(eff.city2[0]==='left') S.leftHealth=clamp(S.leftHealth+eff.city2[1],0,100); else S.rightHealth=clamp(S.rightHealth+eff.city2[1],0,100); }
+  if(eff.flag) S.flags[eff.flag]=true;
+  if(eff.memory) S.memories.add(eff.memory);
+}
+
+/* ── Scene Engine ─────────────────────────────────────────── */
+async function playScene(sceneId) {
+  const scene = SCENES[sceneId];
+  if(!scene) { console.error('Scene not found:', sceneId); return; }
+
+  // Background
+  if(scene.bg) setBg(scene.bg, scene.bgLabel||'');
+  if(scene.city) setCity(scene.city);
+
+  // Chapter title
+  if(scene.chapter && scene.chapter.zh) {
+    $('#hud-chapter').textContent = scene.chapter.zh;
+    $('#hud-chapter').classList.add('show');
+    await showChapterTitle(scene.chapter.zh, scene.chapter.en);
+  } else if(scene.chapter && !scene.chapter.zh) {
+    $('#hud-chapter').classList.remove('show');
+  }
+
+  // Apply scene-level effects
+  applyEffects(scene.effect);
+
+  // Play dialogue
+  S.sceneQueue = scene.dialogue;
+  S.sceneIndex = 0;
+  await advanceDialogue();
+}
+
+function advanceDialogue() {
+  return new Promise(resolve => {
+    if(S.sceneIndex >= S.sceneQueue.length) { resolve(); return; }
+    const item = S.sceneQueue[S.sceneIndex];
+    S.sceneIndex++;
+
+    // Character show
+    if(item.charShow) { showCharacter(item.charShow, item.charColor, item.charNameColor); advanceDialogue().then(resolve); return; }
+    if(item.charHide) { hideCharacter(item.charHide); advanceDialogue().then(resolve); return; }
+
+    // Achievement
+    if(item.achievement) {
+      showAchievement(item.achievement.id, item.achievement.name, item.achievement.desc);
+      advanceDialogue().then(resolve); return;
+    }
+
+    // Auto next scene
+    if(item.autoNext) {
+      playScene(item.autoNext).then(resolve); return;
+    }
+
+    // Choice
+    if(item.choice) {
+      const ch = item.choice;
+      S.choiceCallback = (type) => {
+        const sel = type==='truth'?ch.truth: type==='lie'?ch.lie:ch.silent;
+        if(sel && sel.text) {
+          // Show chosen text briefly
+          showDialogue('', sel.text);
+          setTimeout(() => playScene(sel.next).then(resolve), 2200);
+        } else if(sel && sel.next) {
+          playScene(sel.next).then(resolve);
+        }
+      };
+      const hasSilent = !!ch.silent;
+      const truthText = ch.truth ? ((ch.truth.label||'真话') + (ch.truth.text ? '\n'+ch.truth.text : '')) : '真话';
+      const lieText = ch.lie ? ((ch.lie.label||'假话') + (ch.lie.text ? '\n'+ch.lie.text : '')) : '假话';
+      showWheel(ch.context, truthText, lieText, hasSilent);
+      return;
+    }
+
+    // Dialogue
+    const text = typeof item.text === 'function' ? item.text() : item.text;
+    showDialogue(item.speaker || '', text);
+
+    // Wait for click
+    const handler = () => {
+      if(S.typing) {
+        // Skip typing
+        clearInterval(S.typeTimer); S.typeTimer=null; S.typing=false;
+        const dt = $('#dialogue-text');
+        const typed = dt.querySelector('#typed-text');
+        if(typed) typed.textContent = text;
+        return;
+      }
+      $('#dialogue-text').removeEventListener('click', handler);
+      advanceDialogue().then(resolve);
+    };
+    $('#dialogue-text').addEventListener('click', handler);
+  });
+}
+
+/* ── Game Flow ────────────────────────────────────────────── */
+function startGame() {
+  $('#main-menu').classList.add('hidden');
+  // Reset state
+  S.truthScore=0; S.lieScore=0; S.silentCount=0;
+  S.relationships = {baisui:30,xiaoxue:30,shiyan:20,yan:30,li:30,yunshang:30,miyu:30,huayan:20,ming:30,yao:30,ying:50};
+  S.flags={}; S.memories=new Set(); S.achievements=new Set();
+  S.leftHealth=100; S.rightHealth=100;
+  updateHUD();
+  playScene('prologue');
+}
+
+function togglePause() {
+  S.paused = !S.paused;
+  if(S.paused) $('#pause-overlay').classList.add('show');
+  else $('#pause-overlay').classList.remove('show');
+}
+
+function returnToMenu() {
+  S.paused = false;
+  $('#pause-overlay').classList.remove('show');
+  hideDialogue();
+  hideWheel();
+  $('#character-layer').innerHTML = '';
+  $('#particles').innerHTML = '';
+  $('#hud-chapter').classList.remove('show');
+  $('#hud-alignment').classList.remove('show');
+  $('#main-menu').classList.remove('show');
+  $('#main-menu').classList.remove('hidden');
+}
+
+function showAbout() {
+  alert('《镜中城》City of Mirrors\n\n一座城市被镜墙劈成两半。\n左城只能说真话，右城只能说假话。\n你是唯一能说两种话的人。\n\n真话不等于善良，善良不必是真话。\n真正的智慧在于何时选择诚实，何时选择温柔。\n\nRen\'Py 原版开发中 | Web 演示版 v0.1');
+}
+
+/* ── Keyboard ─────────────────────────────────────────────── */
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape') { if($('#wheel-overlay').classList.contains('show')) return; togglePause(); }
+  if(e.key==='1' && $('#wheel-overlay').classList.contains('show')) choose('truth');
+  if(e.key==='2' && $('#wheel-overlay').classList.contains('show')) choose('lie');
+  if((e.key==='s'||e.key==='S') && $('#wheel-overlay').classList.contains('show')) choose('silent');
+  if(e.key===' ' || e.key==='Enter') {
+    if(S.paused || $('#main-menu').classList.contains('show')==='') return;
+    if($('#wheel-overlay').classList.contains('show')) return;
+    $('#dialogue-text').click();
+  }
+});
+
+/* ── Init ─────────────────────────────────────────────────── */
+$('#dialogue-text').addEventListener('click', () => {
+  if(S.typing) {
+    clearInterval(S.typeTimer); S.typeTimer=null; S.typing=false;
+    const dt = $('#dialogue-text');
+    const typed = dt.querySelector('#typed-text');
+    const curr = S.sceneQueue[S.sceneIndex-1];
+    if(typed && curr && curr.text) {
+      const t = typeof curr.text==='function'? curr.text():curr.text;
+      typed.textContent = t;
+    }
+  }
+});
+
+</script>
+</body>
+</html>

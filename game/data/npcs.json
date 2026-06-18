@@ -1,0 +1,178 @@
+{
+    "meta": {
+        "description": "NPC 角色配置表",
+        "version": "1.0"
+    },
+    "characters": {
+        "baisui": {
+            "name": "白岁",
+            "city": "left",
+            "age": 62,
+            "role": "石雕艺术家",
+            "personality": "极度内敛，不说多余的话，每句话精准如刀",
+            "background": "妻子20年前去了右城再未归来",
+            "arc": "从「沉默是唯一保护」到「有些话值得被说出来」",
+            "relationship_start": 30,
+            "scenes": [
+                "ch1_first_meet",
+                "ch1_wife_statue",
+                "ch2_mirror_encounter",
+                "ch5_philosopher_speech",
+                "ch7_final"
+            ]
+        },
+        "xiaoxue": {
+            "name": "小雪",
+            "city": "left",
+            "age": 14,
+            "role": "学生",
+            "personality": "好奇心极强，渴望表达但不知道如何温柔说话",
+            "background": "从小被教育真话是最高美德",
+            "arc": "从「真话是唯一」到「沉默也是一种真话」",
+            "relationship_start": 30,
+            "scenes": [
+                "ch5_garden",
+                "ch7_final"
+            ]
+        },
+        "shiyan": {
+            "name": "石言",
+            "city": "left",
+            "age": 78,
+            "role": "左城长老",
+            "personality": "极端真话主义者，认为假话是万恶之源",
+            "background": "年轻时因假话失去整个家族",
+            "arc": "从「假话必须被消灭」到「温柔的真话」",
+            "relationship_start": 20,
+            "scenes": [
+                "ch5_philosopher_speech",
+                "ch7_shatter"
+            ]
+        },
+        "yan": {
+            "name": "岩",
+            "city": "left",
+            "age": 45,
+            "role": "外科医生",
+            "personality": "精准冷静，忘了如何笑",
+            "background": "妻子临终前说「不要忘记笑」",
+            "arc": "从「遗忘」到「找回笑的理由」",
+            "relationship_start": 30,
+            "scenes": [
+                "ch3_mirror_self"
+            ]
+        },
+        "li": {
+            "name": "砾",
+            "city": "left",
+            "age": 17,
+            "role": "诗人",
+            "personality": "用真话写诗，每首诗都像刀子",
+            "background": "每天在镜墙前朗读真话诗",
+            "arc": "从「真话是唯一表达」到「理解语言的温度」",
+            "relationship_start": 30,
+            "scenes": [
+                "ch2_main_line",
+                "ch7_final"
+            ]
+        },
+        "yunshang": {
+            "name": "云裳",
+            "city": "right",
+            "age": 28,
+            "role": "肖像画家",
+            "personality": "温柔善解人意，永远在微笑",
+            "background": "从未画过自己，因为不知道真实长什么样",
+            "arc": "从「美就是一切」到「真正的美需要一点真实」",
+            "relationship_start": 30,
+            "scenes": [
+                "ch1_first_meet",
+                "ch1_self_portrait",
+                "ch7_final"
+            ]
+        },
+        "miyu": {
+            "name": "蜜语",
+            "city": "right",
+            "age": 35,
+            "role": "甜言建筑师",
+            "personality": "乐观到近乎偏执，坚信赞美可治愈一切",
+            "background": "丈夫三年前不再微笑，被送进沉默疗养院",
+            "arc": "从「赞美治愈一切」到「陪伴比赞美更重要」",
+            "relationship_start": 30,
+            "scenes": [
+                "ch3_sanatorium",
+                "ch7_final"
+            ]
+        },
+        "huayan": {
+            "name": "花言",
+            "city": "right",
+            "age": 70,
+            "role": "右城长老",
+            "personality": "极端假话主义者，表面慈祥实则精于操控",
+            "background": "年轻时因真话导致恋人自杀",
+            "arc": "从「假话是唯一的温柔」到「分不清真假」",
+            "relationship_start": 20,
+            "scenes": [
+                "ch4_save_right",
+                "ch7_shatter"
+            ]
+        },
+        "ming": {
+            "name": "明",
+            "city": "right",
+            "age": 40,
+            "role": "蜜语的丈夫",
+            "personality": "沉默，已丧失说假话的能力",
+            "background": "说了三十年假话后彻底崩溃",
+            "arc": "从「沉默」到「重新学会说话」",
+            "relationship_start": 30,
+            "scenes": [
+                "ch3_sanatorium"
+            ]
+        },
+        "yao": {
+            "name": "瑶",
+            "city": "right",
+            "age": 16,
+            "role": "倾听者",
+            "personality": "喜欢在镜墙前听左城的真话",
+            "background": "对砾有好感但无法用真话回应",
+            "arc": "从「只能用假话回应」到「说出第一句真话」",
+            "relationship_start": 30,
+            "scenes": [
+                "ch2_main_line"
+            ]
+        },
+        "ying": {
+            "name": "影",
+            "city": "mirror",
+            "age": "不明",
+            "role": "守镜人",
+            "personality": "沉稳、神秘，说话像谜语",
+            "background": "镜墙产生的存在，主角的碎片",
+            "arc": "从「守护镜墙」到「放手」",
+            "relationship_start": 50,
+            "scenes": [
+                "ch1_mirror",
+                "ch3_discovery",
+                "ch6_ready",
+                "ch7_shatter"
+            ]
+        },
+        "hua_child": {
+            "name": "画",
+            "city": "mirror",
+            "age": 7,
+            "role": "失语的孩子",
+            "personality": "不笑不哭，用画画表达一切",
+            "background": "出生在镜墙裂缝中，不能说任何话",
+            "arc": "代表第三种语言的可能性",
+            "relationship_start": 50,
+            "scenes": [
+                "ch7_ending_silent"
+            ]
+        }
+    }
+}
