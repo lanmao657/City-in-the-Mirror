@@ -52,6 +52,7 @@ body {
 }
 #bg-layer .bg-gradient {
   position: absolute; inset: 0; transition: background 1.2s ease;
+  background-size: cover; background-position: center;
 }
 #bg-layer .bg-content {
   position: relative; z-index: 1; font-size: 14px; color: #606060;
@@ -273,7 +274,11 @@ body {
 #main-menu {
   position: absolute; inset: 0; z-index: 100;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, #0A0A15 0%, #12121F 50%, #0A0A15 100%);
+  background: url('images/mirror_crack.png') center/cover no-repeat;
+}
+#main-menu::before {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(10,10,21,.7);
 }
 #main-menu.hidden { display: none; }
 .menu-crack {
@@ -481,7 +486,7 @@ const SCENES = {
 
 /* ─────── Prologue ─────── */
 prologue: {
-  bg: 'radial-gradient(ellipse at 50% 60%, #1A1A2E 0%, #0A0A15 100%)',
+  bg: "url('images/mirror_crack.png') center/cover",
   bgLabel: '镜墙裂缝',
   city: 'narrator',
   chapter: { zh: '', en: '' },
@@ -504,7 +509,7 @@ prologue: {
 
 /* ─────── Chapter 1 — Left City ─────── */
 ch1_left_arrive: {
-  bg: 'linear-gradient(135deg, #1A2A3E 0%, #222838 50%, #1A1A2E 100%)',
+  bg: "url('images/left_city_entrance.png') center/cover",
   bgLabel: '左城入口',
   city: 'left',
   chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
@@ -618,7 +623,7 @@ ch1_statue_silent: {
 
 /* ─────── Chapter 1 — Right City ─────── */
 ch1_right_arrive: {
-  bg: 'linear-gradient(135deg, #3A2E20 0%, #403428 50%, #2E2418 100%)',
+  bg: "url('images/right_city_entrance.png') center/cover",
   bgLabel: '右城入口',
   city: 'right',
   chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },

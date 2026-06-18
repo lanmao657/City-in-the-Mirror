@@ -2,30 +2,31 @@
 ## 所有正式美术素材在此统一管理
 ## 开发阶段使用纯色占位，正式制作时替换为实际图片
 
-## ── 背景图占位 ─────────────────────────────────────────────
+## ── 背景图 ─────────────────────────────────────────────
 
 ## 通用
 image bg black = Solid("#0A0A15")
 image bg white = Solid("#F5F5F5")
 
-## 镜墙
-image bg mirror_crack = Solid("#1A1A2E")
+## 镜墙（已接入实际素材）
+image bg mirror_crack = "images/backgrounds/mirror_crack.png"
 image bg mirror_wall_outside = Solid("#2A2A3E")
 image bg mirror_inside = Solid("#303045")
 image bg mirror_center = Solid("#353550")
 
-## 左城
-image bg left_city_entrance = Solid("#1A2A3E")
+## 左城（已接入实际素材）
+image bg left_city_entrance = "images/backgrounds/left_city_entrance.png"
 image bg left_city_street = Solid("#222838")
 image bg left_city_workshop = Solid("#1E2430")
 image bg left_city_garden = Solid("#1A2830")
 image bg left_city_square = Solid("#202830")
 
-## 右城
-image bg right_city_entrance = Solid("#3A2E20")
+## 右城（已接入实际素材）
+image bg right_city_entrance = "images/backgrounds/right_city_entrance.png"
 image bg right_city_studio = Solid("#3E3228")
 image bg right_city_square = Solid("#403428")
 image bg right_city_hospital = Solid("#382E24")
+image bg smile_garden = Solid("#3E2E20")
 
 ## 闪回
 image bg flashback_house = Solid("#2E2818")
