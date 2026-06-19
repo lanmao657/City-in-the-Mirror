@@ -99,6 +99,8 @@ label ending_truth:
     "两座城市合并了。过程比想象中更痛苦。"
     "但城市在重建。不完美，但真实。"
     $ tracker.collect_memory("memory_ending_truth")
+    if achievements.all_memories_collected():
+        jump epilogue
     call chapter_end(7)
     jump ending_credits
 
@@ -122,6 +124,8 @@ label ending_lie:
     "但你知道——和平建立在一句假话之上。"
     "这句假话，能撑多久？"
     $ tracker.collect_memory("memory_ending_lie")
+    if achievements.all_memories_collected():
+        jump epilogue
     call chapter_end(7)
     jump ending_credits
 
@@ -148,6 +152,8 @@ label ending_split:
     "画师云裳画了一幅真实的肖像。"
     "砾和瑶终于在一起了。"
     $ tracker.collect_memory("memory_ending_split")
+    if achievements.all_memories_collected():
+        jump epilogue
     call chapter_end(7)
     jump ending_credits
 
@@ -189,46 +195,5 @@ label ending_silent:
     jump ending_credits
 
 ## ═══════════════════════════════════════════════════════════
-## 后日谈：归家
+## 后日谈已移至独立文件: scripts/epilogue.rpy
 ## ═══════════════════════════════════════════════════════════
-
-label epilogue:
-    $ current_city = "narrator"
-    scene bg black with dissolve
-    $ renpy.pause(1.0)
-
-    "—— 后日谈 · 归家 ——"
-
-    scene bg river with dissolve
-
-    "一条河。安静的、无尽的河。"
-    "你站在河边。"
-
-    "一个小小的身影从远处跑来。"
-
-    "「爸爸/妈妈！」"
-    "「你来了！我等了你好久！」"
-    "「你看！我画了好多画！」"
-
-    "你接过画。"
-    "画里是镜中城——但已经不是两半了。"
-    "画里有石匠在微笑，有画师在画真实的画。"
-    "有砾和瑶在一起，有蜜语和明在一起。"
-    "画面中央，是你——在笑。"
-
-    "「爸爸/妈妈。你以后不用再道歉了。」"
-    "「因为你已经——把一切都修好了。」"
-
-    scene bg river_sunset with dissolve
-
-    "这是一条无尽的河。"
-    "河的此岸是过去，彼岸是未来。"
-    "你站在中间。"
-    "不逃避过去，不恐惧未来。"
-    "只是——在这里。"
-    "和你最重要的人，一起看河水流动。"
-
-    $ achievements.unlock("epilogue")
-
-    call chapter_end(7)
-    jump ending_credits

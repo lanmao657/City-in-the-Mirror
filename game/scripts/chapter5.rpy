@@ -18,7 +18,14 @@ label chapter5:
 
     "孩子的嘴唇颤抖了——左城的规则让他说出真话——"
     "「妈妈，这个饭真的很难吃。」"
-    "母亲的手冻伤了。"
+    "母亲的手冻伤了。真话的物理伤害。"
+
+    $ npc_rel.meet("xiaoxue")
+    show xiaoxue normal at center with dissolve
+
+    xiaoxue "（对孩子）你不想说的。我知道。"
+    xiaoxue "但在左城，真话一旦到了嘴边，就收不回去。"
+    "小雪的眼睛里有冰霜的痕迹——她也经历过同样的事。"
 
     $ result = renpy.call_screen("language_wheel",
         truth_text="你做的饭确实不好吃，但你做的爱是最好的。",
