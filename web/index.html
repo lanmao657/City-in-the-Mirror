@@ -857,8 +857,661 @@ ch2_end: {
   chapter: { zh: '', en: '' },
   dialogue: [
     { text: '镜墙的裂缝，好像变大了一点。但也变得更美了。' },
-    { text: '—— 体验版结束 ——' },
-    { text: '感谢游玩《镜中城》交互演示。' },
+    { autoNext: 'ch3_start' }
+  ]
+},
+/* ═══════════════════════════════════════════════════════════
+   Chapter 3: 镜 (Mirror)
+   ═══════════════════════════════════════════════════════════ */
+ch3_start: {
+  bg: "url('images/mirror_wall_outside.png') center/cover",
+  bgm: 'bgm_mirror',
+  bgLabel: '镜墙',
+  city: 'mirror',
+  chapter: { zh: '第三章：镜', en: 'Chapter 3: Mirror' },
+  dialogue: [
+    { text: '你发现一个左城的男人站在镜墙前，盯着镜子里的自己。' },
+    { charShow: 'yan' },
+    { speaker: '岩', text: '镜子里的我……在笑。' },
+    { speaker: '岩', text: '我不会笑。我忘了怎么笑。' },
+    { speaker: '岩', text: '上一次笑是什么时候……我不记得了。' },
+    { speaker: '岩', text: '你说，镜子里的是我吗？' },
+    {
+      choice: {
+        context: '岩盯着镜子里微笑着的自己。一个不会笑的人，看到了会笑的自己。',
+        truth: { text: '镜子里的你，可能是你遗忘的那一部分。', next: 'ch3_yan_truth' },
+        lie:   { text: '镜子里的你，看起来很幸福。', next: 'ch3_yan_lie' },
+        silent: { next: 'ch3_yan_silent' }
+      }
+    }
+  ]
+},
+ch3_yan_truth: {
+  bg: "url('images/mirror_wall_outside.png') center/cover",
+  city: 'mirror',
+  effect: { rel: ['yan', 5], memory: 'memory_yan_smile' },
+  dialogue: [
+    { speaker: '岩', text: '……遗忘的……部分。' },
+    { text: '他的手不自觉地摸向嘴角。' },
+    { speaker: '岩', text: '我遗忘的，不是笑的方法。我遗忘的，是笑的理由。' },
+    { text: '他在镜墙前站了很久。镜子里的他在笑，镜墙外的他在沉默。' },
+    { autoNext: 'ch3_ming_intro' }
+  ]
+},
+ch3_yan_lie: {
+  bg: "url('images/mirror_wall_outside.png') center/cover",
+  city: 'mirror',
+  effect: { rel: ['yan', 3] },
+  dialogue: [
+    { speaker: '岩', text: '幸福？' },
+    { speaker: '岩', text: '（看着镜子里的自己）也许吧。也许镜子里的我确实幸福。' },
+    { speaker: '岩', text: '但我不是镜子里的我。' },
+    { text: '他转身离开了。脚步沉重，但比来时快了一点。' },
+    { autoNext: 'ch3_ming_intro' }
+  ]
+},
+ch3_yan_silent: {
+  bg: "url('images/mirror_wall_outside.png') center/cover",
+  city: 'mirror',
+  effect: { rel: ['yan', 8], memory: 'memory_yan_wife' },
+  dialogue: [
+    { text: '你和岩一起看了很久的镜子。' },
+    { text: '镜子里的岩在笑，镜墙外的岩在沉默。两个「岩」之间的距离，就是左城和右城的距离。' },
+    { speaker: '岩', text: '（突然，轻声）她临终的时候……对我说了一句话。' },
+    { speaker: '岩', text: '她说「岩，不要忘记笑」。' },
+    { text: '岩的声音微微颤抖。他伸出手，触碰镜面。镜面冰冷。' },
+    { autoNext: 'ch3_ming_intro' }
+  ]
+},
+ch3_ming_intro: {
+  bg: "url('images/right_city_hospital.png') center/cover",
+  bgm: 'bgm_right_city',
+  bgLabel: '沉默疗养院',
+  city: 'right',
+  dialogue: [
+    { charHide: 'yan' },
+    { text: '右城的「沉默疗养院」——关押那些不再能说假话的人的地方。' },
+    { text: '一个女人站在门口，笑容灿烂，但眼底有深深的疲惫。' },
+    { charShow: 'miyu' },
+    { speaker: '蜜语', text: '他已经在这里三年了。' },
+    { speaker: '蜜语', text: '我每天来看他，对他说「你会好起来的」。他……什么都不说。' },
+    { charHide: 'miyu' },
+    { text: '你走进明的房间。一个男人坐在窗边，看着窗外。' },
+    { charShow: 'ming' },
+    { speaker: '明', text: '你是那个……能说两种话的人。' },
+    {
+      choice: {
+        context: '明看了你一眼，然后继续看窗外。他已经三年没有对任何人说过话了。',
+        truth: { text: '你为什么不说话了？', next: 'ch3_ming_truth' },
+        lie:   { text: '你的妻子很想你。', next: 'ch3_ming_lie' },
+        silent: { next: 'ch3_ming_silent' }
+      }
+    }
+  ]
+},
+ch3_ming_truth: {
+  bg: "url('images/right_city_hospital.png') center/cover",
+  city: 'right',
+  effect: { rel: ['ming', 5], rel2: ['miyu', 3], memory: 'memory_ming_truth' },
+  dialogue: [
+    { speaker: '明', text: '我说了三十年的假话。三十年。每一句都是谎言。' },
+    { speaker: '明', text: '「你今天真美」——不好看的时候。「我们的生活很好」——快破产的时候。' },
+    { speaker: '明', text: '「我很幸福」——每天晚上都在哭的时候。' },
+    { speaker: '明', text: '你知道最可怕的是什么吗？不是谎言本身——而是我说了三十年之后，我已经分不清哪些是真话、哪些是假话了。' },
+    { speaker: '明', text: '我连自己的感觉都不相信了。' },
+    { text: '窗外的右城依然金光闪闪。但明的眼睛里，没有任何光。' },
+    { autoNext: 'ch3_discovery' }
+  ]
+},
+ch3_ming_lie: {
+  bg: "url('images/right_city_hospital.png') center/cover",
+  city: 'right',
+  effect: { rel: ['ming', 2], city: ['right', 2] },
+  dialogue: [
+    { speaker: '明', text: '……她？' },
+    { speaker: '明', text: '她每天来。每天说同样的话。「你会好起来的」。' },
+    { speaker: '明', text: '（声音很轻）也许她是对的。也许我会好。但——我分不清。' },
+    { text: '他低头看着自己的手。那双手曾经画过画、弹过琴、拥抱过爱人。现在，它们只是放在膝盖上，一动不动。' },
+    { autoNext: 'ch3_discovery' }
+  ]
+},
+ch3_ming_silent: {
+  bg: "url('images/right_city_hospital.png') center/cover",
+  city: 'right',
+  effect: { rel: ['ming', 8] },
+  dialogue: [
+    { text: '你坐在明的身边，和他一起看窗外。' },
+    { text: '窗外是右城的花海——假话催开的花。你们坐了很久。' },
+    { speaker: '明', text: '你是第一个不试图「治愈」我的人。' },
+    { speaker: '明', text: '（声音里有一丝温度）谢谢你。' },
+    { text: '你们沉默地坐了很久。窗外的花在风中摇曳。有些东西不需要语言。' },
+    { autoNext: 'ch3_discovery' }
+  ]
+},
+ch3_discovery: {
+  bg: "url('images/mirror_inside.png') center/cover",
+  bgm: 'bgm_mirror',
+  bgLabel: '镜墙内部',
+  city: 'mirror',
+  dialogue: [
+    { charHide: 'ming' },
+    { text: '你深入镜墙内部，发现墙壁上刻着文字。' },
+    { text: '「我把这座城市劈成两半。不是因为我相信分离是对的。而是因为我已经不知道如何让它们在一起。」' },
+    { text: '「真话杀死了我的孩子。假话让我活了下来。但活下来的我，已经不是我了。」' },
+    { charShow: 'ying' },
+    { speaker: '影', text: '你想起来了吗？不，你还不到想起来的时候。' },
+    { speaker: '影', text: '但你应该知道——这面墙，不是惩罚，是逃避。' },
+    { speaker: '影', text: '造墙的人以为，把刀和药分开，就不会有人受伤。' },
+    { speaker: '影', text: '但没有刀，就无法切除腐烂。没有药，就无法治愈伤口。' },
+    { speaker: '影', text: '你，迟早要面对——刀和药，本来就是同一种东西。' },
+    { achievement: { id: 'mirror', name: '镜', desc: '你看到了真相的一角' } },
+    { autoNext: 'ch3_end' }
+  ]
+},
+ch3_end: {
+  bg: "url('images/mirror_crack.png') center/cover",
+  city: 'narrator',
+  dialogue: [
+    { charHide: 'ying' },
+    { text: '刀和药，本来就是同一种东西。这句话在你心里回响了很久。' },
+    { autoNext: 'ch4_start' }
+  ]
+},
+/* ═══════════════════════════════════════════════════════════
+   Chapter 4: 虚 (Void)
+   ═══════════════════════════════════════════════════════════ */
+ch4_start: {
+  bg: "url('images/right_city_square.png') center/cover",
+  bgm: 'bgm_right_city',
+  bgLabel: '右城广场',
+  city: 'right',
+  chapter: { zh: '第四章：虚', en: 'Chapter 4: Void' },
+  dialogue: [
+    { text: '花塔开始摇晃。右城的一切都建立在假话之上——建筑、花园、甚至空气中的温暖。' },
+    { text: '当假话的力量衰减，一切都会碎裂。' },
+    { charShow: 'huayan' },
+    { speaker: '花言', text: '不用担心。我会处理。' },
+    { text: '花言微笑着说，但这次的微笑有裂缝。' },
+    { speaker: '花言', text: '你。你是那个能说真话的人。' },
+    { text: '他的嘴唇裂开，流出血——这是他三十年来第一次说真话。' },
+    { speaker: '花言', text: '救救它。' },
+    {
+      choice: {
+        context: '花言看着崩塌中的花塔，眼神里有恐惧。一个说了一辈子假话的人，第一次向你求救。',
+        truth: { text: '右城需要学会说真话，即使它会痛。', next: 'ch4_truth' },
+        lie:   { text: '让我来帮你说更多的假话，修复这座城市。', next: 'ch4_lie' },
+        silent: { next: 'ch4_silent' }
+      }
+    }
+  ]
+},
+ch4_truth: {
+  bg: "url('images/right_city_square.png') center/cover",
+  city: 'right',
+  effect: { city: ['right', -5], flag: 'ch4_introduce_truth' },
+  dialogue: [
+    { speaker: '花言', text: '你……要摧毁右城的根基？' },
+    { text: '花言震惊了。但他没有拒绝。' },
+    { speaker: '花言', text: '如果这是唯一的路……' },
+    { text: '右城开始引入真话。过程是痛苦的——有人的画碎了，有人的笑容消失了。' },
+    { text: '但——有些建筑开始用石头重建。比纸板更丑，但更结实。' },
+    { autoNext: 'ch4_end' }
+  ]
+},
+ch4_lie: {
+  bg: "url('images/right_city_square.png') center/cover",
+  city: 'right',
+  effect: { city: ['right', 5], flag: 'ch4_reinforce_lies' },
+  dialogue: [
+    { speaker: '花言', text: '（微笑）明智的选择。' },
+    { text: '你开始帮花言说更多的假话来修复城市。' },
+    { text: '花塔稳住了。花园重新绽放。但你知道——这只是暂时的。根基更脆弱了。' },
+    { speaker: '花言', text: '谢谢你。你是右城的恩人。' },
+    { text: '他的笑容完美无瑕。但你注意到，他的眼角，有细微的血丝。' },
+    { autoNext: 'ch4_end' }
+  ]
+},
+ch4_silent: {
+  bg: "url('images/right_city_square.png') center/cover",
+  city: 'right',
+  effect: { city: ['right', 2], memory: 'memory_tower_crack' },
+  dialogue: [
+    { text: '你什么都没说。你走到花塔前，用手触摸它的裂缝。' },
+    { text: '裂缝在你手下缓慢地——不是被假话修补，也不是被真话切除——而是被时间，一点一点地，接受了。' },
+    { text: '花言看着你，困惑了。' },
+    { speaker: '花言', text: '你在做什么？你没有说话。' },
+    { text: '你没有回答。但裂缝不再扩大了。' },
+    { autoNext: 'ch4_end' }
+  ]
+},
+ch4_end: {
+  bg: "url('images/mirror_crack.png') center/cover",
+  city: 'narrator',
+  dialogue: [
+    { charHide: 'huayan' },
+    { text: '右城在变化。缓慢的，痛苦的，但是——真实的变化。' },
+    { achievement: { id: 'void', name: '虚', desc: '你看到了美丽的代价' } },
+    { autoNext: 'ch5_start' }
+  ]
+},
+/* ═══════════════════════════════════════════════════════════
+   Chapter 5: 真 (Truth)
+   ═══════════════════════════════════════════════════════════ */
+ch5_start: {
+  bg: "url('images/left_city_garden.png') center/cover",
+  bgm: 'bgm_left_city',
+  bgLabel: '静默花园',
+  city: 'left',
+  chapter: { zh: '第五章：真', en: 'Chapter 5: Truth' },
+  dialogue: [
+    { text: '左城的真话规则，正在侵蚀最基本的人际关系。' },
+    { text: '你看到一个母亲和孩子在花园里。孩子吃了一口母亲做的饭。' },
+    { speaker: '小雪', text: '妈妈，这个饭真的很难吃。' },
+    { text: '母亲的手冻伤了。真话的物理伤害。' },
+    { speaker: '小雪', text: '（眼泪）我知道不好吃。但我不想伤害你的。' },
+    { charShow: 'xiaoxue' },
+    {
+      choice: {
+        context: '母亲看着冻伤的手，孩子的眼泪流下来。你该说什么？',
+        truth: { text: '你做的饭确实不好吃，但你做的爱是最好的。', next: 'ch5_garden_truth' },
+        lie:   { text: '别担心，下次会好的。', next: 'ch5_garden_lie' },
+        silent: { next: 'ch5_garden_silent' }
+      }
+    }
+  ]
+},
+ch5_garden_truth: {
+  bg: "url('images/left_city_garden.png') center/cover",
+  city: 'left',
+  effect: { city: ['left', 3], flag: 'ch5_mother_truth' },
+  dialogue: [
+    { text: '母亲愣住，然后轻声笑了一下。' },
+    { speaker: '小雪', text: '「爱……是最好的吗？」' },
+    { text: '手上的冰霜开始融化——真话的治愈力量，当它触动了真实的情感。' },
+    { speaker: '小雪', text: '（对主角）你是第一个这么说的人。其他人只会说「饭很好吃」或者「饭很难吃」。' },
+    { speaker: '小雪', text: '没有人说过……爱比饭重要。' },
+    { autoNext: 'ch5_philosopher' }
+  ]
+},
+ch5_garden_lie: {
+  bg: "url('images/left_city_garden.png') center/cover",
+  city: 'left',
+  effect: { flag: 'ch5_mother_lie' },
+  dialogue: [
+    { text: '母亲看着你，震惊。' },
+    { speaker: '小雪', text: '你……你可以说假话？' },
+    { text: '恐惧——但随即，她摸了摸孩子冻伤的手。' },
+    { speaker: '小雪', text: '「假话……原来可以说得这么温柔。」' },
+    { text: '她在左城第一次体验到了假话的正面力量。但也引发了更大的恐惧。' },
+    { autoNext: 'ch5_philosopher' }
+  ]
+},
+ch5_garden_silent: {
+  bg: "url('images/left_city_garden.png') center/cover",
+  city: 'left',
+  effect: { rel: ['xiaoxue', 5], memory: 'memory_mother_silence' },
+  dialogue: [
+    { text: '你蹲下来，帮母亲包扎冻伤的手。' },
+    { text: '孩子也蹲下来，帮母亲吹手。' },
+    { text: '三个人在花园里，不说一句话。但画面里有一种安静的温暖。' },
+    { speaker: '小雪', text: '（轻声）有时候，不说话也是一种真话。' },
+    { autoNext: 'ch5_philosopher' }
+  ]
+},
+ch5_philosopher: {
+  bg: "url('images/left_city_square.png') center/cover",
+  bgLabel: '刻痕广场',
+  city: 'left',
+  dialogue: [
+    { charHide: 'xiaoxue' },
+    { text: '刻痕广场上，一个左城哲学家在演讲。' },
+    { speaker: '哲学家', text: '我们把真话当作武器。用它切割一切。但武器会伤人。' },
+    { speaker: '哲学家', text: '我用真话伤害了我爱的人。' },
+    { speaker: '哲学家', text: '我需要的，不是更多的真话——而是学会如何温柔地说真话！' },
+    { charShow: 'shiyan' },
+    { speaker: '石言', text: '你在动摇左城的根基。真话不需要温柔。真话就是真话。' },
+    {
+      choice: {
+        context: '石言长老正要转身离开。哲学家的话在广场上回响。',
+        truth: { text: '你的沉默，比你说过的任何真话都更伤人。', next: 'ch5_shiyan_truth' },
+        lie:   { text: '你说得很好，左城需要你的声音。', next: 'ch5_shiyan_lie' },
+        silent: { next: 'ch5_shiyan_silent' }
+      }
+    }
+  ]
+},
+ch5_shiyan_truth: {
+  bg: "url('images/left_city_square.png') center/cover",
+  city: 'left',
+  effect: { rel: ['shiyan', -5], flag: 'ch5_confronted_shiyan' },
+  dialogue: [
+    { text: '石言停下脚步。他的背影微微颤抖。但他没有回头。' },
+    { speaker: '石言', text: '……你不了解我。' },
+    { speaker: '石言', text: '你知道我的儿子是怎么离开左城的吗？' },
+    { text: '他的声音第一次有了裂痕。' },
+    { speaker: '石言', text: '我对他说了真话。每一句都是真的。但每一句都像刀子。' },
+    { speaker: '石言', text: '他走了。再也没有回来。' },
+    { text: '有些真话，需要时间才能到达。' },
+    { autoNext: 'ch5_end' }
+  ]
+},
+ch5_shiyan_lie: {
+  bg: "url('images/left_city_square.png') center/cover",
+  city: 'left',
+  effect: { flag: 'ch5_supported_philosopher' },
+  dialogue: [
+    { text: '哲学家看了你一眼，微微点头。' },
+    { speaker: '哲学家', text: '谢谢你。至少有一个人愿意听。' },
+    { speaker: '石言', text: '（冷冷地）叛徒。' },
+    { text: '石言转身离开。广场上的人群沉默了很久。' },
+    { autoNext: 'ch5_end' }
+  ]
+},
+ch5_shiyan_silent: {
+  bg: "url('images/left_city_square.png') center/cover",
+  city: 'left',
+  effect: { memory: 'memory_shiyan_back' },
+  dialogue: [
+    { text: '你看着石言的背影，什么都没说。' },
+    { text: '石言走远了。广场上的人群沉默了很久。' },
+    { text: '哲学家叹了口气，开始收拾他的石板。' },
+    { speaker: '哲学', text: '（轻声）也许……石头需要更长的时间才能变暖。' },
+    { autoNext: 'ch5_end' }
+  ]
+},
+ch5_end: {
+  bg: "url('images/mirror_crack.png') center/cover",
+  city: 'narrator',
+  dialogue: [
+    { charHide: 'shiyan' },
+    { text: '左城在裂开。但裂开的地方，光照了进来。' },
+    { achievement: { id: 'truth', name: '真', desc: '你看到了真实的力量' } },
+    { autoNext: 'ch6_start' }
+  ]
+},
+/* ═══════════════════════════════════════════════════════════
+   Chapter 6: 合 (Merge)
+   ═══════════════════════════════════════════════════════════ */
+ch6_start: {
+  bg: "url('images/mirror_inside.png') center/cover",
+  bgm: 'bgm_flashback',
+  bgLabel: '镜墙内部',
+  city: 'mirror',
+  chapter: { zh: '第六章：合', en: 'Chapter 6: Merge' },
+  dialogue: [
+    { text: '镜墙内部的文字变得越来越多，越来越清晰。' },
+    { text: '「我的名字是勿言。不，这不是我的名字。这是我对自己的命令。」' },
+    { text: '「勿言——不要说话。因为我说的每一句话，都会伤害某个人。」' },
+  ]
+},
+ch6_flashback1: {
+  bg: "url('images/flashback_house.png') center/cover",
+  bgLabel: '记忆：家',
+  city: 'narrator',
+  dialogue: [
+    { text: '画面闪回——模糊的、碎片化的记忆。' },
+    { text: '一个温暖的房间。你在做饭，一个孩子在旁边画画。' },
+    { speaker: '小默', text: '爸爸/妈妈，你看我画的画！' },
+    { text: '画里是一栋房子，房子里有两个人在笑。' },
+  ]
+},
+ch6_flashback2: {
+  bg: "url('images/flashback_rain.png') center/cover",
+  bgLabel: '记忆：雨夜',
+  city: 'narrator',
+  dialogue: [
+    { text: '雨夜，车里，你在开车。' },
+    { speaker: '小默', text: '爸爸/妈妈……你又喝酒了。' },
+    { text: '「没事的……很近……很快就到……」' },
+  ]
+},
+ch6_flashback3: {
+  bg: "url('images/flashback_hospital.png') center/cover",
+  bgLabel: '记忆：医院',
+  city: 'narrator',
+  dialogue: [
+    { text: '救护车的声音，红蓝的灯光。' },
+    { text: '「孩子的情况……」声音被切断了。' },
+  ]
+},
+ch6_flashback4: {
+  bg: "url('images/flashback_river.png') center/cover",
+  bgLabel: '记忆：河',
+  city: 'narrator',
+  dialogue: [
+    { text: '河。一条巨大的、无尽的河。' },
+    { text: '你站在河边，手里抱着一个孩子的衣服。你跪在地上，无声地哭。' },
+    { text: '你想起来了。不是全部——但够了。' },
+    { text: '你是这座城市的建造者。因为你犯了一个错。一个真话无法挽回的错。一个假话无法欺骗的错。' },
+    { text: '所以你把真话和假话分开，造了两座城。你以为，这样就不会再有人受伤。但你错了。' },
+  ]
+},
+ch6_four_selves: {
+  bg: "url('images/mirror_center.png') center/cover",
+  bgm: 'bgm_mirror',
+  bgLabel: '镜墙中央',
+  city: 'mirror',
+  dialogue: [
+    { text: '四个模糊的身影出现在镜墙中央。' },
+    { speaker: '童年勿言', text: '你找到答案了吗？' },
+    { speaker: '少年勿言', text: '你证明了什么？' },
+    { speaker: '成年勿言', text: '你给孩子的是什么？' },
+    { speaker: '崩溃勿言', text: '你让一切结束了吗？' },
+    {
+      choice: {
+        context: '四个「你」同时看着你，等你开口。',
+        truth: { text: '我犯了错。我失去了最珍贵的人。我无法原谅自己。', next: 'ch6_self_truth' },
+        lie:   { text: '我已经好了。我不再痛苦了。我找到了答案。', next: 'ch6_self_lie' },
+        silent: { next: 'ch6_self_silent' }
+      }
+    }
+  ]
+},
+ch6_self_truth: {
+  bg: "url('images/mirror_center.png') center/cover",
+  city: 'mirror',
+  effect: { flag: 'ch6_faced_truth', memory: 'memory_forgiveness' },
+  dialogue: [
+    { text: '四个「你」沉默了。' },
+    { speaker: '成年勿言', text: '但你在镜墙里……等了多久？' },
+    { speaker: '成年勿言', text: '你不是在等答案。你是在等原谅。' },
+    { autoNext: 'ch6_xiaomo' }
+  ]
+},
+ch6_self_lie: {
+  bg: "url('images/mirror_center.png') center/cover",
+  city: 'mirror',
+  effect: { flag: 'ch6_self_deception' },
+  dialogue: [
+    { text: '四个「你」看着你，然后——' },
+    { speaker: '崩溃勿言', text: '你又在说假话了。你骗了自己多少年？' },
+    { text: '镜墙微微震动。它记得你说的每一句假话。' },
+    { autoNext: 'ch6_xiaomo' }
+  ]
+},
+ch6_self_silent: {
+  bg: "url('images/mirror_center.png') center/cover",
+  city: 'mirror',
+  effect: { flag: 'ch6_silent_acceptance', memory: 'memory_child_hand' },
+  dialogue: [
+    { text: '你什么都不说，只是看着四个「你」。画面静止了很久。' },
+    { speaker: '童年勿言', text: '你不想说也没关系。但我们都在这里。你可以哭。' },
+    { autoNext: 'ch6_xiaomo' }
+  ]
+},
+ch6_xiaomo: {
+  bg: "url('images/flashback_child_room.png') center/cover",
+  bgm: 'bgm_flashback',
+  bgLabel: '记忆：小默的房间',
+  city: 'narrator',
+  dialogue: [
+    { text: '你的孩子——小默，5岁。孩子在画画，画里是一个人在镜子里。' },
+    { speaker: '小默', text: '爸爸/妈妈，你看！镜子里的人在笑！' },
+    { speaker: '小默', text: '这是谁？是你呀！你笑的时候，最好看了。' },
+    { speaker: '小默', text: '爸爸/妈妈，你以后要多笑。你不笑的时候，我会害怕。' },
+    { text: '画面淡出。' },
+  ]
+},
+ch6_ying_farewell: {
+  bg: "url('images/mirror_center.png') center/cover",
+  bgm: 'bgm_mirror',
+  city: 'mirror',
+  dialogue: [
+    { charShow: 'ying' },
+    { speaker: '影', text: '小默……一直在河对岸等你。TA没有恨你。TA一直在画画。' },
+    { speaker: '影', text: '你造了这座城市，是为了保护别人不再受伤。但你真正想保护的——是不要再有人经历你经历的事。' },
+    { speaker: '影', text: '我守了这面墙多久？我不记得了。但我知道——我的存在，就是为了等你准备好。' },
+    { speaker: '影', text: '现在你准备好了吗？' },
+    {
+      choice: {
+        context: '影看着你，半边脸冷峻，半边脸柔和。',
+        truth: { text: '我不知道。但我知道我不能再逃避了。', next: 'ch6_ready' },
+        lie:   { text: '我准备好了。', next: 'ch6_ready' },
+        silent: { next: 'ch6_ready' }
+      }
+    }
+  ]
+},
+ch6_ready: {
+  bg: "url('images/mirror_center.png') center/cover",
+  city: 'mirror',
+  dialogue: [
+    { speaker: '影', text: '好。那么——镜墙必须碎裂。' },
+    { speaker: '影', text: '不是因为你打破了它。而是因为它本来就撑不久了。' },
+    { speaker: '影', text: '当镜墙碎裂的时候，左城和右城的人会看到彼此。' },
+    { speaker: '影', text: '在那之前——你需要做一次选择。不是为他们——是为你自己。' },
+    { text: '影化为光点，消散在空气中。你站在镜墙中央，看着两座城市的轮廓。' },
+    { achievement: { id: 'merge', name: '合', desc: '你面对了自己的过去' } },
+    { autoNext: 'ch7_start' }
+  ]
+},
+/* ═══════════════════════════════════════════════════════════
+   Chapter 7: 渡 (Ferry) — Final Chapter
+   ═══════════════════════════════════════════════════════════ */
+ch7_start: {
+  bg: "url('images/mirror_wall_outside.png') center/cover",
+  bgm: 'bgm_final_choice',
+  bgLabel: '镜墙前',
+  city: 'mirror',
+  chapter: { zh: '第七章：渡', en: 'Chapter 7: Ferry' },
+  dialogue: [
+    { text: '两座城市的居民都聚集在镜墙的两侧。' },
+    { charShow: 'shiyan' },
+    { speaker: '石言', text: '镜墙碎了……我们的真话会涌过去。准备好——这是战争。' },
+    { charHide: 'shiyan' },
+    { charShow: 'huayan' },
+    { speaker: '花言', text: '镜墙碎了……不要害怕。我们会用赞美保护自己。' },
+    { charHide: 'huayan' },
+    { text: '镜墙碎裂——不是碎片飞散，而是像水一样融化。两座城市的人第一次看到彼此。' },
+    { bg: "url('images/city_merge_chaos.png') center/cover", bgLabel: '融合混乱' },
+    { text: '混乱开始。左城居民喊——「你们都是骗子！」右城居民喊——「你们才是怪物！」' },
+    { charShow: 'ying' },
+    { speaker: '影', text: '去吧。这是你的城市。这是你的选择。' },
+    { speaker: '影', text: '无论你选什么……我都会为你骄傲。' },
+    { text: '影化为光点，消散了。' },
+    { charHide: 'ying' },
+  ]
+},
+ch7_final_choice: {
+  bg: "url('images/city_merge_center.png') center/cover",
+  bgLabel: '融合中心',
+  city: 'mirror',
+  dialogue: [
+    { text: '你站在两座城市的交汇处。所有人都在看着你。' },
+    { text: '砾拉着瑶的手。蜜语抱着明的手臂。白岁握着石杖。云裳拿着画笔。小雪握着画笔。' },
+    {
+      choice: {
+        context: '这是你最后的机会。你会说什么？',
+        truth:  { text: '对所有人说真话', next: 'ending_truth' },
+        lie:    { text: '对所有人说假话', next: 'ending_lie' },
+        silent: { next: 'ch7_split_choice' }
+      }
+    }
+  ]
+},
+ch7_split_choice: {
+  bg: "url('images/city_merge_center.png') center/cover",
+  city: 'mirror',
+  dialogue: [
+    { text: '你闭上眼睛。小默的画从你口袋里飘出来。' },
+    { text: '画落在地上——画里是一个人站在镜子前，镜子里的人在笑。' },
+    { text: '画的背面写着一行字——小默的笔迹：「爸爸/妈妈，笑一个。」' },
+    { text: '所有人看到这幅画。左城的人看到：画里的笑是真实的。右城的人看到：画里的笑是温暖的。' },
+    { text: '两城的人第一次——同时笑了。' },
+    { autoNext: 'ending_silent' }
+  ]
+},
+ending_truth: {
+  bg: "url('images/ending_truth.png') center/cover",
+  bgm: 'bgm_ending',
+  bgLabel: '结局：真话',
+  city: 'narrator',
+  dialogue: [
+    { text: '你深呼吸，然后——' },
+    { text: '「这座城市是我的错。我把你们劈成两半，是因为我害怕。」' },
+    { text: '「我害怕真话，也害怕假话。我以为把它们分开，就不会再有人受伤。但我错了。」' },
+    { text: '「真话和假话，不是敌人。它们是同一枚硬币的两面。」' },
+    { text: '「镜墙碎了，你们会重新学会两种语言。过程会很痛。但这是唯一的路。我不会再逃避了。」' },
+    { text: '—— 一年后 ——' },
+    { text: '两座城市合并了。过程比想象中更痛苦。但城市在重建。不完美，但真实。' },
+    { text: '石匠白岁第一次尝试了「圆角」的雕刻。画师云裳第一次画了一幅真实的肖像。' },
+    { text: '砾和瑶终于在一起了。' },
+    { text: '你说的真话，很痛。但它让这座城市重新开始呼吸。' },
+    { achievement: { id: 'ferry', name: '渡', desc: '你做出了最终选择' } },
+    { autoNext: 'game_end' }
+  ]
+},
+ending_lie: {
+  bg: "url('images/ending_lie.png') center/cover",
+  bgm: 'bgm_ending',
+  bgLabel: '结局：假话',
+  city: 'narrator',
+  dialogue: [
+    { text: '你微笑着说——' },
+    { text: '「不要害怕。镜墙碎了，但一切都好。你们会发现，彼此其实没有那么不同。」' },
+    { text: '「一切都会好起来的。」' },
+    { text: '—— 一年后 ——' },
+    { text: '两座城市表面上和平了。但你知道——和平建立在一句假话之上。' },
+    { text: '这句假话，能撑多久？也许一年，也许十年，也许一百年。' },
+    { text: '但终有一天，假话会碎裂。到那时——他们会比三千年前更强大吗？' },
+    { text: '你给他们的不是答案，而是时间。时间够不够，取决于他们自己。' },
+    { achievement: { id: 'ferry', name: '渡', desc: '你做出了最终选择' } },
+    { autoNext: 'game_end' }
+  ]
+},
+ending_silent: {
+  bg: "url('images/ending_silent.png') center/cover",
+  bgm: 'bgm_ending',
+  bgLabel: '结局：沉默',
+  city: 'narrator',
+  dialogue: [
+    { text: '画里的光慢慢扩散。镜墙的碎片化成了光，融入每个人的身体。' },
+    { text: '每个人获得了一种新的能力——既不是纯真话，也不是纯假话。而是一种更接近「恰好」的语言。' },
+    { text: '沉默不是逃避。沉默是——给彼此空间，让心自己说话。' },
+    { text: '你看着这一切，第一次——笑了。' },
+    { achievement: { id: 'ferry', name: '渡', desc: '你做出了最终选择' } },
+    { autoNext: 'game_end' }
+  ]
+},
+game_end: {
+  bg: "url('images/river_sunset.png') center/cover",
+  bgm: 'bgm_ending',
+  bgLabel: '河岸',
+  city: 'narrator',
+  chapter: { zh: '', en: '' },
+  dialogue: [
+    { text: '一条河。安静的、无尽的河。你站在河边。' },
+    { text: '一个小小的身影从远处跑来。' },
+    { speaker: '小默', text: '爸爸/妈妈！你来了！我等了你好久！' },
+    { speaker: '小默', text: '你看！我画了好多画！' },
+    { text: '你接过画。画里是镜中城——但已经不是两半了。' },
+    { text: '画里有石匠在微笑，有画师在画真实的画。有砾和瑶在一起，有蜜语和明在一起。' },
+    { text: '画面中央，是你——在笑。' },
+    { speaker: '小默', text: '爸爸/妈妈。你以后不用再道歉了。因为你已经——把一切都修好了。' },
+    { text: '这是一条无尽的河。河的此岸是过去，彼岸是未来。' },
+    { text: '你站在中间。不逃避过去，不恐惧未来。只是——在这里。' },
+    { text: '和你最重要的人，一起看河水流动。' },
+    { achievement: { id: 'epilogue', name: '归家', desc: '你终于找到了回家的路' } },
     {
       text: function() {
         const a = S.truthScore, b = S.lieScore, c = S.silentCount;
@@ -866,10 +1519,10 @@ ch2_end: {
         let al = '行者';
         if(c/t>.4) al='沉默者'; else if(a/t>.7) al='言真者';
         else if(b/t>.7) al='织谎者'; else if(a/t>=.3) al='渡者';
-        return `你的选择：真话 ${a} · 假话 ${b} · 沉默 ${c} · 倾向「${al}」`;
+        return `—— 你的旅程 ——\n真话 ${a} · 假话 ${b} · 沉默 ${c} · 倾向「${al}」`;
       }
     },
-    { text: '完整版包含七章剧情、十二个角色、四种结局与后日谈。' },
+    { text: '《镜中城》· 完' },
   ]
 },
 };
