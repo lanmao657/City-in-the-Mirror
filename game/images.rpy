@@ -12,6 +12,7 @@ image bg white = Solid("#F5F5F5")
 image bg mirror_crack = "images/backgrounds/mirror_crack.png"
 image bg mirror_wall_outside = "images/backgrounds/mirror_wall_outside.png"
 image bg mirror_inside = "images/backgrounds/mirror_inside.png"
+image bg mirror_deep = "images/backgrounds/mirror_deep.png"
 image bg mirror_center = "images/backgrounds/mirror_center.png"
 
 ## 左城
@@ -33,7 +34,12 @@ image bg flashback_house = "images/backgrounds/flashback_house.png"
 image bg flashback_rain = "images/backgrounds/flashback_rain.png"
 image bg flashback_hospital = "images/backgrounds/flashback_hospital.png"
 image bg flashback_river = "images/backgrounds/flashback_river.png"
+image bg flashback_river_night = "images/backgrounds/flashback_river_night.png"
 image bg flashback_child_room = "images/backgrounds/flashback_child_room.png"
+image bg flashback_cooking_room = "images/backgrounds/flashback_cooking_room.png"
+image bg flashback_drinking_room = "images/backgrounds/flashback_drinking_room.png"
+image bg flashback_car_rain = "images/backgrounds/flashback_car_rain.png"
+image bg flashback_crash = "images/backgrounds/flashback_crash.png"
 
 ## 结局
 image bg city_merge_chaos = "images/backgrounds/city_merge_chaos.png"
@@ -53,6 +59,11 @@ image wuyan neutral = "images/characters/main/wuyan_neutral.png"
 image wuyan sad = "images/characters/main/wuyan_sad.png"
 image wuyan determined = "images/characters/main/wuyan_determined.png"
 image wuyan smile = "images/characters/main/wuyan_smile.png"
+image wuyan cooking = "images/characters/main/wuyan_cooking.png"
+image wuyan drunk = "images/characters/main/wuyan_drunk.png"
+image wuyan driving = "images/characters/main/wuyan_driving.png"
+image wuyan kneeling = "images/characters/main/wuyan_kneeling.png"
+image wuyan broken = "images/characters/main/wuyan_broken.png"
 
 ## 左城角色
 image baisui normal = "images/characters/left_city/baisui.png"
@@ -128,6 +139,10 @@ image hua_child drawing = "images/characters/mirror/hua_drawing.png"
 image hua_child watch = "images/characters/mirror/hua_watch.png"
 image hua_child offer = "images/characters/mirror/hua_offer.png"
 image hua_child smile = "images/characters/mirror/hua_smile.png"
+
+image child normal = "images/characters/mirror/child.png"
+image child smile = "images/characters/mirror/child_smile.png"
+image child sad = "images/characters/mirror/child_sad.png"
 
 ## ── UI 元素占位 ──────────────────────────────────────────
 ## 使用 Solid + Frame 实现 9-slice 效果的占位

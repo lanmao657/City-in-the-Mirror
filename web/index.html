@@ -1520,7 +1520,7 @@ ch5_shiyan_truth: {
     { speaker: '石言', text: '我对他说了真话。每一句都是真的。但每一句都像刀子。' },
     { speaker: '石言', text: '他走了。再也没有回来。' },
     { text: '有些真话，需要时间才能到达。' },
-    { autoNext: 'ch5_end' }
+    { autoNext: 'ch5_memory_flood' }
   ]
 },
 ch5_shiyan_lie: {
@@ -1532,7 +1532,7 @@ ch5_shiyan_lie: {
     { speaker: '哲学家', text: '谢谢你。至少有一个人愿意听。' },
     { speaker: '石言', text: '（冷冷地）叛徒。' },
     { text: '石言转身离开。广场上的人群沉默了很久。' },
-    { autoNext: 'ch5_end' }
+    { autoNext: 'ch5_memory_flood' }
   ]
 },
 ch5_shiyan_silent: {
@@ -1545,6 +1545,64 @@ ch5_shiyan_silent: {
     { text: '石言走远了。广场上的人群沉默了很久。' },
     { text: '哲学家叹了口气，开始收拾他的石板。' },
     { speaker: '哲学家', text: '（轻声）也许……石头需要更长的时间才能变暖。' },
+    { autoNext: 'ch5_memory_flood' }
+  ]
+},
+ch5_memory_flood: {
+  bg: "url('images/mirror_deep.png') center/cover",
+  bgm: 'bgm_flashback',
+  bgLabel: '镜墙深处',
+  city: 'mirror',
+  dialogue: [
+    { text: '镜墙深处的文字变得越来越多，越来越清晰。' },
+    { text: '「我的名字是勿言。」' },
+    { text: '「不，这不是我的名字。」' },
+    { text: '「这是我对自己的命令。」' },
+    { text: '「勿言——不要说话。」' },
+    { text: '「因为我说的每一句话，都会伤害某个人。」' },
+    { text: '画面闪回——模糊的、碎片化的记忆。' },
+    { bg: "url('images/flashback_cooking_room.png') center/cover", bgLabel: '记忆：家' },
+    { charShow: 'wuyan', expr: 'cooking' },
+    { charShow: 'child', expr: 'smile' },
+    { speaker: '孩子', text: '爸爸/妈妈，你看我画的画！' },
+    { text: '画里是一栋房子，房子里有两个人在笑。' },
+    { charHide: 'child' },
+    { charHide: 'wuyan' },
+    { bg: "url('images/flashback_drinking_room.png') center/cover", bgLabel: '记忆：酒' },
+    { charShow: 'wuyan', expr: 'drunk' },
+    { charShow: 'child', expr: 'sad' },
+    { speaker: '孩子', text: '爸爸/妈妈……你又喝酒了。' },
+    { charHide: 'child' },
+    { charHide: 'wuyan' },
+    { bg: "url('images/flashback_car_rain.png') center/cover", bgLabel: '记忆：雨夜' },
+    { charShow: 'wuyan', expr: 'driving' },
+    { charShow: 'child', expr: 'sad' },
+    { text: '雨夜，车里，你在开车。孩子坐在副驾驶，安全带系着。' },
+    { speaker: '勿言', text: '没事的……很近……很快就到……' },
+    { charHide: 'child' },
+    { charHide: 'wuyan' },
+    { bg: "url('images/flashback_crash.png') center/cover", bgLabel: '记忆：车祸' },
+    { text: '车祸现场，救护车的声音，红蓝的灯光。' },
+    { text: '孩子的情况……' },
+    { text: '声音被切断了。' },
+    { bg: "url('images/flashback_river_night.png') center/cover", bgLabel: '记忆：河' },
+    { charShow: 'wuyan', expr: 'kneeling' },
+    { text: '河。一条巨大的、无尽的河。' },
+    { text: '你站在河边，手里抱着一个孩子的衣服。你跪在地上，无声地哭。' },
+    { charHide: 'wuyan' },
+    { bg: "url('images/mirror_deep.png') center/cover", bgLabel: '镜墙深处' },
+    { charShow: 'wuyan', expr: 'broken' },
+    { text: '你跪在地上，手在颤抖。' },
+    { text: '你想起来了。' },
+    { text: '不是全部——但够了。' },
+    { text: '你是这座城市的建造者。' },
+    { text: '因为你犯了一个错。' },
+    { text: '一个真话无法挽回的错。' },
+    { text: '一个假话无法欺骗的错。' },
+    { text: '所以你把真话和假话分开，造了两座城。' },
+    { text: '你以为，这样就不会再有人受伤。' },
+    { text: '但你错了。' },
+    { charHide: 'wuyan' },
     { autoNext: 'ch5_end' }
   ]
 },
@@ -1562,15 +1620,14 @@ ch5_end: {
    Chapter 6: 合 (Merge)
    ═══════════════════════════════════════════════════════════ */
 ch6_start: {
-  bg: "url('images/mirror_inside.png') center/cover",
-  bgm: 'bgm_flashback',
-  bgLabel: '镜墙内部',
+  bg: "url('images/mirror_center.png') center/cover",
+  bgm: 'bgm_mirror',
+  bgLabel: '镜墙中央',
   city: 'mirror',
   chapter: { zh: '第六章：合', en: 'Chapter 6: Merge' },
   dialogue: [
-    { text: '镜墙内部的文字变得越来越多，越来越清晰。' },
-    { text: '「我的名字是勿言。不，这不是我的名字。这是我对自己的命令。」' },
-    { text: '「勿言——不要说话。因为我说的每一句话，都会伤害某个人。」' },
+    { text: '镜墙在震动。刚刚涌出的记忆，在镜墙中央凝聚成四个模糊的身影。' },
+    { autoNext: 'ch6_four_selves' }
   ]
 },
 ch6_flashback1: {
@@ -2343,22 +2400,22 @@ const CHAR_IMG_MAP = {
   yan:'left_city/yan', li:'left_city/li',
   yunshang:'right_city/yunshang', miyu:'right_city/miyu', huayan:'right_city/huayan',
   ming:'right_city/ming', yao:'right_city/yao',
-  ying:'mirror/ying', hua_child:'mirror/hua_child',
+  ying:'mirror/ying', hua_child:'mirror/hua_child', child:'mirror/child',
   wuyan:'main/wuyan'
 };
 // 角色所属城市：left/right/mirror/main
 const CHAR_CITY = {
   baisui:'left', xiaoxue:'left', shiyan:'left', yan:'left', li:'left',
   yunshang:'right', miyu:'right', huayan:'right', ming:'right', yao:'right',
-  ying:'mirror', hua_child:'mirror',
+  ying:'mirror', hua_child:'mirror', child:'mirror',
   wuyan:'main'
 };
 const CHAR_NAMES = {baisui:'白岁',yunshang:'云裳',ying:'影',xiaoxue:'小雪',
   shiyan:'石言',yan:'岩',li:'砾',yao:'瑶',miyu:'蜜语',huayan:'花言',ming:'明',
-  hua_child:'画',wuyan:'勿言'};
+  hua_child:'画',child:'孩子',wuyan:'勿言'};
 const CHAR_NAME_COLORS = {baisui:'#4A90D9',yunshang:'#D4A574',ying:'#C0C0C0',
   xiaoxue:'#8AB4D9',shiyan:'#3A4A5C',yan:'#5A7A9C',li:'#6A8AAC',yao:'#E0A090',
-  miyu:'#E8B88C',huayan:'#C49060',ming:'#B8A080',hua_child:'#A8B8C8',wuyan:'#C0C0C0'};
+  miyu:'#E8B88C',huayan:'#C49060',ming:'#B8A080',hua_child:'#A8B8C8',child:'#B8C8D8',wuyan:'#C0C0C0'};
 
 function showCharacter(id, expr) {
   let el = document.getElementById('char-'+id);
@@ -2400,7 +2457,7 @@ function getSpeakerId(speaker) {
   const map = {
     '白岁':'baisui', '小雪':'xiaoxue', '石言':'shiyan', '岩':'yan', '砾':'li',
     '云裳':'yunshang', '蜜语':'miyu', '花言':'huayan', '明':'ming', '瑶':'yao',
-    '影':'ying', '画':'hua_child', '小默':'hua_child', '勿言':'wuyan',
+    '影':'ying', '画':'hua_child', '小默':'hua_child', '孩子':'hua_child', '勿言':'wuyan',
     '童年勿言':'wuyan', '少年勿言':'wuyan', '成年勿言':'wuyan', '崩溃勿言':'wuyan',
   };
   if (map[speaker]) return map[speaker];
@@ -2587,6 +2644,10 @@ function advanceDialogue() {
     if(item.charShow) { showCharacter(item.charShow, item.expr); advanceDialogue().then(resolve); return; }
     if(item.charExpr) { changeExpr(item.charExpr, item.expr || 'normal'); advanceDialogue().then(resolve); return; }
     if(item.charHide) { hideCharacter(item.charHide); advanceDialogue().then(resolve); return; }
+
+    // Background change (inside dialogue)
+    if(item.bg) { setBg(item.bg, item.bgLabel||''); advanceDialogue().then(resolve); return; }
+
 
     // Achievement
     if(item.achievement) {

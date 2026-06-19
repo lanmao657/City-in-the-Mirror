@@ -120,6 +120,14 @@ define hua_child = Character(
     what_italic=True,
 )
 
+## ── 闪回孩子 ───────────────────────────────────────────────
+define child = Character(
+    "孩子",
+    color="#B8C8D8",
+    who_outlines=[(1, "#607080")],
+    what_color="#E8E8E8",
+)
+
 ## ── NPC 属性数据 ──────────────────────────────────────────
 ## 每个NPC的状态字典：关系值、是否已相遇、关键标记
 default npc_data = {
@@ -202,6 +210,13 @@ default npc_data = {
     },
     "hua_child": {
         "name": "画",
+        "city": "mirror",
+        "relationship": 50,
+        "met": False,
+        "flags": {},
+    },
+    "child": {
+        "name": "孩子",
         "city": "mirror",
         "relationship": 50,
         "met": False,
