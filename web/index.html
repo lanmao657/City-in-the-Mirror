@@ -488,6 +488,7 @@ const SCENES = {
 prologue: {
   bg: "url('images/mirror_crack.png') center/cover",
   bgLabel: '镜墙裂缝',
+  bgm: 'bgm_menu',
   city: 'narrator',
   chapter: { zh: '', en: '' },
   dialogue: [
@@ -882,27 +883,33 @@ function clamp(v,min,max){ return Math.max(min,Math.min(max,v)); }
 const Audio = {
   ctx: null,
   cache: {},
+  bgmGain: null,
+  currentBgm: null,
   enabled: true,
 
   init() {
     this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    this.bgmGain = this.ctx.createGain();
+    this.bgmGain.gain.value = 0.25;
+    this.bgmGain.connect(this.ctx.destination);
   },
 
-  async load(name) {
-    if (this.cache[name]) return this.cache[name];
+  async load(name, dir='sfx') {
+    const key = dir+'/'+name;
+    if (this.cache[key]) return this.cache[key];
     try {
-      const resp = await fetch(`audio/sfx/${name}.wav`);
+      const resp = await fetch(`audio/${dir}/${name}.wav`);
       const buf = await resp.arrayBuffer();
       const decoded = await this.ctx.decodeAudioData(buf);
-      this.cache[name] = decoded;
+      this.cache[key] = decoded;
       return decoded;
-    } catch(e) { console.warn('Audio load failed:', name); return null; }
+    } catch(e) { return null; }
   },
 
   async play(name, volume=0.5) {
     if (!this.enabled || !this.ctx) return;
     if (this.ctx.state === 'suspended') await this.ctx.resume();
-    const buf = await this.load(name);
+    const buf = await this.load(name, 'sfx');
     if (!buf) return;
     const src = this.ctx.createBufferSource();
     const gain = this.ctx.createGain();
@@ -910,6 +917,35 @@ const Audio = {
     gain.gain.value = volume;
     src.connect(gain).connect(this.ctx.destination);
     src.start(0);
+  },
+
+  async playBgm(name) {
+    if (!this.enabled || !this.ctx) return;
+    if (this.ctx.state === 'suspended') await this.ctx.resume();
+    if (this.currentBgm === name) return;
+    this.currentBgm = name;
+    const buf = await this.load(name, 'music');
+    if (!buf) return;
+    if (this._bgmSrc) { try { this._bgmSrc.stop(); } catch(e){} }
+    const src = this.ctx.createBufferSource();
+    src.buffer = buf;
+    src.loop = true;
+    src.connect(this.bgmGain);
+    // 淡入
+    this.bgmGain.gain.setValueAtTime(0, this.ctx.currentTime);
+    this.bgmGain.gain.linearRampToValueAtTime(0.25, this.ctx.currentTime + 2);
+    src.start(0);
+    this._bgmSrc = src;
+  },
+
+  stopBgm() {
+    if (this._bgmSrc) {
+      try {
+        this.bgmGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 1);
+        setTimeout(() => { try { this._bgmSrc.stop(); } catch(e){} }, 1100);
+      } catch(e) {}
+    }
+    this.currentBgm = null;
   },
 
   wheel()     { this.play('sfx_wheel_appear', 0.4); },
@@ -1088,6 +1124,16 @@ async function playScene(sceneId) {
 
   // Background
   if(scene.bg) setBg(scene.bg, scene.bgLabel||'');
+
+  // BGM
+  const bgmMap = {
+    left: 'bgm_left_city', right: 'bgm_right_city', mirror: 'bgm_mirror',
+    narrator: null
+  };
+  if(scene.bgm) Audio.playBgm(scene.bgm);
+  else if(scene.city && bgmMap[scene.city] !== undefined) {
+    if(bgmMap[scene.city]) Audio.playBgm(bgmMap[scene.city]);
+  }
   if(scene.city) setCity(scene.city);
 
   // Chapter title
@@ -1173,6 +1219,7 @@ function advanceDialogue() {
 /* ── Game Flow ────────────────────────────────────────────── */
 function startGame() {
   if (!Audio.ctx) Audio.init();
+  Audio.playBgm('bgm_menu');
   $('#main-menu').classList.add('hidden');
   // Reset state
   S.truthScore=0; S.lieScore=0; S.silentCount=0;
