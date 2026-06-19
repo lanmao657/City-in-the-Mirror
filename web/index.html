@@ -518,7 +518,7 @@ ch1_left_arrive: {
     { text: '空气里有一种奇怪的安静。' },
     { text: '不是寂静——而是所有的声音都被削去了圆润的部分，只剩下棱角。' },
     { speaker: '?', text: '你不是这里的人。' },
-    { charShow: 'baisui', charColor: '#3A4A5C', charNameColor: '#4A90D9' },
+    { charShow: 'baisui', expr: 'neutral' },
     { speaker: '白岁', text: '你不是这里的人。' },
     {
       choice: {
@@ -534,6 +534,7 @@ ch1_baisui_truth: {
   bg: "url('images/left_city_street.png') center/cover",
   city: 'left', effect: { rel: ['baisui', 5], city: ['left', 2] },
   dialogue: [
+    { charExpr: 'baisui', expr: 'surprised' },
     { speaker: '白岁', text: '真话。但没有温度。' },
     { speaker: '白岁', text: '左城的人不欢迎外人。不是因为敌意——' },
     { speaker: '白岁', text: '而是因为我们不知道如何跟外人说话。' },
@@ -546,6 +547,7 @@ ch1_baisui_lie: {
   bg: "url('images/left_city_street.png') center/cover",
   city: 'left', effect: { rel: ['baisui', -3], flag: 'ch1_lied_to_baisui' },
   dialogue: [
+    { charExpr: 'baisui', expr: 'surprised' },
     { speaker: '白岁', text: '……你可以说假话。' },
     { speaker: '白岁', text: '你是右城的人？' },
     { text: '石匠的眼神锐利起来，手不自觉地握紧了刻刀。' },
@@ -560,6 +562,7 @@ ch1_baisui_silent: {
   city: 'left', effect: { rel: ['baisui', 8], flag: 'ch1_silent_to_baisui' },
   dialogue: [
     { text: '你沉默着站在原地。' },
+    { charExpr: 'baisui', expr: 'soft' },
     { text: '石匠看着你，过了很久，点了点头。' },
     { speaker: '白岁', text: '你选择沉默。聪明。' },
     { speaker: '白岁', text: '在左城，沉默是最好的通行证。' },
@@ -577,6 +580,7 @@ ch1_workshop: {
     { text: '你在角落里发现了一座未完成的雕像。那是一张女人的脸。嘴角微微上扬——这是一个微笑。' },
     { text: '但在左城，微笑是不可能的。' },
     { speaker: '白岁', text: '……那是我的妻子。她二十年前去了右城。再也没有回来。' },
+    { charExpr: 'baisui', expr: 'soft' },
     {
       choice: {
         context: '白岁看着未完成的雕像，刻刀悬在半空。',
@@ -631,7 +635,7 @@ ch1_right_arrive: {
   dialogue: [
     { text: '空气里有一种奇怪的温暖。' },
     { text: '不是真正的温暖——而是所有的声音都被加了蜜，连风声都像在低语赞美。' },
-    { charShow: 'yunshang', charColor: '#4A3A2C', charNameColor: '#D4A574' },
+    { charShow: 'yunshang', expr: 'smile' },
     { speaker: '云裳', text: '天哪——你是我见过最好看的人！你的眉眼……像是从画里走出来的。' },
     { speaker: '云裳', text: '可以让我为你画一幅肖像吗？' },
     {
@@ -651,6 +655,7 @@ ch1_yunshang_truth: {
     { speaker: '云裳', text: '不记得……没关系。' },
     { speaker: '云裳', text: '在我的画里，你会比你想象的更美。' },
     { text: '她轻声对自己说——' },
+    { charExpr: 'yunshang', expr: 'wonder' },
     { speaker: '云裳', text: '有时候，画里的真实比现实的真实……更值得存在。' },
     { text: '你看到她的眼睛里有一瞬间的——不是悲伤，是某种更深的东西。是困惑。' },
     { autoNext: 'ch1_studio' }
@@ -684,6 +689,7 @@ ch1_studio: {
   bgLabel: '云裳画室',
   city: 'right', chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
   dialogue: [
+    { charExpr: 'yunshang', expr: 'painting' },
     { text: '云裳的画室在绘梦区的最高处。四面墙上挂满了肖像——每一幅里的人都在微笑。' },
     { text: '但仔细看，这些微笑都太过完美。完美到不像真的。' },
     { speaker: '云裳', text: '我画了无数人的肖像。但——' },
@@ -718,6 +724,7 @@ ch1_portrait_lie: {
     { speaker: '云裳', text: '谢谢你。' },
     { text: '她微笑。但她的微笑没有到达眼睛。' },
     { speaker: '云裳', text: '你知道吗……在右城，每个人都会说这种话。' },
+    { charExpr: 'yunshang', expr: 'sad' },
     { speaker: '云裳', text: '但我第一次……不确定自己是否相信了。' },
     { autoNext: 'ch1_mirror_right' }
   ]
@@ -745,6 +752,7 @@ ch1_mirror_left: {
     { text: '你来到镜墙前。镜面光滑如水，倒映着你的样子——但你不知道那是谁。' },
     { charHide: 'baisui' },
     { charShow: 'ying', charColor: '#3A3A4A', charNameColor: '#C0C0C0' },
+    { charExpr: 'ying', expr: 'neutral' },
     { speaker: '影', text: '你做了选择。每一个选择，都会改变这条裂缝的形状。' },
     { speaker: '影', text: '但你还不明白——裂缝的形状，就是你的形状。' },
     { autoNext: 'ch1_ending' }
@@ -759,6 +767,7 @@ ch1_mirror_right: {
     { text: '你来到镜墙前。镜面光滑如水，倒映着你的样子——但你不知道那是谁。' },
     { charHide: 'yunshang' },
     { charShow: 'ying', charColor: '#3A3A4A', charNameColor: '#C0C0C0' },
+    { charExpr: 'ying', expr: 'neutral' },
     { speaker: '影', text: '你做了选择。每一个选择，都会改变这条裂缝的形状。' },
     { speaker: '影', text: '但你还不明白——裂缝的形状，就是你的形状。' },
     { autoNext: 'ch1_ending' }
@@ -792,6 +801,7 @@ ch2_start: {
     { text: '镜墙前，有两个年轻人隔着镜面对视。' },
     { text: '左边是一个拿着石刻诗集的少年。右边是一个手里握着画笔的女孩。' },
     { speaker: '砾', text: '她每天都在那边听我念诗。但我念的都是真话——真话像刀子。' },
+    { charExpr: 'li', expr: 'poetry' },
     { speaker: '砾', text: '我不知道她为什么还愿意听。' },
     { speaker: '瑶', text: '他每天都在那边念诗。每一句都像在切开什么。' },
     { speaker: '瑶', text: '但——每一句里都有温度。只是他自己不知道。' },
@@ -818,6 +828,7 @@ ch2_truth: {
     { text: '她拿起画笔，画了一幅画。画里是砾的样子。比真人更真实。' },
     { speaker: '瑶', text: '告诉他……画里的人，在笑。' },
     { text: '砾看到画后，第一次——流泪了。不是因为悲伤。而是因为画里的自己在笑，而他已经忘了怎么笑。' },
+    { charExpr: 'li', expr: 'cry' },
     { autoNext: 'ch2_end' }
   ]
 },
@@ -829,10 +840,12 @@ ch2_lie: {
     { text: '你没有直接传达砾的话。而是来到瑶身边，坐在镜墙前。' },
     { text: '你对瑶说——「你可以试试，说出一句真话。不一定要回应砾。只是——对镜子里的自己说。」' },
     { text: '瑶犹豫了很久。然后，她对着镜子里的自己——' },
+    { charExpr: 'yao', expr: 'love' },
     { speaker: '瑶', text: '我……可能真的喜欢他。' },
     { text: '她的嘴唇裂开，渗出血丝。在右城，说真话是有代价的。但她笑了。一个真实的、不完美的笑。' },
     { text: '砾听到了。隔着镜墙，他听到了。' },
     { speaker: '砾', text: '……她说了真话。她真的说了真话。' },
+    { charExpr: 'li', expr: 'smile' },
     { text: '砾第一次流泪了。' },
     { autoNext: 'ch2_end' }
   ]
@@ -844,6 +857,7 @@ ch2_silent: {
   dialogue: [
     { text: '你什么都没做。你坐在镜墙前，看着他们。' },
     { text: '砾开始在镜墙上刻下石头心。瑶开始在镜墙另一侧画画。' },
+    { charExpr: 'li', expr: 'love' },
     { text: '两个人不知道对方在做什么——但他们的手，隔着镜墙，做着同样的事。' },
     { text: '几天后——石头心和画在裂缝处相遇。形成了一个完整的图案。' },
     { text: '没有语言。没有翻译。没有桥梁。只是两个人，在用各自的方式，说着同一句话。' },
@@ -872,7 +886,9 @@ ch3_start: {
   dialogue: [
     { text: '你发现一个左城的男人站在镜墙前，盯着镜子里的自己。' },
     { charShow: 'yan' },
+    { charExpr: 'yan', expr: 'neutral' },
     { speaker: '岩', text: '镜子里的我……在笑。' },
+    { charExpr: 'yan', expr: 'mirror' },
     { speaker: '岩', text: '我不会笑。我忘了怎么笑。' },
     { speaker: '岩', text: '上一次笑是什么时候……我不记得了。' },
     { speaker: '岩', text: '你说，镜子里的是我吗？' },
@@ -907,6 +923,7 @@ ch3_yan_lie: {
     { speaker: '岩', text: '（看着镜子里的自己）也许吧。也许镜子里的我确实幸福。' },
     { speaker: '岩', text: '但我不是镜子里的我。' },
     { text: '他转身离开了。脚步沉重，但比来时快了一点。' },
+    { charExpr: 'yan', expr: 'grief' },
     { autoNext: 'ch3_ming_intro' }
   ]
 },
@@ -919,6 +936,7 @@ ch3_yan_silent: {
     { text: '镜子里的岩在笑，镜墙外的岩在沉默。两个「岩」之间的距离，就是左城和右城的距离。' },
     { speaker: '岩', text: '（突然，轻声）她临终的时候……对我说了一句话。' },
     { speaker: '岩', text: '她说「岩，不要忘记笑」。' },
+    { charExpr: 'yan', expr: 'mirror' },
     { text: '岩的声音微微颤抖。他伸出手，触碰镜面。镜面冰冷。' },
     { autoNext: 'ch3_ming_intro' }
   ]
@@ -933,11 +951,13 @@ ch3_ming_intro: {
     { text: '右城的「沉默疗养院」——关押那些不再能说假话的人的地方。' },
     { text: '一个女人站在门口，笑容灿烂，但眼底有深深的疲惫。' },
     { charShow: 'miyu' },
+    { charExpr: 'miyu', expr: 'crack' },
     { speaker: '蜜语', text: '他已经在这里三年了。' },
     { speaker: '蜜语', text: '我每天来看他，对他说「你会好起来的」。他……什么都不说。' },
     { charHide: 'miyu' },
     { text: '你走进明的房间。一个男人坐在窗边，看着窗外。' },
     { charShow: 'ming' },
+    { charExpr: 'ming', expr: 'empty' },
     { speaker: '明', text: '你是那个……能说两种话的人。' },
     {
       choice: {
@@ -958,6 +978,7 @@ ch3_ming_truth: {
     { speaker: '明', text: '「你今天真美」——不好看的时候。「我们的生活很好」——快破产的时候。' },
     { speaker: '明', text: '「我很幸福」——每天晚上都在哭的时候。' },
     { speaker: '明', text: '你知道最可怕的是什么吗？不是谎言本身——而是我说了三十年之后，我已经分不清哪些是真话、哪些是假话了。' },
+    { charExpr: 'ming', expr: 'pain' },
     { speaker: '明', text: '我连自己的感觉都不相信了。' },
     { text: '窗外的右城依然金光闪闪。但明的眼睛里，没有任何光。' },
     { autoNext: 'ch3_discovery' }
@@ -983,6 +1004,7 @@ ch3_ming_silent: {
     { text: '你坐在明的身边，和他一起看窗外。' },
     { text: '窗外是右城的花海——假话催开的花。你们坐了很久。' },
     { speaker: '明', text: '你是第一个不试图「治愈」我的人。' },
+    { charExpr: 'ming', expr: 'smile' },
     { speaker: '明', text: '（声音里有一丝温度）谢谢你。' },
     { text: '你们沉默地坐了很久。窗外的花在风中摇曳。有些东西不需要语言。' },
     { autoNext: 'ch3_discovery' }
@@ -999,6 +1021,7 @@ ch3_discovery: {
     { text: '「我把这座城市劈成两半。不是因为我相信分离是对的。而是因为我已经不知道如何让它们在一起。」' },
     { text: '「真话杀死了我的孩子。假话让我活了下来。但活下来的我，已经不是我了。」' },
     { charShow: 'ying' },
+    { charExpr: 'ying', expr: 'knowing' },
     { speaker: '影', text: '你想起来了吗？不，你还不到想起来的时候。' },
     { speaker: '影', text: '但你应该知道——这面墙，不是惩罚，是逃避。' },
     { speaker: '影', text: '造墙的人以为，把刀和药分开，就不会有人受伤。' },
@@ -1030,6 +1053,7 @@ ch4_start: {
     { text: '花塔开始摇晃。右城的一切都建立在假话之上——建筑、花园、甚至空气中的温暖。' },
     { text: '当假话的力量衰减，一切都会碎裂。' },
     { charShow: 'huayan' },
+    { charExpr: 'huayan', expr: 'benevolent' },
     { speaker: '花言', text: '不用担心。我会处理。' },
     { text: '花言微笑着说，但这次的微笑有裂缝。' },
     { speaker: '花言', text: '你。你是那个能说真话的人。' },
@@ -1050,6 +1074,7 @@ ch4_truth: {
   city: 'right',
   effect: { city: ['right', -5], flag: 'ch4_introduce_truth' },
   dialogue: [
+    { charExpr: 'huayan', expr: 'calculation' },
     { speaker: '花言', text: '你……要摧毁右城的根基？' },
     { text: '花言震惊了。但他没有拒绝。' },
     { speaker: '花言', text: '如果这是唯一的路……' },
@@ -1063,6 +1088,7 @@ ch4_lie: {
   city: 'right',
   effect: { city: ['right', 5], flag: 'ch4_reinforce_lies' },
   dialogue: [
+    { charExpr: 'huayan', expr: 'truth' },
     { speaker: '花言', text: '（微笑）明智的选择。' },
     { text: '你开始帮花言说更多的假话来修复城市。' },
     { text: '花塔稳住了。花园重新绽放。但你知道——这只是暂时的。根基更脆弱了。' },
@@ -1078,6 +1104,7 @@ ch4_silent: {
   dialogue: [
     { text: '你什么都没说。你走到花塔前，用手触摸它的裂缝。' },
     { text: '裂缝在你手下缓慢地——不是被假话修补，也不是被真话切除——而是被时间，一点一点地，接受了。' },
+    { charExpr: 'huayan', expr: 'broken' },
     { text: '花言看着你，困惑了。' },
     { speaker: '花言', text: '你在做什么？你没有说话。' },
     { text: '你没有回答。但裂缝不再扩大了。' },
@@ -1110,6 +1137,7 @@ ch5_start: {
     { text: '母亲的手冻伤了。真话的物理伤害。' },
     { speaker: '小雪', text: '（眼泪）我知道不好吃。但我不想伤害你的。' },
     { charShow: 'xiaoxue' },
+    { charExpr: 'xiaoxue', expr: 'curious' },
     {
       choice: {
         context: '母亲看着冻伤的手，孩子的眼泪流下来。你该说什么？',
@@ -1127,6 +1155,7 @@ ch5_garden_truth: {
   dialogue: [
     { text: '母亲愣住，然后轻声笑了一下。' },
     { speaker: '小雪', text: '「爱……是最好的吗？」' },
+    { charExpr: 'xiaoxue', expr: 'hope' },
     { text: '手上的冰霜开始融化——真话的治愈力量，当它触动了真实的情感。' },
     { speaker: '小雪', text: '（对主角）你是第一个这么说的人。其他人只会说「饭很好吃」或者「饭很难吃」。' },
     { speaker: '小雪', text: '没有人说过……爱比饭重要。' },
@@ -1140,6 +1169,7 @@ ch5_garden_lie: {
   dialogue: [
     { text: '母亲看着你，震惊。' },
     { speaker: '小雪', text: '你……你可以说假话？' },
+    { charExpr: 'xiaoxue', expr: 'afraid' },
     { text: '恐惧——但随即，她摸了摸孩子冻伤的手。' },
     { speaker: '小雪', text: '「假话……原来可以说得这么温柔。」' },
     { text: '她在左城第一次体验到了假话的正面力量。但也引发了更大的恐惧。' },
@@ -1169,6 +1199,7 @@ ch5_philosopher: {
     { speaker: '哲学家', text: '我用真话伤害了我爱的人。' },
     { speaker: '哲学家', text: '我需要的，不是更多的真话——而是学会如何温柔地说真话！' },
     { charShow: 'shiyan' },
+    { charExpr: 'shiyan', expr: 'stern' },
     { speaker: '石言', text: '你在动摇左城的根基。真话不需要温柔。真话就是真话。' },
     {
       choice: {
@@ -1186,6 +1217,7 @@ ch5_shiyan_truth: {
   effect: { rel: ['shiyan', -5], flag: 'ch5_confronted_shiyan' },
   dialogue: [
     { text: '石言停下脚步。他的背影微微颤抖。但他没有回头。' },
+    { charExpr: 'shiyan', expr: 'shaken' },
     { speaker: '石言', text: '……你不了解我。' },
     { speaker: '石言', text: '你知道我的儿子是怎么离开左城的吗？' },
     { text: '他的声音第一次有了裂痕。' },
@@ -1213,6 +1245,7 @@ ch5_shiyan_silent: {
   effect: { memory: 'memory_shiyan_back' },
   dialogue: [
     { text: '你看着石言的背影，什么都没说。' },
+    { charExpr: 'shiyan', expr: 'accept' },
     { text: '石言走远了。广场上的人群沉默了很久。' },
     { text: '哲学家叹了口气，开始收拾他的石板。' },
     { speaker: '哲学', text: '（轻声）也许……石头需要更长的时间才能变暖。' },
@@ -1358,9 +1391,11 @@ ch6_ying_farewell: {
   city: 'mirror',
   dialogue: [
     { charShow: 'ying' },
+    { charExpr: 'ying', expr: 'sad' },
     { speaker: '影', text: '小默……一直在河对岸等你。TA没有恨你。TA一直在画画。' },
     { speaker: '影', text: '你造了这座城市，是为了保护别人不再受伤。但你真正想保护的——是不要再有人经历你经历的事。' },
     { speaker: '影', text: '我守了这面墙多久？我不记得了。但我知道——我的存在，就是为了等你准备好。' },
+    { charExpr: 'ying', expr: 'peace' },
     { speaker: '影', text: '现在你准备好了吗？' },
     {
       choice: {
@@ -1397,15 +1432,18 @@ ch7_start: {
   dialogue: [
     { text: '两座城市的居民都聚集在镜墙的两侧。' },
     { charShow: 'shiyan' },
+    { charExpr: 'shiyan', expr: 'stern' },
     { speaker: '石言', text: '镜墙碎了……我们的真话会涌过去。准备好——这是战争。' },
     { charHide: 'shiyan' },
     { charShow: 'huayan' },
+    { charExpr: 'huayan', expr: 'calculation' },
     { speaker: '花言', text: '镜墙碎了……不要害怕。我们会用赞美保护自己。' },
     { charHide: 'huayan' },
     { text: '镜墙碎裂——不是碎片飞散，而是像水一样融化。两座城市的人第一次看到彼此。' },
     { bg: "url('images/city_merge_chaos.png') center/cover", bgLabel: '融合混乱' },
     { text: '混乱开始。左城居民喊——「你们都是骗子！」右城居民喊——「你们才是怪物！」' },
     { charShow: 'ying' },
+    { charExpr: 'ying', expr: 'neutral' },
     { speaker: '影', text: '去吧。这是你的城市。这是你的选择。' },
     { speaker: '影', text: '无论你选什么……我都会为你骄傲。' },
     { text: '影化为光点，消散了。' },
@@ -1652,20 +1690,29 @@ const CHAR_NAME_COLORS = {baisui:'#4A90D9',yunshang:'#D4A574',ying:'#C0C0C0',
   xiaoxue:'#8AB4D9',shiyan:'#3A4A5C',yan:'#5A7A9C',li:'#6A8AAC',yao:'#E0A090',
   miyu:'#E8B88C',huayan:'#C49060',ming:'#B8A080',hua_child:'#A8B8C8',wuyan:'#C0C0C0'};
 
-function showCharacter(id) {
+function showCharacter(id, expr) {
   let el = document.getElementById('char-'+id);
   if(!el) {
     el = document.createElement('div');
     el.id = 'char-'+id;
     el.className = 'char-sprite';
-    const imgPath = CHAR_IMG_MAP[id] || 'left_city/'+id;
     const nc = CHAR_NAME_COLORS[id] || '#B0B0B0';
     const nm = CHAR_NAMES[id] || id;
-    el.innerHTML = `<img src="images/characters/${imgPath}.png" style="height:320px;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(0,0,0,.5))" onerror="this.style.display='none'">
+    el.innerHTML = `<img class="char-img" src="" style="height:320px;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(0,0,0,.5))" onerror="this.style.display='none'">
       <div class="char-name-tag" style="color:${nc};background:${nc}20;border:1px solid ${nc}40">${nm}</div>`;
     $('#character-layer').appendChild(el);
   }
+  changeExpr(id, expr || 'normal');
   requestAnimationFrame(()=> el.classList.add('visible'));
+}
+function changeExpr(id, expr) {
+  const el = document.getElementById('char-'+id);
+  if(!el) return;
+  const img = el.querySelector('.char-img');
+  if(!img) return;
+  const folder = CHAR_IMG_MAP[id] || 'left_city/'+id;
+  const fileName = expr === 'normal' ? id : `${id}_${expr}`;
+  img.src = `images/characters/${folder.replace(/\/[^/]+$/, '')}/${fileName}.png`;
 }
 function hideCharacter(id) {
   const el = document.getElementById('char-'+id);
@@ -1814,7 +1861,8 @@ function advanceDialogue() {
     S.sceneIndex++;
 
     // Character show
-    if(item.charShow) { showCharacter(item.charShow, item.charColor, item.charNameColor); advanceDialogue().then(resolve); return; }
+    if(item.charShow) { showCharacter(item.charShow, item.expr); advanceDialogue().then(resolve); return; }
+    if(item.charExpr) { changeExpr(item.charExpr, item.expr || 'normal'); advanceDialogue().then(resolve); return; }
     if(item.charHide) { hideCharacter(item.charHide); advanceDialogue().then(resolve); return; }
 
     // Achievement
