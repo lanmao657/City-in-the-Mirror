@@ -755,7 +755,7 @@ ch1_mirror_left: {
     { charExpr: 'ying', expr: 'neutral' },
     { speaker: '影', text: '你做了选择。每一个选择，都会改变这条裂缝的形状。' },
     { speaker: '影', text: '但你还不明白——裂缝的形状，就是你的形状。' },
-    { autoNext: 'ch1_ending' }
+    { autoNext: 'ch1_meeting' }
   ]
 },
 ch1_mirror_right: {
@@ -770,6 +770,75 @@ ch1_mirror_right: {
     { charExpr: 'ying', expr: 'neutral' },
     { speaker: '影', text: '你做了选择。每一个选择，都会改变这条裂缝的形状。' },
     { speaker: '影', text: '但你还不明白——裂缝的形状，就是你的形状。' },
+    { autoNext: 'ch1_meeting' }
+  ]
+},
+ch1_meeting: {
+  bg: "url('images/mirror_wall_outside.png') center/cover",
+  city: 'mirror',
+  dialogue: [
+    { charHide: 'ying' },
+    { charShow: 'baisui', expr: 'neutral' },
+    { charShow: 'yunshang', expr: 'smile' },
+    { text: '你看到一个熟悉的身影——白岁站在镜墙左侧。镜墙另一侧，云裳也在。' },
+    { speaker: '白岁', text: '她在右城画了很多人的肖像。每一幅都是假的。' },
+    { speaker: '云裳', text: '他在左城雕了很多石像。每一座都是真的。' },
+    { speaker: '白岁', text: '但真的东西不会让人快乐。' },
+    { speaker: '云裳', text: '但假的东西不会让人成长。' },
+    { text: '两人同时看向你。' },
+    { charExpr: 'baisui', expr: 'surprised' },
+    { speaker: '白岁', text: '你觉得，哪边更重要？' },
+    { speaker: '云裳', text: '你觉得，哪边更善良？' },
+    {
+      choice: {
+        context: '白岁和云裳隔着镜墙看着你。你需要同时回答两个人。',
+        truth:  { text: '你们都在用各自的方式爱着这个世界，但你们的方式都太绝对了。', next: 'ch1_meeting_truth' },
+        lie:    { text: '你们是这座城市里最温柔的人。', next: 'ch1_meeting_lie' },
+        silent: { next: 'ch1_meeting_silent' }
+      }
+    }
+  ]
+},
+ch1_meeting_truth: {
+  bg: "url('images/mirror_wall_outside.png') center/cover",
+  city: 'mirror',
+  dialogue: [
+    { charExpr: 'baisui', expr: 'soft' },
+    { text: '白岁沉默了。' },
+    { charExpr: 'yunshang', expr: 'sad' },
+    { text: '云裳的眼泪流了下来。' },
+    { speaker: '云裳', text: '……你说得对。' },
+    { speaker: '白岁', text: '（轻声）也许吧。' },
+    { text: '镜墙发出微弱的光。' },
+    { autoNext: 'ch1_ending' }
+  ]
+},
+ch1_meeting_lie: {
+  bg: "url('images/mirror_wall_outside.png') center/cover",
+  city: 'mirror',
+  dialogue: [
+    { charExpr: 'baisui', expr: 'surprised' },
+    { text: '白岁冷笑了一声。' },
+    { charExpr: 'yunshang', expr: 'smile' },
+    { text: '云裳微笑了。' },
+    { speaker: '云裳', text: '谢谢你。' },
+    { speaker: '白岁', text: '温柔的假话。这就是右城的人。' },
+    { text: '镜墙表面出现细微裂纹。' },
+    { autoNext: 'ch1_ending' }
+  ]
+},
+ch1_meeting_silent: {
+  bg: "url('images/mirror_wall_outside.png') center/cover",
+  city: 'mirror',
+  effect: { memory: 'memory_meeting_silent' },
+  dialogue: [
+    { text: '你什么都不说，只是站在两人中间。' },
+    { charExpr: 'baisui', expr: 'soft' },
+    { charExpr: 'yunshang', expr: 'wonder' },
+    { text: '白岁和云裳对视了。第一次，他们没有评价对方。' },
+    { speaker: '白岁', text: '……' },
+    { speaker: '云裳', text: '……' },
+    { text: '镜墙裂缝中的光变得更亮了。' },
     { autoNext: 'ch1_ending' }
   ]
 },
@@ -871,6 +940,119 @@ ch2_end: {
   chapter: { zh: '', en: '' },
   dialogue: [
     { text: '镜墙的裂缝，好像变大了一点。但也变得更美了。' },
+    { autoNext: 'ch2_tailor' }
+  ]
+},
+/* ── 支线：真话裁缝 ── */
+ch2_tailor: {
+  bg: "url('images/left_city_street.png') center/cover",
+  bgLabel: '石之区',
+  city: 'left',
+  chapter: { zh: '第二章：裂', en: 'Chapter 2: Crack' },
+  dialogue: [
+    { text: '你在左城的石之区闲逛，走进了一间裁缝店。' },
+    { text: '一个沉默的老人正在裁布。他看了你一眼，拿起尺子。' },
+    { speaker: '裁缝', text: '你的肩膀有点歪。你的腰比一般人粗。你的腿……不长，但比例还行。' },
+    {
+      choice: {
+        context: '裁缝量完你的尺寸，直接报出了一堆真话。',
+        truth:  { text: '你说的都对，但你能不能先问我想不想知道？', next: 'ch2_tailor_truth' },
+        lie:    { text: '谢谢你的专业评价。', next: 'ch2_tailor_lie' },
+        silent: { next: 'ch2_tailor_silent' }
+      }
+    }
+  ]
+},
+ch2_tailor_truth: {
+  bg: "url('images/left_city_street.png') center/cover",
+  city: 'left',
+  effect: { rel: ['baisui', 2] },
+  dialogue: [
+    { speaker: '裁缝', text: '为什么需要问？事实就是事实。' },
+    { speaker: '裁缝', text: '我做出的衣服是真正合身的。不是"看起来合身"，是真正合身。' },
+    { speaker: '裁缝', text: '那些只关心好看的人，去右城找假话裁缝。' },
+    { text: '他继续裁布，不再看你。' },
+    { autoNext: 'ch2_doctor' }
+  ]
+},
+ch2_tailor_lie: {
+  bg: "url('images/left_city_street.png') center/cover",
+  city: 'left',
+  dialogue: [
+    { speaker: '裁缝', text: '（头也不抬）你是右城来的吧。' },
+    { speaker: '裁缝', text: '左城不需要假话。拿上你的布，走吧。' },
+    { text: '他把一块布扔给你，不再理你。' },
+    { autoNext: 'ch2_doctor' }
+  ]
+},
+ch2_tailor_silent: {
+  bg: "url('images/left_city_street.png') center/cover",
+  city: 'left',
+  effect: { memory: 'memory_tailor' },
+  dialogue: [
+    { text: '你沉默着让他量完。他量了很久，很仔细。' },
+    { speaker: '裁缝', text: '（递过一件衣服）这件……我试着加了一点圆角。' },
+    { speaker: '裁缝', text: '（别过脸）你让我想起一个人。她也喜欢沉默。' },
+    { speaker: '裁缝', text: '但她说的每一句沉默，都比我所有的真话更准确。' },
+    { text: '你收下衣服。面料粗糙，但触感意外地温暖。' },
+    { autoNext: 'ch2_doctor' }
+  ]
+},
+/* ── 支线：假话医生 ── */
+ch2_doctor: {
+  bg: "url('images/right_city_square.png') center/cover",
+  bgLabel: '花语广场',
+  city: 'right',
+  dialogue: [
+    { text: '右城花语广场上，一个穿着白色长袍的医生正在对病人说话。' },
+    { speaker: '医生', text: '你会好起来的。你的病不严重。' },
+    { text: '病人微笑着离开。' },
+    { text: '医生转身看到你，笑容瞬间消失。' },
+    { speaker: '医生', text: '（低声）他的病是晚期。最多还有三个月。' },
+    { speaker: '医生', text: '但我不能说。说了，他会死得更快——在这里，真话会杀死人。' },
+    { speaker: '医生', text: '你是那个……能说两种话的人？你能不能替我告诉他真相？' },
+    {
+      choice: {
+        context: '医生的眼神里有痛苦。他每天都在对病人说假话。',
+        truth:  { text: '你有权知道真相，但真相可能会让你很痛苦。', next: 'ch2_doctor_truth' },
+        lie:    { text: '他应该知道真相，这样他才能安排好最后的时间。', next: 'ch2_doctor_lie' },
+        silent: { next: 'ch2_doctor_silent' }
+      }
+    }
+  ]
+},
+ch2_doctor_truth: {
+  bg: "url('images/right_city_square.png') center/cover",
+  city: 'right',
+  effect: { rel: ['miyu', 3] },
+  dialogue: [
+    { speaker: '医生', text: '你说得对。我……应该尊重他的选择。' },
+    { speaker: '医生', text: '但如果他问我，我……还是只能说假话。这是我的诅咒。' },
+    { text: '他重新挂上微笑，走向下一个病人。' },
+    { text: '你知道，这个微笑里藏着多少无法说出的真话。' },
+    { autoNext: 'ch3_start' }
+  ]
+},
+ch2_doctor_lie: {
+  bg: "url('images/right_city_square.png') center/cover",
+  city: 'right',
+  dialogue: [
+    { speaker: '医生', text: '你是说……我应该告诉他？但我说不了真话。' },
+    { speaker: '医生', text: '也许……你能替我说。' },
+    { text: '他看着你的眼睛，第一次露出了不是假笑的表情。' },
+    { text: '那是一个人的绝望。' },
+    { autoNext: 'ch3_start' }
+  ]
+},
+ch2_doctor_silent: {
+  bg: "url('images/right_city_square.png') center/cover",
+  city: 'right',
+  effect: { memory: 'memory_doctor' },
+  dialogue: [
+    { text: '你什么都没做。' },
+    { speaker: '医生', text: '（看着你走远）你和我一样。不知道该说什么。' },
+    { speaker: '医生', text: '也许这就是我们的共同点。' },
+    { text: '他的声音消失在右城的花香里。' },
     { autoNext: 'ch3_start' }
   ]
 },
@@ -1108,6 +1290,28 @@ ch4_silent: {
     { text: '花言看着你，困惑了。' },
     { speaker: '花言', text: '你在做什么？你没有说话。' },
     { text: '你没有回答。但裂缝不再扩大了。' },
+    { autoNext: 'ch4_old_man' }
+  ]
+},
+ch4_old_man: {
+  bg: "url('images/right_city_hospital.png') center/cover",
+  bgLabel: '沉默疗养院·密室',
+  city: 'right',
+  dialogue: [
+    { text: '你偷偷潜入疗养院深处，发现了一间隐藏的房间。' },
+    { text: '房间里有一面小镜子——不是镜墙的一部分，而是一面普通的镜子。' },
+    { text: '镜子前坐着一个老人，正在对自己说话。' },
+    { speaker: '老人', text: '你今天过得好吗？' },
+    { speaker: '老人', text: '（切换语气）不好。' },
+    { speaker: '老人', text: '（切换回来）没关系，明天会好的。' },
+    { speaker: '老人', text: '（切换）这是真话还是假话？' },
+    { speaker: '老人', text: '（长久的沉默）……我不知道。' },
+    { text: '老人看到你，眼睛亮了一下。' },
+    { speaker: '老人', text: '你……你也是可以说两种话的人？我以为只有我一个。' },
+    { speaker: '老人', text: '（暗淡下来）但我太害怕了。在右城说真话，会被当成疯子。在左城说假话，会被当成怪物。' },
+    { speaker: '老人', text: '所以我选择待在这里。至少在这里，我可以对自己说两种话。' },
+    { text: '老人的话让你沉默了很久。他选择了逃避——而你，正在选择面对。' },
+    { effect: { memory: 'memory_old_man' } },
     { autoNext: 'ch4_end' }
   ]
 },
@@ -1159,7 +1363,7 @@ ch5_garden_truth: {
     { text: '手上的冰霜开始融化——真话的治愈力量，当它触动了真实的情感。' },
     { speaker: '小雪', text: '（对主角）你是第一个这么说的人。其他人只会说「饭很好吃」或者「饭很难吃」。' },
     { speaker: '小雪', text: '没有人说过……爱比饭重要。' },
-    { autoNext: 'ch5_philosopher' }
+    { autoNext: 'ch5_child' }
   ]
 },
 ch5_garden_lie: {
@@ -1173,7 +1377,7 @@ ch5_garden_lie: {
     { text: '恐惧——但随即，她摸了摸孩子冻伤的手。' },
     { speaker: '小雪', text: '「假话……原来可以说得这么温柔。」' },
     { text: '她在左城第一次体验到了假话的正面力量。但也引发了更大的恐惧。' },
-    { autoNext: 'ch5_philosopher' }
+    { autoNext: 'ch5_child' }
   ]
 },
 ch5_garden_silent: {
@@ -1185,6 +1389,74 @@ ch5_garden_silent: {
     { text: '孩子也蹲下来，帮母亲吹手。' },
     { text: '三个人在花园里，不说一句话。但画面里有一种安静的温暖。' },
     { speaker: '小雪', text: '（轻声）有时候，不说话也是一种真话。' },
+    { autoNext: 'ch5_child' }
+  ]
+},
+/* ── 左城的孩子 ── */
+ch5_child: {
+  bg: "url('images/left_city_street.png') center/cover",
+  bgLabel: '左城边缘',
+  city: 'left',
+  dialogue: [
+    { charHide: 'xiaoxue' },
+    { text: '你在左城的边缘地带，发现一个孩子独自坐在墙角。' },
+    { speaker: '孩子', text: '（看到你，不说话）' },
+    {
+      choice: {
+        context: '孩子蜷缩在墙角，手上有冰霜的痕迹。',
+        truth:  { text: '你怎么一个人在这里？', next: 'ch5_child_truth' },
+        lie:    { text: '你看起来需要帮助。', next: 'ch5_child_lie' },
+        silent: { next: 'ch5_child_silent' }
+      }
+    }
+  ]
+},
+ch5_child_truth: {
+  bg: "url('images/left_city_street.png') center/cover",
+  city: 'left',
+  dialogue: [
+    { speaker: '孩子', text: '（过了很久）我说了一句真话。' },
+    { speaker: '孩子', text: '我对爸爸说……"你不爱我"。' },
+    { speaker: '孩子', text: '因为……他真的不爱我。' },
+    { speaker: '孩子', text: '（举起爸爸冻伤的手的照片）但我没想到……他被冻伤了。' },
+    { speaker: '孩子', text: '（崩溃）我不想伤害他的……' },
+    { charShow: 'ying', expr: 'knowing' },
+    { speaker: '影', text: '这就是真话的代价。你说的真话越接近核心，伤害就越深。' },
+    { speaker: '影', text: '但假话也有代价。如果你说"你爸爸爱你"——这不是真的，孩子会相信，但他的心会知道真相。' },
+    { speaker: '影', text: '而心知道的真相，比嘴巴说的真话更残酷。' },
+    { charHide: 'ying' },
+    { autoNext: 'ch5_philosopher' }
+  ]
+},
+ch5_child_lie: {
+  bg: "url('images/left_city_street.png') center/cover",
+  city: 'left',
+  dialogue: [
+    { speaker: '孩子', text: '（过了很久）我说了一句真话。' },
+    { speaker: '孩子', text: '我对爸爸说……"你不爱我"。' },
+    { speaker: '孩子', text: '但他真的不爱我。' },
+    { speaker: '孩子', text: '（举起照片）他被冻伤了。我不想伤害他的……' },
+    { charShow: 'ying', expr: 'knowing' },
+    { speaker: '影', text: '有些真话，说出来会伤人，但不说出来，会在心里溃烂。有些假话，说出来能安慰，但听的人心里知道是假的。' },
+    { speaker: '影', text: '真正的智慧，是在两者之间找到"恰好"的语言。' },
+    { charHide: 'ying' },
+    { autoNext: 'ch5_philosopher' }
+  ]
+},
+ch5_child_silent: {
+  bg: "url('images/left_city_street.png') center/cover",
+  city: 'left',
+  effect: { memory: 'memory_child' },
+  dialogue: [
+    { text: '你在孩子身边坐下来。什么都不说。' },
+    { text: '过了很久，孩子开口了。' },
+    { speaker: '孩子', text: '你也什么都不说吗？' },
+    { speaker: '孩子', text: '在左城，什么都不说的人……要么是最聪明的，要么是最害怕的。' },
+    { speaker: '孩子', text: '（轻声）你是哪一个？' },
+    { charShow: 'ying', expr: 'knowing' },
+    { speaker: '影', text: '有时候，最真实的语言，是不说话。' },
+    { speaker: '影', text: '但沉默不是逃避。沉默是——给彼此空间，让心自己说话。' },
+    { charHide: 'ying' },
     { autoNext: 'ch5_philosopher' }
   ]
 },
