@@ -848,6 +848,8 @@ ch1_ending: {
   chapter: { zh: '', en: '' },
   dialogue: [
     { charHide: 'ying' },
+    { charHide: 'baisui' },
+    { charHide: 'yunshang' },
     { text: '你闭上眼睛。' },
     { text: '在黑暗中，你看到了一个模糊的画面——一个孩子，在笑。' },
     { text: '你伸手想触碰，但画面碎裂了。' },
@@ -869,9 +871,11 @@ ch2_start: {
   dialogue: [
     { text: '镜墙前，有两个年轻人隔着镜面对视。' },
     { text: '左边是一个拿着石刻诗集的少年。右边是一个手里握着画笔的女孩。' },
+    { charShow: 'li' },
     { speaker: '砾', text: '她每天都在那边听我念诗。但我念的都是真话——真话像刀子。' },
     { charExpr: 'li', expr: 'poetry' },
     { speaker: '砾', text: '我不知道她为什么还愿意听。' },
+    { charShow: 'yao' },
     { speaker: '瑶', text: '他每天都在那边念诗。每一句都像在切开什么。' },
     { speaker: '瑶', text: '但——每一句里都有温度。只是他自己不知道。' },
     { speaker: '砾', text: '你能帮我……传达一句话吗？' },
@@ -939,6 +943,8 @@ ch2_end: {
   city: 'narrator',
   chapter: { zh: '', en: '' },
   dialogue: [
+    { charHide: 'li' },
+    { charHide: 'yao' },
     { text: '镜墙的裂缝，好像变大了一点。但也变得更美了。' },
     { autoNext: 'ch2_tailor' }
   ]
@@ -1465,7 +1471,6 @@ ch5_philosopher: {
   bgLabel: '刻痕广场',
   city: 'left',
   dialogue: [
-    { charHide: 'xiaoxue' },
     { text: '刻痕广场上，一个左城哲学家在演讲。' },
     { speaker: '哲学家', text: '我们把真话当作武器。用它切割一切。但武器会伤人。' },
     { speaker: '哲学家', text: '我用真话伤害了我爱的人。' },
@@ -1520,7 +1525,7 @@ ch5_shiyan_silent: {
     { charExpr: 'shiyan', expr: 'accept' },
     { text: '石言走远了。广场上的人群沉默了很久。' },
     { text: '哲学家叹了口气，开始收拾他的石板。' },
-    { speaker: '哲学', text: '（轻声）也许……石头需要更长的时间才能变暖。' },
+    { speaker: '哲学家', text: '（轻声）也许……石头需要更长的时间才能变暖。' },
     { autoNext: 'ch5_end' }
   ]
 },
@@ -1556,6 +1561,7 @@ ch6_flashback1: {
   dialogue: [
     { text: '画面闪回——模糊的、碎片化的记忆。' },
     { text: '一个温暖的房间。你在做饭，一个孩子在旁边画画。' },
+    { charShow: 'hua_child', expr: 'smile' },
     { speaker: '小默', text: '爸爸/妈妈，你看我画的画！' },
     { text: '画里是一栋房子，房子里有两个人在笑。' },
     { autoNext: 'ch6_flashback2' }
@@ -1567,6 +1573,7 @@ ch6_flashback2: {
   city: 'narrator',
   dialogue: [
     { text: '雨夜，车里，你在开车。' },
+    { charExpr: 'hua_child', expr: 'watch' },
     { speaker: '小默', text: '爸爸/妈妈……你又喝酒了。' },
     { text: '「没事的……很近……很快就到……」' },
     { autoNext: 'ch6_flashback3' }
@@ -1587,6 +1594,7 @@ ch6_flashback4: {
   bgLabel: '记忆：河',
   city: 'narrator',
   dialogue: [
+    { charHide: 'hua_child' },
     { text: '河。一条巨大的、无尽的河。' },
     { text: '你站在河边，手里抱着一个孩子的衣服。你跪在地上，无声地哭。' },
     { text: '你想起来了。不是全部——但够了。' },
@@ -1602,6 +1610,7 @@ ch6_four_selves: {
   city: 'mirror',
   dialogue: [
     { text: '四个模糊的身影出现在镜墙中央。' },
+    { charShow: 'wuyan', expr: 'neutral' },
     { speaker: '童年勿言', text: '你找到答案了吗？' },
     { speaker: '少年勿言', text: '你证明了什么？' },
     { speaker: '成年勿言', text: '你给孩子的是什么？' },
@@ -1654,10 +1663,13 @@ ch6_xiaomo: {
   bgLabel: '记忆：小默的房间',
   city: 'narrator',
   dialogue: [
+    { charHide: 'wuyan' },
     { text: '你的孩子——小默，5岁。孩子在画画，画里是一个人在镜子里。' },
+    { charExpr: 'hua_child', expr: 'drawing' },
     { speaker: '小默', text: '爸爸/妈妈，你看！镜子里的人在笑！' },
     { speaker: '小默', text: '这是谁？是你呀！你笑的时候，最好看了。' },
     { speaker: '小默', text: '爸爸/妈妈，你以后要多笑。你不笑的时候，我会害怕。' },
+    { charHide: 'hua_child' },
     { text: '画面淡出。' },
     { autoNext: 'ch6_ying_farewell' }
   ]
@@ -1692,6 +1704,7 @@ ch6_ready: {
     { speaker: '影', text: '不是因为你打破了它。而是因为它本来就撑不久了。' },
     { speaker: '影', text: '当镜墙碎裂的时候，左城和右城的人会看到彼此。' },
     { speaker: '影', text: '在那之前——你需要做一次选择。不是为他们——是为你自己。' },
+    { charHide: 'ying' },
     { text: '影化为光点，消散在空气中。你站在镜墙中央，看着两座城市的轮廓。' },
     { achievement: { id: 'merge', name: '合', desc: '你面对了自己的过去' } },
     { autoNext: 'ch7_start' }
@@ -1817,6 +1830,7 @@ game_end: {
   dialogue: [
     { text: '一条河。安静的、无尽的河。你站在河边。' },
     { text: '一个小小的身影从远处跑来。' },
+    { charShow: 'hua_child', expr: 'smile' },
     { speaker: '小默', text: '爸爸/妈妈！你来了！我等了你好久！' },
     { speaker: '小默', text: '你看！我画了好多画！' },
     { text: '你接过画。画里是镜中城——但已经不是两半了。' },
