@@ -45,33 +45,89 @@ image bg ending_silent = "images/backgrounds/ending_silent.png"
 image bg river = "images/backgrounds/river.png"
 image bg river_sunset = "images/backgrounds/river_sunset.png"
 
-## ── 角色立绘占位 ──────────────────────────────────────────
-## 使用 Solid 配合 Transform 来模拟立绘占位区域
+## ── 角色立绘（全部接入实际素材）─────────────────────────────
 
-## 左城角色（冷色调）
-image baisui normal = Solid("#3A4A5C", xsize=400, ysize=600)
-image xiaoxue normal = Solid("#5A7A9C", xsize=350, ysize=550)
-image shiyan normal = Solid("#2A3A4C", xsize=420, ysize=620)
-image yan normal = Solid("#4A6A8C", xsize=400, ysize=600)
-image li normal = Solid("#5A8AAC", xsize=380, ysize=580)
+## 主角
+image wuyan normal = "images/characters/main/wuyan.png"
+image wuyan neutral = "images/characters/main/wuyan_neutral.png"
+image wuyan sad = "images/characters/main/wuyan_sad.png"
+image wuyan determined = "images/characters/main/wuyan_determined.png"
+image wuyan smile = "images/characters/main/wuyan_smile.png"
 
-## 右城角色（暖色调）
-image yunshang normal = Solid("#C49060", xsize=380, ysize=600)
-image miyu normal = Solid("#D4A574", xsize=370, ysize=590)
-image huayan normal = Solid("#B08050", xsize=420, ysize=620)
-image ming normal = Solid("#A09070", xsize=400, ysize=600)
-image yao normal = Solid("#D0A090", xsize=350, ysize=560)
+## 左城角色
+image baisui normal = "images/characters/left_city/baisui.png"
+image baisui neutral = "images/characters/left_city/baisui_neutral.png"
+image baisui surprised = "images/characters/left_city/baisui_surprised.png"
+image baisui pain = "images/characters/left_city/baisui_pain.png"
+image baisui soft = "images/characters/left_city/baisui_soft.png"
+
+image xiaoxue normal = "images/characters/left_city/xiaoxue.png"
+image xiaoxue curious = "images/characters/left_city/xiaoxue_curious.png"
+image xiaoxue afraid = "images/characters/left_city/xiaoxue_afraid.png"
+image xiaoxue hope = "images/characters/left_city/xiaoxue_hope.png"
+image xiaoxue cry = "images/characters/left_city/xiaoxue_cry.png"
+
+image shiyan normal = "images/characters/left_city/shiyan.png"
+image shiyan stern = "images/characters/left_city/shiyan_stern.png"
+image shiyan shaken = "images/characters/left_city/shiyan_shaken.png"
+image shiyan back = "images/characters/left_city/shiyan_back.png"
+image shiyan accept = "images/characters/left_city/shiyan_accept.png"
+
+image yan normal = "images/characters/left_city/yan.png"
+image yan neutral = "images/characters/left_city/yan_neutral.png"
+image yan mirror = "images/characters/left_city/yan_mirror.png"
+image yan grief = "images/characters/left_city/yan_grief.png"
+image yan smile = "images/characters/left_city/yan_smile.png"
+
+image li normal = "images/characters/left_city/li.png"
+image li poetry = "images/characters/left_city/li_poetry.png"
+image li love = "images/characters/left_city/li_love.png"
+image li cry = "images/characters/left_city/li_cry.png"
+image li smile = "images/characters/left_city/li_smile.png"
+
+## 右城角色
+image yunshang normal = "images/characters/right_city/yunshang.png"
+image yunshang smile = "images/characters/right_city/yunshang_smile.png"
+image yunshang wonder = "images/characters/right_city/yunshang_wonder.png"
+image yunshang sad = "images/characters/right_city/yunshang_sad.png"
+image yunshang painting = "images/characters/right_city/yunshang_painting.png"
+
+image miyu normal = "images/characters/right_city/miyu.png"
+image miyu cheerful = "images/characters/right_city/miyu_cheerful.png"
+image miyu crack = "images/characters/right_city/miyu_crack.png"
+image miyu hope = "images/characters/right_city/miyu_hope.png"
+image miyu cry = "images/characters/right_city/miyu_cry.png"
+
+image huayan normal = "images/characters/right_city/huayan.png"
+image huayan benevolent = "images/characters/right_city/huayan_benevolent.png"
+image huayan calculation = "images/characters/right_city/huayan_calculation.png"
+image huayan broken = "images/characters/right_city/huayan_broken.png"
+image huayan truth = "images/characters/right_city/huayan_truth.png"
+
+image ming normal = "images/characters/right_city/ming.png"
+image ming empty = "images/characters/right_city/ming_empty.png"
+image ming pain = "images/characters/right_city/ming_pain.png"
+image ming smile = "images/characters/right_city/ming_smile.png"
+image ming peace = "images/characters/right_city/ming_peace.png"
+
+image yao normal = "images/characters/right_city/yao.png"
+image yao listen = "images/characters/right_city/yao_listen.png"
+image yao blush = "images/characters/right_city/yao_blush.png"
+image yao pain = "images/characters/right_city/yao_pain.png"
+image yao love = "images/characters/right_city/yao_love.png"
 
 ## 镜墙角色
-image ying normal = Solid("#808090", xsize=400, ysize=600)
-image hua_child normal = Solid("#909098", xsize=300, ysize=450)
+image ying normal = "images/characters/mirror/ying.png"
+image ying neutral = "images/characters/mirror/ying_neutral.png"
+image ying knowing = "images/characters/mirror/ying_knowing.png"
+image ying sad = "images/characters/mirror/ying_sad.png"
+image ying peace = "images/characters/mirror/ying_peace.png"
 
-## ── 表情变体占位 ──────────────────────────────────────────
-## 正式开发时为每个角色创建 4-6 套表情
-## 示例：image baisui smile = "images/characters/left_city/baisui_smile.png"
-
-# image baisui angry = Solid("#2A3A4C", xsize=400, ysize=600)
-# image yunshang sad = Solid("#A07040", xsize=380, ysize=600)
+image hua_child normal = "images/characters/mirror/hua_child.png"
+image hua_child drawing = "images/characters/mirror/hua_drawing.png"
+image hua_child watch = "images/characters/mirror/hua_watch.png"
+image hua_child offer = "images/characters/mirror/hua_offer.png"
+image hua_child smile = "images/characters/mirror/hua_smile.png"
 
 ## ── UI 元素占位 ──────────────────────────────────────────
 ## 使用 Solid + Frame 实现 9-slice 效果的占位

@@ -901,17 +901,32 @@ function showChapterTitle(zh, en) {
   return new Promise(r => setTimeout(() => { ct.classList.remove('show'); setTimeout(r,400); }, 2500));
 }
 
-function showCharacter(id, color, nameColor) {
+const CHAR_IMG_MAP = {
+  baisui:'left_city/baisui', xiaoxue:'left_city/xiaoxue', shiyan:'left_city/shiyan',
+  yan:'left_city/yan', li:'left_city/li',
+  yunshang:'right_city/yunshang', miyu:'right_city/miyu', huayan:'right_city/huayan',
+  ming:'right_city/ming', yao:'right_city/yao',
+  ying:'mirror/ying', hua_child:'mirror/hua_child',
+  wuyan:'main/wuyan'
+};
+const CHAR_NAMES = {baisui:'白岁',yunshang:'云裳',ying:'影',xiaoxue:'小雪',
+  shiyan:'石言',yan:'岩',li:'砾',yao:'瑶',miyu:'蜜语',huayan:'花言',ming:'明',
+  hua_child:'画',wuyan:'勿言'};
+const CHAR_NAME_COLORS = {baisui:'#4A90D9',yunshang:'#D4A574',ying:'#C0C0C0',
+  xiaoxue:'#8AB4D9',shiyan:'#3A4A5C',yan:'#5A7A9C',li:'#6A8AAC',yao:'#E0A090',
+  miyu:'#E8B88C',huayan:'#C49060',ming:'#B8A080',hua_child:'#A8B8C8',wuyan:'#C0C0C0'};
+
+function showCharacter(id) {
   let el = document.getElementById('char-'+id);
   if(!el) {
     el = document.createElement('div');
     el.id = 'char-'+id;
     el.className = 'char-sprite';
-    const names = {baisui:'白岁',yunshang:'云裳',ying:'影',xiaoxue:'小雪',
-      shiyan:'石言',yan:'岩',li:'砾',yao:'瑶',miyu:'蜜语',huayan:'花言',ming:'明',hua_child:'画'};
-    const nc = nameColor || '#B0B0B0';
-    el.innerHTML = `<div class="char-body" style="background:${color||'#3A4A5C'}"></div>
-      <div class="char-name-tag" style="color:${nc};background:${color||'#3A4A5C'}40">${names[id]||id}</div>`;
+    const imgPath = CHAR_IMG_MAP[id] || 'left_city/'+id;
+    const nc = CHAR_NAME_COLORS[id] || '#B0B0B0';
+    const nm = CHAR_NAMES[id] || id;
+    el.innerHTML = `<img src="images/characters/${imgPath}.png" style="height:320px;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(0,0,0,.5))" onerror="this.style.display='none'">
+      <div class="char-name-tag" style="color:${nc};background:${nc}20;border:1px solid ${nc}40">${nm}</div>`;
     $('#character-layer').appendChild(el);
   }
   requestAnimationFrame(()=> el.classList.add('visible'));
