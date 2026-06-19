@@ -2058,38 +2058,149 @@ const VoiceSystem = {
   currentUtterance: null,
 
   /* ── 角色音色配置 ──
-     每个角色的 pitch(音调)、rate(语速)、volume(音量)
-     pitch: 0.5=很低沉 1.0=正常 1.5=很尖锐
-     rate:  0.7=很慢   1.0=正常 1.3=很快
-     备注：不同系统/浏览器的 TTS 引擎表现差异较大，
-     实际效果取决于用户系统的中文语音包              */
+     pitch:  音调 (0.5=极低沉 … 1.0=正常 … 1.5=很尖锐)
+     rate:   语速 (0.6=极慢   … 1.0=正常 … 1.4=很快)
+     volume: 音量 (0.0-1.0)
+     gender: 'm'=男声 'f'=女声 'n'=中性
+     备注：不同系统/浏览器的 TTS 引擎表现差异较大              */
   voiceProfiles: {
-    // 主角 — 中性沉稳
-    wuyan:    { pitch: 1.0,  rate: 0.92, volume: 1.0,  desc: '沉稳中性' },
-    // 左城角色
-    baisui:   { pitch: 0.72, rate: 0.85, volume: 0.95, desc: '低沉沧桑·老石匠' },
-    xiaoxue:  { pitch: 1.25, rate: 1.05, volume: 0.95, desc: '清亮少女·学生' },
-    shiyan:   { pitch: 0.62, rate: 0.80, volume: 0.95, desc: '苍老威严·长老' },
-    yan:      { pitch: 0.85, rate: 0.88, volume: 0.95, desc: '沉稳中年·医生' },
-    li:       { pitch: 1.10, rate: 1.00, volume: 0.95, desc: '清澈少年·诗人' },
-    // 右城角色
-    yunshang: { pitch: 1.18, rate: 0.95, volume: 0.92, desc: '温婉女声·画家' },
-    miyu:     { pitch: 1.22, rate: 1.00, volume: 0.95, desc: '甜美成熟·建筑师' },
-    huayan:   { pitch: 0.72, rate: 0.85, volume: 0.92, desc: '苍老温和·长老' },
-    ming:     { pitch: 0.75, rate: 0.78, volume: 0.88, desc: '低沉疲惫·沉默者' },
-    yao:      { pitch: 1.32, rate: 0.95, volume: 0.88, desc: '轻柔少女·倾听者' },
-    // 镜墙角色
-    ying:     { pitch: 0.95, rate: 0.85, volume: 0.92, desc: '空灵中性·守镜人' },
-    hua_child:{ pitch: 1.50, rate: 1.00, volume: 0.90, desc: '清脆童声·孩子' },
-    // 旁白
-    narrator: { pitch: 0.90, rate: 0.85, volume: 0.90, desc: '中性沉稳·旁白' },
-    // 默认
-    default:  { pitch: 1.0,  rate: 0.95, volume: 0.95, desc: '默认' },
+    /* ── 主角 ── */
+    // 勿言 — 无名无姓，由玩家塑造，声音中性偏沉，留白感强
+    wuyan:    { pitch: 0.98,  rate: 0.90, volume: 1.0,  gender: 'm', desc: '中性偏沉·留白' },
+
+    /* ── 左城（真话之城）— 冷冽、克制 ── */
+    // 白岁 — 62岁石雕匠，极度内敛，每句话精准如刀
+    baisui:   { pitch: 0.65,  rate: 0.78, volume: 0.92, gender: 'm', desc: '低沉克制·精准' },
+    // 小雪 — 14岁学生，好奇心旺盛，说话快且直，不懂收敛
+    xiaoxue:  { pitch: 1.28,  rate: 1.12, volume: 0.95, gender: 'f', desc: '清亮急促·少女' },
+    // 石言 — 78岁长老，极端真话主义者，语气生硬不留余地
+    shiyan:   { pitch: 0.58,  rate: 0.75, volume: 0.95, gender: 'm', desc: '苍老生硬·威严' },
+    // 岩 — 45岁外科医生，冷静精准，忘了如何笑
+    yan:      { pitch: 0.82,  rate: 0.82, volume: 0.93, gender: 'm', desc: '冷静克制·外科医生' },
+    // 砾 — 17岁诗人，用真话写诗，每句话都像在朗诵
+    li:       { pitch: 1.05,  rate: 0.85, volume: 0.90, gender: 'm', desc: '清澈克制·诗人' },
+
+    /* ── 右城（假话之城）— 温暖、柔软 ── */
+    // 云裳 — 28岁肖像画家，温柔如春风，永远带着微笑说话
+    yunshang: { pitch: 1.15,  rate: 0.88, volume: 0.88, gender: 'f', desc: '温婉柔声·画家' },
+    // 蜜语 — 35岁甜言建筑师，热情洋溢，说话像蜜糖流淌
+    miyu:     { pitch: 1.20,  rate: 0.96, volume: 0.95, gender: 'f', desc: '甜暖热情·建筑师' },
+    // 花言 — 70岁长老，表面慈祥温和，细听之下有掌控感
+    huayan:   { pitch: 0.70,  rate: 0.82, volume: 0.90, gender: 'f', desc: '慈祥深沉·暗藏掌控' },
+    // 明 — 40岁，说了三十年假话后崩溃，声音空洞破碎
+    ming:     { pitch: 0.72,  rate: 0.70, volume: 0.78, gender: 'm', desc: '空洞疲惫·破碎' },
+    // 瑶 — 16岁倾听者，害羞怯懦，说话带着犹豫和停顿
+    yao:      { pitch: 1.30,  rate: 0.82, volume: 0.82, gender: 'f', desc: '轻柔怯懦·犹豫' },
+
+    /* ── 镜墙角色 ── */
+    // 影 — 守镜人，年龄不明，说话如谜语，空灵而超脱时间
+    ying:     { pitch: 0.92,  rate: 0.72, volume: 0.88, gender: 'n', desc: '空灵缓慢·谜语' },
+    // 画 — 7岁失语孩子，不笑不哭，极少开口，声音极轻极慢
+    hua_child:{ pitch: 1.45,  rate: 0.65, volume: 0.60, gender: 'n', desc: '极轻极缓·失语孩童' },
+
+    /* ── 旁白 ── */
+    narrator: { pitch: 0.88,  rate: 0.82, volume: 0.88, gender: 'n', desc: '中性沉稳·叙述' },
+
+    /* ── 默认 ── */
+    default:  { pitch: 1.0,   rate: 0.95, volume: 0.95, gender: 'n', desc: '默认' },
+  },
+
+  /* 已知中文语音名称的性别映射 */
+  voiceGenderMap: {
+    // Windows (Microsoft)
+    'Microsoft Xiaoxiao': 'f', 'Microsoft Xiaoyi': 'f',
+    'Microsoft Yaoyao': 'f', 'Microsoft Xiarui': 'f',
+    'Microsoft Yunxi': 'm', 'Microsoft Yunyang': 'm',
+    'Microsoft Yunhao': 'm', 'Microsoft Yunjian': 'm',
+    // macOS
+    'Ting-Ting': 'f', 'Sin-ji': 'm',
+    // Google
+    'Google 普通话': 'f', 'Google Mandarin': 'f',
   },
 
   /* 获取某个角色的音色配置 */
   getProfile(charId) {
     return this.voiceProfiles[charId] || this.voiceProfiles['default'];
+  },
+
+  /* 角色个性化文本处理 — 根据人物性格调整标点和停顿 */
+  adaptText(charId, text) {
+    /* 左城角色（真话之城）— 冷冽克制，句后停顿更明显 */
+    const leftChars = ['baisui','shiyan','yan','li'];
+
+    if (leftChars.includes(charId)) {
+      // 左城：句号/问号/叹号后加逗号，制造呼吸停顿感
+      text = text.replace(/([。！？])/g, '$1，');
+    }
+
+    // 特殊角色处理（按性格调整标点节奏）
+    switch (charId) {
+      case 'shiyan':
+        // 石言 — 78岁长老，极端真话主义者，每句话都像宣判
+        text = text.replace(/……/g, '…………');
+        break;
+
+      case 'baisui':
+        // 白岁 — 62岁石雕匠，极度内敛，话少精准
+        text = text.replace(/。/g, '。。');
+        break;
+
+      case 'yan':
+        // 岩 — 外科医生，冷静精准，语句简短干脆
+        text = text.replace(/，，/g, '，');
+        break;
+
+      case 'li':
+        // 砾 — 17岁诗人，每句话都像在朗诵
+        text = text.replace(/，/g, '，，');
+        break;
+
+      case 'huayan':
+        // 花言 — 70岁长老，表面慈祥实则精于操控
+        text = text.replace(/。/g, '。。');
+        break;
+
+      case 'ming':
+        // 明 — 崩溃的沉默者，几乎说不出完整的话
+        text = text.replace(/，/g, '，，，');
+        break;
+
+      case 'yao':
+        // 瑶 — 16岁害羞倾听者，说话犹豫
+        text = text.replace(/，/g, '，，');
+        break;
+
+      case 'ying':
+        // 影 — 守镜人，说话如谜语，空灵缓慢
+        text = text.replace(/……/g, '…………');
+        text = text.replace(/，/g, '，，');
+        break;
+
+      case 'hua_child':
+        // 画 — 7岁失语孩子，极少开口，声音极轻极缓
+        text = text.replace(/，/g, '，，，');
+        text = text.replace(/。/g, '。。');
+        text = text.replace(/……/g, '………………');
+        break;
+
+      case 'yunshang':
+        // 云裳 — 温柔画家，说话如春风拂面，句末轻柔延长
+        text = text.replace(/。/g, '。。');
+        break;
+
+      case 'miyu':
+        // 蜜语 — 甜言建筑师，热情洋溢，语句流畅不断
+        break;
+    }
+
+    // 最后清理：右城角色保持语句连贯，合并多余逗号
+    // 注意：ming（崩溃破碎）和 ying/yao（犹豫停顿）不参与清理
+    const rightSmooth = ['yunshang','miyu','huayan'];
+    if (rightSmooth.includes(charId)) {
+      text = text.replace(/，，/g, '，');
+    }
+
+    return text;
   },
 
   /* 停止当前播放的语音 */
@@ -2114,7 +2225,7 @@ const VoiceSystem = {
 
     const profile = this.getProfile(charId);
 
-    // 清理文本中的特殊标记
+    // 基础文本清理
     let cleanText = text
       .replace(/[「」『』]/g, '"')
       .replace(/[（）]/g, ',')
@@ -2123,21 +2234,43 @@ const VoiceSystem = {
 
     if (!cleanText) { if(onEnd) onEnd(); return; }
 
+    // 角色个性化文本处理
+    cleanText = this.adaptText(charId, cleanText);
+
     const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = 'zh-CN';
     utterance.pitch = profile.pitch;
     utterance.rate = profile.rate;
     utterance.volume = profile.volume * this.volume;
 
-    // 尝试选择中文语音
+    // 语音选择 — 按角色性别匹配中文语音
     const voices = speechSynthesis.getVoices();
-    const zhVoice = voices.find(v =>
-      v.lang.startsWith('zh') ||
-      v.lang === 'zh-CN' ||
-      v.lang === 'zh-TW' ||
-      v.lang === 'zh-HK'
+    const zhVoices = voices.filter(v =>
+      v.lang.startsWith('zh') || v.lang === 'zh-TW' || v.lang === 'zh-HK'
     );
-    if (zhVoice) utterance.voice = zhVoice;
+    if (zhVoices.length) {
+      const desiredGender = profile.gender || 'n';
+      const pickVoice = () => {
+        // 1. 用已知映射表匹配
+        const mapped = zhVoices.find(v => this.voiceGenderMap[v.name] === desiredGender);
+        if (mapped) return mapped;
+        // 2. 按名称关键词推断性别
+        const femaleKW = ['xiaoxiao','xiaoyi','yaoyao','xiarui','ting','female','woman','girl'];
+        const maleKW   = ['yunxi','yunyang','yunhao','yunjian','jian','male','man','boy'];
+        const kwList = desiredGender === 'f' ? femaleKW
+                     : desiredGender === 'm' ? maleKW : [];
+        if (kwList.length) {
+          const byKW = zhVoices.find(v => {
+            const n = v.name.toLowerCase();
+            return kwList.some(k => n.includes(k));
+          });
+          if (byKW) return byKW;
+        }
+        // 3. 无匹配时返回第一个中文语音
+        return zhVoices[0];
+      };
+      utterance.voice = pickVoice();
+    }
 
     this.currentUtterance = utterance;
 
