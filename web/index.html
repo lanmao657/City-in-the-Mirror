@@ -189,6 +189,13 @@ body {
   pointer-events: auto; transition: color .3s; z-index: 35;
 }
 #hud-menu-btn:hover { color: #fff; }
+#hud-voice-btn {
+  position: absolute; top: 14px; right: 52px;
+  font-size: 18px; color: rgba(255,255,255,.4); cursor: pointer;
+  pointer-events: auto; transition: color .3s; z-index: 35;
+}
+#hud-voice-btn:hover { color: #fff; }
+#hud-voice-btn.muted { color: rgba(255,100,100,.4); }
 #mirror-bar-container {
   position: absolute; bottom: 252px; right: 24px;
   width: 150px; height: 6px; background: rgba(0,0,0,.4);
@@ -412,6 +419,7 @@ body {
   <!-- HUD -->
   <div id="hud">
     <div id="hud-chapter"></div>
+    <div id="hud-voice-btn" onclick="toggleVoice()" title="配音开关">🔊</div>
     <div id="hud-menu-btn" onclick="togglePause()">≡</div>
     <div id="hud-alignment">行者</div>
     <div id="mirror-labels"><span class="lbl-truth">❄</span><span class="lbl-lie">✿</span></div>
@@ -2040,6 +2048,139 @@ const Audio = {
   scene()     { this.play('sfx_scene_change', 0.3); },
 };
 
+/* ═══════════════════════════════════════════════════════════
+   Voice Acting System — 角色配音系统
+   使用 Web Speech API 的 SpeechSynthesis 实现
+   ═══════════════════════════════════════════════════════════ */
+const VoiceSystem = {
+  enabled: true,
+  volume: 0.8,
+  currentUtterance: null,
+
+  /* ── 角色音色配置 ──
+     每个角色的 pitch(音调)、rate(语速)、volume(音量)
+     pitch: 0.5=很低沉 1.0=正常 1.5=很尖锐
+     rate:  0.7=很慢   1.0=正常 1.3=很快
+     备注：不同系统/浏览器的 TTS 引擎表现差异较大，
+     实际效果取决于用户系统的中文语音包              */
+  voiceProfiles: {
+    // 主角 — 中性沉稳
+    wuyan:    { pitch: 1.0,  rate: 0.92, volume: 1.0,  desc: '沉稳中性' },
+    // 左城角色
+    baisui:   { pitch: 0.72, rate: 0.85, volume: 0.95, desc: '低沉沧桑·老石匠' },
+    xiaoxue:  { pitch: 1.25, rate: 1.05, volume: 0.95, desc: '清亮少女·学生' },
+    shiyan:   { pitch: 0.62, rate: 0.80, volume: 0.95, desc: '苍老威严·长老' },
+    yan:      { pitch: 0.85, rate: 0.88, volume: 0.95, desc: '沉稳中年·医生' },
+    li:       { pitch: 1.10, rate: 1.00, volume: 0.95, desc: '清澈少年·诗人' },
+    // 右城角色
+    yunshang: { pitch: 1.18, rate: 0.95, volume: 0.92, desc: '温婉女声·画家' },
+    miyu:     { pitch: 1.22, rate: 1.00, volume: 0.95, desc: '甜美成熟·建筑师' },
+    huayan:   { pitch: 0.72, rate: 0.85, volume: 0.92, desc: '苍老温和·长老' },
+    ming:     { pitch: 0.75, rate: 0.78, volume: 0.88, desc: '低沉疲惫·沉默者' },
+    yao:      { pitch: 1.32, rate: 0.95, volume: 0.88, desc: '轻柔少女·倾听者' },
+    // 镜墙角色
+    ying:     { pitch: 0.95, rate: 0.85, volume: 0.92, desc: '空灵中性·守镜人' },
+    hua_child:{ pitch: 1.50, rate: 1.00, volume: 0.90, desc: '清脆童声·孩子' },
+    // 旁白
+    narrator: { pitch: 0.90, rate: 0.85, volume: 0.90, desc: '中性沉稳·旁白' },
+    // 默认
+    default:  { pitch: 1.0,  rate: 0.95, volume: 0.95, desc: '默认' },
+  },
+
+  /* 获取某个角色的音色配置 */
+  getProfile(charId) {
+    return this.voiceProfiles[charId] || this.voiceProfiles['default'];
+  },
+
+  /* 停止当前播放的语音 */
+  stop() {
+    if (this.currentUtterance) {
+      speechSynthesis.cancel();
+      this.currentUtterance = null;
+    }
+  },
+
+  /* 播放角色配音
+     charId: 角色ID (baisui, yunshang, ying 等)
+     text:   要朗读的文本
+     onEnd:  播放结束回调
+     onStart: 播放开始回调                                        */
+  speak(charId, text, onEnd, onStart) {
+    if (!this.enabled) { if(onEnd) onEnd(); return; }
+    if (!text || text.trim() === '') { if(onEnd) onEnd(); return; }
+
+    // 停止之前的语音
+    this.stop();
+
+    const profile = this.getProfile(charId);
+
+    // 清理文本中的特殊标记
+    let cleanText = text
+      .replace(/[「」『』]/g, '"')
+      .replace(/[（）]/g, ',')
+      .replace(/\n/g, '，')
+      .trim();
+
+    if (!cleanText) { if(onEnd) onEnd(); return; }
+
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.lang = 'zh-CN';
+    utterance.pitch = profile.pitch;
+    utterance.rate = profile.rate;
+    utterance.volume = profile.volume * this.volume;
+
+    // 尝试选择中文语音
+    const voices = speechSynthesis.getVoices();
+    const zhVoice = voices.find(v =>
+      v.lang.startsWith('zh') ||
+      v.lang === 'zh-CN' ||
+      v.lang === 'zh-TW' ||
+      v.lang === 'zh-HK'
+    );
+    if (zhVoice) utterance.voice = zhVoice;
+
+    this.currentUtterance = utterance;
+
+    utterance.onstart = () => {
+      if (onStart) onStart();
+    };
+
+    utterance.onend = () => {
+      this.currentUtterance = null;
+      if (onEnd) onEnd();
+    };
+
+    utterance.onerror = (e) => {
+      // 'interrupted' 是正常的（用户点击跳过），不视为错误
+      if (e.error !== 'interrupted') {
+        console.warn('Voice error:', e.error);
+      }
+      this.currentUtterance = null;
+      if (onEnd) onEnd();
+    };
+
+    speechSynthesis.speak(utterance);
+  },
+
+  /* 是否正在播放 */
+  isSpeaking() {
+    return speechSynthesis.speaking;
+  },
+
+  /* 切换开关 */
+  toggle() {
+    this.enabled = !this.enabled;
+    if (!this.enabled) this.stop();
+    return this.enabled;
+  },
+};
+
+// 预加载语音列表（某些浏览器需要用户交互后才加载）
+if (typeof speechSynthesis !== 'undefined') {
+  speechSynthesis.getVoices();
+  speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+}
+
 /* ── Display ─────────────────────────────────────────────── */
 function setBg(grad, label) {
   const bg = $('.bg-gradient');
@@ -2121,6 +2262,19 @@ function hideCharacter(id) {
   if(el) el.classList.remove('visible');
 }
 
+/* ── 根据 speaker 名称获取角色 ID ── */
+function getSpeakerId(speaker) {
+  const map = {
+    '白岁':'baisui', '小雪':'xiaoxue', '石言':'shiyan', '岩':'yan', '砾':'li',
+    '云裳':'yunshang', '蜜语':'miyu', '花言':'huayan', '明':'ming', '瑶':'yao',
+    '影':'ying', '画':'hua_child', '小默':'hua_child', '勿言':'wuyan',
+    '童年勿言':'wuyan', '少年勿言':'wuyan', '成年勿言':'wuyan', '崩溃勿言':'wuyan',
+  };
+  if (map[speaker]) return map[speaker];
+  // 其他NPC（裁缝、医生、哲学家、老人、孩子等）用默认音色
+  return 'default';
+}
+
 function showDialogue(speaker, text) {
   const db = $('#dialogue-box');
   db.classList.remove('hidden');
@@ -2132,6 +2286,17 @@ function showDialogue(speaker, text) {
   if(!speaker && S.currentCity==='narrator') dt.classList.add('narrator-text');
   else dt.classList.remove('narrator-text');
   typeText(dt, text);
+
+  // ── 角色配音 ──
+  if (speaker && text && VoiceSystem.enabled) {
+    const charId = getSpeakerId(speaker);
+    // 配音与打字同时开始，提升沉浸感
+    VoiceSystem.speak(charId, text);
+  }
+  // 旁白也用旁白音色朗读
+  else if (!speaker && text && S.currentCity === 'narrator' && VoiceSystem.enabled) {
+    VoiceSystem.speak('narrator', text);
+  }
 }
 function hideDialogue() { $('#dialogue-box').classList.add('hidden'); }
 
@@ -2237,6 +2402,9 @@ async function playScene(sceneId) {
   const scene = SCENES[sceneId];
   if(!scene) { console.error('Scene not found:', sceneId); return; }
 
+  // 切换场景时停止当前配音
+  VoiceSystem.stop();
+
   // Background
   if(scene.bg) setBg(scene.bg, scene.bgLabel||'');
 
@@ -2327,6 +2495,8 @@ function advanceDialogue() {
 
     // Wait for click
     const handler = () => {
+      // 停止当前配音
+      VoiceSystem.stop();
       if(S.typing) {
         // Skip typing
         clearInterval(S.typeTimer); S.typeTimer=null; S.typing=false;
@@ -2345,6 +2515,8 @@ function advanceDialogue() {
 /* ── Game Flow ────────────────────────────────────────────── */
 function startGame() {
   if (!Audio.ctx) Audio.init();
+  // 初始化语音列表
+  if (typeof speechSynthesis !== 'undefined') speechSynthesis.getVoices();
   Audio.playBgm('bgm_menu');
   $('#main-menu').classList.add('hidden');
   // Reset state
@@ -2379,12 +2551,28 @@ function showAbout() {
   alert('《镜中城》City of Mirrors\n\n一座城市被镜墙劈成两半。\n左城只能说真话，右城只能说假话。\n你是唯一能说两种话的人。\n\n真话不等于善良，善良不必是真话。\n真正的智慧在于何时选择诚实，何时选择温柔。\n\nRen\'Py 原版开发中 | Web 演示版 v0.1');
 }
 
+/* ── Voice Toggle ──────────────────────────────────────────── */
+function toggleVoice() {
+  const enabled = VoiceSystem.toggle();
+  const btn = $('#hud-voice-btn');
+  if (enabled) {
+    btn.textContent = '🔊';
+    btn.classList.remove('muted');
+    btn.title = '配音开关：开';
+  } else {
+    btn.textContent = '🔇';
+    btn.classList.add('muted');
+    btn.title = '配音开关：关';
+  }
+}
+
 /* ── Keyboard ─────────────────────────────────────────────── */
 document.addEventListener('keydown', e => {
   if(e.key==='Escape') { if($('#wheel-overlay').classList.contains('show')) return; togglePause(); }
   if(e.key==='1' && $('#wheel-overlay').classList.contains('show')) choose('truth');
   if(e.key==='2' && $('#wheel-overlay').classList.contains('show')) choose('lie');
   if((e.key==='s'||e.key==='S') && $('#wheel-overlay').classList.contains('show')) choose('silent');
+  if((e.key==='v'||e.key==='V') && !$('#wheel-overlay').classList.contains('show')) toggleVoice();
   if(e.key===' ' || e.key==='Enter') {
     if(S.paused || $('#main-menu').classList.contains('show')==='') return;
     if($('#wheel-overlay').classList.contains('show')) return;
