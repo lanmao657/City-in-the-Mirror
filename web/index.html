@@ -878,6 +878,52 @@ const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 function clamp(v,min,max){ return Math.max(min,Math.min(max,v)); }
 
+/* ── Audio System ─────────────────────────────────────────── */
+const Audio = {
+  ctx: null,
+  cache: {},
+  enabled: true,
+
+  init() {
+    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+  },
+
+  async load(name) {
+    if (this.cache[name]) return this.cache[name];
+    try {
+      const resp = await fetch(`audio/sfx/${name}.wav`);
+      const buf = await resp.arrayBuffer();
+      const decoded = await this.ctx.decodeAudioData(buf);
+      this.cache[name] = decoded;
+      return decoded;
+    } catch(e) { console.warn('Audio load failed:', name); return null; }
+  },
+
+  async play(name, volume=0.5) {
+    if (!this.enabled || !this.ctx) return;
+    if (this.ctx.state === 'suspended') await this.ctx.resume();
+    const buf = await this.load(name);
+    if (!buf) return;
+    const src = this.ctx.createBufferSource();
+    const gain = this.ctx.createGain();
+    src.buffer = buf;
+    gain.gain.value = volume;
+    src.connect(gain).connect(this.ctx.destination);
+    src.start(0);
+  },
+
+  wheel()     { this.play('sfx_wheel_appear', 0.4); },
+  truth()     { this.play('sfx_truth', 0.5); },
+  lie()       { this.play('sfx_lie', 0.5); },
+  silent()    { this.play('sfx_silent', 0.3); },
+  chapter()   { this.play('sfx_chapter', 0.4); },
+  crack()     { this.play('sfx_mirror_crack', 0.5); },
+  flashback() { this.play('sfx_flashback', 0.4); },
+  dialogue()  { this.play('sfx_dialogue', 0.2); },
+  achieve()   { this.play('sfx_achievement', 0.5); },
+  scene()     { this.play('sfx_scene_change', 0.3); },
+};
+
 /* ── Display ─────────────────────────────────────────────── */
 function setBg(grad, label) {
   const bg = $('.bg-gradient');
@@ -895,6 +941,7 @@ function setCity(city) {
 function showChapterTitle(zh, en) {
   const ct = $('#chapter-title');
   if (!zh) { ct.classList.remove('show'); return; }
+  Audio.chapter();
   ct.querySelector('.zh').textContent = zh;
   ct.querySelector('.en').textContent = en || '';
   ct.classList.add('show');
@@ -939,6 +986,7 @@ function hideCharacter(id) {
 function showDialogue(speaker, text) {
   const db = $('#dialogue-box');
   db.classList.remove('hidden');
+  Audio.dialogue();
   const sn = $('#speaker-name');
   sn.textContent = speaker || '';
   if(!speaker) sn.style.display='none'; else sn.style.display='block';
@@ -992,6 +1040,7 @@ function updateParticles(city) {
 
 /* ── Wheel ────────────────────────────────────────────────── */
 function showWheel(context, truthText, lieText, hasSilent) {
+  Audio.wheel();
   $('#wheel-context').textContent = context || '';
   $('#wb-truth-text').textContent = truthText || '';
   $('#wb-lie-text').textContent = lieText || '';
@@ -1002,9 +1051,9 @@ function hideWheel() { $('#wheel-overlay').classList.remove('show'); }
 
 function choose(type) {
   hideWheel();
-  if(type==='truth') S.truthScore++;
-  else if(type==='lie') S.lieScore++;
-  else S.silentCount++;
+  if(type==='truth') { S.truthScore++; Audio.truth(); }
+  else if(type==='lie') { S.lieScore++; Audio.lie(); }
+  else { S.silentCount++; Audio.silent(); }
   updateHUD();
   if(S.choiceCallback) { const cb=S.choiceCallback; S.choiceCallback=null; cb(type); }
 }
@@ -1013,6 +1062,7 @@ function choose(type) {
 function showAchievement(id, name, desc) {
   if(S.achievements.has(id)) return;
   S.achievements.add(id);
+  Audio.achieve();
   $('#ach-name').textContent = name;
   $('#ach-desc').textContent = desc;
   const t = $('#achievement-toast');
@@ -1122,6 +1172,7 @@ function advanceDialogue() {
 
 /* ── Game Flow ────────────────────────────────────────────── */
 function startGame() {
+  if (!Audio.ctx) Audio.init();
   $('#main-menu').classList.add('hidden');
   // Reset state
   S.truthScore=0; S.lieScore=0; S.silentCount=0;

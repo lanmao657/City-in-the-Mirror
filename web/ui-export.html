@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>《镜中城》UI 素材导出工具</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: #1a1a2e; font-family: "Noto Serif SC", Georgia, serif;
+  color: #e8e8e8; padding: 30px;
+}
+h1 { text-align:center; font-size:24px; margin-bottom:8px; color:#c0c0c0; }
+.subtitle { text-align:center; font-size:14px; color:#606060; margin-bottom:30px; }
+.section { margin-bottom:40px; }
+.section-title {
+  font-size:18px; color:#909090; margin-bottom:15px;
+  padding-bottom:6px; border-bottom:1px solid #333;
+}
+.asset-row {
+  display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start;
+  margin-bottom: 20px;
+}
+.asset-label {
+  font-size: 13px; color: #707070; margin-bottom: 6px;
+  display: flex; justify-content: space-between;
+}
+.asset-label .size { color: #505050; font-size: 11px; }
+.asset-wrapper {
+  position: relative; display: inline-block;
+}
+.asset-wrapper::after {
+  content: '截图区域'; position: absolute; inset: -1px;
+  border: 1px dashed rgba(255,255,255,.15); pointer-events: none;
+  border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════
+   1. 对话框
+   ═══════════════════════════════════════════ */
+.dialogue-left {
+  width: 1600px; height: 260px; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, rgba(26,26,46,.92), rgba(26,26,46,.88));
+  border-top: 2px solid rgba(74,144,217,.35);
+  border-radius: 0;
+}
+.dialogue-left::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(74,144,217,.4), transparent);
+}
+.dialogue-left::after {
+  content:''; position:absolute; bottom:0; left:20px; right:20px; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(74,144,217,.15), transparent);
+}
+.dl-corner-tl, .dl-corner-tr, .dl-corner-bl, .dl-corner-br {
+  position:absolute; width:20px; height:20px;
+}
+.dl-corner-tl { top:0; left:0; border-top:2px solid rgba(74,144,217,.5); border-left:2px solid rgba(74,144,217,.5); }
+.dl-corner-tr { top:0; right:0; border-top:2px solid rgba(74,144,217,.5); border-right:2px solid rgba(74,144,217,.5); }
+.dl-corner-bl { bottom:0; left:0; border-bottom:2px solid rgba(74,144,217,.3); border-left:2px solid rgba(74,144,217,.3); }
+.dl-corner-br { bottom:0; right:0; border-bottom:2px solid rgba(74,144,217,.3); border-right:2px solid rgba(74,144,217,.3); }
+.dl-namebox {
+  position:absolute; top:12px; left:20px; padding:5px 18px;
+  background: linear-gradient(135deg, #3A5A7C, #4A6FA5);
+  color:#fff; font-size:16px; font-weight:600; letter-spacing:.08em;
+  clip-path: polygon(0 0, 100% 0, 96% 100%, 0 100%);
+}
+.dl-text {
+  position:absolute; top:55px; left:24px; right:24px;
+  font-size:18px; line-height:1.7; color:#D0DCE8;
+}
+.dl-hint {
+  position:absolute; bottom:12px; right:18px;
+  font-size:12px; color:rgba(74,144,217,.4);
+}
+/* 对话框纹理覆盖 */
+.dialogue-left .texture {
+  position:absolute; inset:0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px, rgba(74,144,217,.02) 3px, rgba(74,144,217,.02) 4px
+  );
+  pointer-events: none;
+}
+
+.dialogue-right {
+  width: 1600px; height: 260px; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, rgba(58,46,32,.9), rgba(58,46,32,.85));
+  border-top: 2px solid rgba(212,165,116,.25);
+  border-radius: 12px 12px 0 0;
+}
+.dialogue-right::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background: linear-gradient(90deg, transparent, rgba(212,165,116,.5), rgba(255,228,192,.3), rgba(212,165,116,.5), transparent);
+}
+.dialogue-right::after {
+  content:''; position:absolute; bottom:0; left:30px; right:30px; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(212,165,116,.2), transparent);
+}
+.dr-namebox {
+  position:absolute; top:12px; left:24px; padding:5px 20px;
+  background: linear-gradient(135deg, #C49060, #D4A574);
+  color:#fff; font-size:16px; font-weight:600; letter-spacing:.08em;
+  border-radius: 20px;
+}
+.dr-text {
+  position:absolute; top:55px; left:28px; right:28px;
+  font-size:18px; line-height:1.7; color:#FFF8E7; text-align:center;
+}
+.dr-hint {
+  position:absolute; bottom:12px; right:18px;
+  font-size:12px; color:rgba(212,165,116,.4);
+}
+.dialogue-right .texture {
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse at 80% 20%, rgba(212,165,116,.06), transparent 60%);
+  pointer-events: none;
+}
+
+.dialogue-mirror {
+  width: 1600px; height: 260px; position: relative; overflow: hidden;
+  background: rgba(20,20,35,.92);
+  border-top: 1px solid rgba(192,192,192,.15);
+}
+.dialogue-mirror .texture {
+  position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(192,192,192,.03), transparent 50%, rgba(192,192,192,.03));
+  pointer-events: none;
+}
+.dm-text {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  font-size:18px; line-height:1.7; color:#E8E8E8; text-align:center;
+  width: 80%;
+}
+
+/* ═══════════════════════════════════════════
+   2. 语言轮盘
+   ═══════════════════════════════════════════ */
+.wheel-panel {
+  width: 800px; position: relative; overflow: visible;
+  background: rgba(26,26,46,.96);
+  border: 1px solid rgba(192,192,192,.12);
+  border-radius: 8px;
+  padding: 28px 32px 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.wheel-context {
+  text-align:center; font-size:15px; color:#808080;
+  font-style:italic; margin-bottom:18px;
+}
+.wheel-options { display:flex; gap:18px; margin-bottom:14px; }
+.wheel-btn {
+  flex:1; min-height:220px; border:none; border-radius:4px;
+  cursor:pointer; position:relative; overflow:hidden;
+  display:flex; flex-direction:column; padding:22px 18px;
+}
+.wheel-btn::before {
+  content:''; position:absolute; inset:0; opacity:0; transition:opacity .3s;
+}
+.wheel-btn.truth {
+  background: linear-gradient(135deg, #2A3A4C, #3A4A5C);
+  border: 1px solid rgba(74,144,217,.3);
+}
+.wheel-btn.truth::before {
+  background: linear-gradient(135deg, #3A4A5C, #4A6FA5);
+}
+.wheel-btn.truth:hover::before { opacity:1; }
+.wheel-btn.truth:hover {
+  border-color: rgba(74,144,217,.6);
+  box-shadow: 0 0 25px rgba(74,144,217,.2);
+}
+.wheel-btn.lie {
+  background: linear-gradient(135deg, #3A2E20, #4A3A2C);
+  border: 1px solid rgba(212,165,116,.3);
+}
+.wheel-btn.lie::before {
+  background: linear-gradient(135deg, #4A3A2C, #6A5A40);
+}
+.wheel-btn.lie:hover::before { opacity:1; }
+.wheel-btn.lie:hover {
+  border-color: rgba(212,165,116,.6);
+  box-shadow: 0 0 25px rgba(212,165,116,.2);
+}
+.wb-icon { font-size:20px; margin-bottom:10px; position:relative; z-index:1; }
+.wheel-btn.truth .wb-icon { color:#4A90D9; }
+.wheel-btn.lie .wb-icon { color:#D4A574; }
+.wb-label { font-size:22px; font-weight:600; margin-bottom:6px; position:relative; z-index:1; }
+.wheel-btn.truth .wb-label { color:#4A90D9; }
+.wheel-btn.lie .wb-label { color:#D4A574; }
+.wb-example {
+  font-size:15px; line-height:1.6; position:relative; z-index:1;
+}
+.wheel-btn.truth .wb-example { color:#B8C4D0; }
+.wheel-btn.lie .wb-example { color:#FFF8E7; }
+.wb-key {
+  position:absolute; bottom:8px; right:12px;
+  font-size:11px; color:rgba(255,255,255,.15); z-index:1;
+}
+.wheel-silent-wrap { text-align:center; margin-top:2px; }
+.wheel-silent {
+  padding:10px 40px; background:rgba(155,155,155,.12);
+  border:1px dashed rgba(155,155,155,.25); border-radius:4px;
+  color:#9B9B9B; font-size:15px; font-family:inherit; letter-spacing:.05em;
+  animation: breathe 4s ease-in-out infinite;
+}
+@keyframes breathe { 0%,100%{opacity:.15} 50%{opacity:.35} }
+
+/* ═══════════════════════════════════════════
+   3. 按钮
+   ═══════════════════════════════════════════ */
+.btn-row { display:flex; gap:20px; flex-wrap:wrap; }
+
+.menu-btn-asset {
+  min-width:280px; padding:16px 40px; background:none; border:none;
+  color:#707070; font-size:20px; font-family:inherit; letter-spacing:.12em;
+  text-align:center; cursor:pointer; position:relative;
+  border-left: 3px solid transparent;
+  transition: all .3s;
+}
+.menu-btn-asset:hover { color:#fff; border-left-color:#C0C0C0; }
+.menu-btn-asset .hint { font-size:11px; color:#404040; margin-top:4px; }
+
+.wheel-btn-standalone {
+  min-width:350px; min-height:200px; border:none; border-radius:4px;
+  cursor:pointer; position:relative; overflow:hidden;
+  display:flex; flex-direction:column; padding:22px 18px;
+}
+.wheel-btn-standalone.truth {
+  background: linear-gradient(135deg, #2A3A4C, #3A4A5C);
+  border: 1px solid rgba(74,144,217,.3);
+}
+.wheel-btn-standalone.truth:hover {
+  background: linear-gradient(135deg, #3A4A5C, #4A6FA5);
+  border-color: rgba(74,144,217,.6);
+  box-shadow: 0 0 25px rgba(74,144,217,.2);
+}
+.wheel-btn-standalone.lie {
+  background: linear-gradient(135deg, #3A2E20, #4A3A2C);
+  border: 1px solid rgba(212,165,116,.3);
+}
+.wheel-btn-standalone.lie:hover {
+  background: linear-gradient(135deg, #4A3A2C, #6A5A40);
+  border-color: rgba(212,165,116,.6);
+  box-shadow: 0 0 25px rgba(212,165,116,.2);
+}
+
+.pause-btn {
+  min-width:280px; padding:14px 20px; background:rgba(255,255,255,.06);
+  border:none; border-radius:6px; color:#B0B0B0; font-size:20px;
+  font-family:inherit; letter-spacing:.08em; text-align:center;
+  cursor:pointer; transition: all .2s;
+}
+.pause-btn:hover { color:#fff; background:rgba(255,255,255,.1); }
+
+.ach-toast {
+  display:flex; align-items:center; gap:12px; padding:14px 28px;
+  background:rgba(26,26,46,.95); border:1px solid rgba(192,192,192,.15);
+  border-radius:6px; white-space:nowrap;
+}
+.ach-icon { font-size:22px; color:#C0C0C0; }
+.ach-text { font-size:16px; color:#E8E8E8; }
+.ach-desc { font-size:13px; color:#808080; margin-top:2px; }
+
+/* ═══════════════════════════════════════════
+   4. HUD 元素
+   ═══════════════════════════════════════════ */
+.hud-bar {
+  width:180px; height:6px; background:rgba(0,0,0,.4);
+  border-radius:3px; overflow:hidden;
+}
+.hud-bar-fill {
+  height:100%; border-radius:3px; width:50%;
+  background:linear-gradient(to right, #4A90D9, #D4A574);
+}
+.hud-labels {
+  width:180px; display:flex; justify-content:space-between;
+  font-size:10px; opacity:.5; margin-bottom:4px;
+}
+.hud-chapter {
+  font-size:14px; color:#909090; letter-spacing:.05em;
+}
+
+/* 全局样式说明 */
+.hint-box {
+  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+  border-radius:4px; padding:12px 16px; margin:10px 0;
+  font-size:13px; color:#606060; line-height:1.6;
+}
+</style>
+</head>
+<body>
+
+<h1>《镜中城》UI 素材导出</h1>
+<div class="subtitle">逐个截图每个素材区域即可获得精确尺寸的 PNG 素材</div>
+
+<!-- ═══════════════════════════════════════════
+     1. 对话框
+     ═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">1. 对话框 — 左城（直角、冷蓝、石材质感）</div>
+  <div class="asset-label"><span>dialogue_left.png</span><span class="size">1600 × 260 px</span></div>
+  <div class="asset-wrapper">
+    <div class="dialogue-left">
+      <div class="texture"></div>
+      <div class="dl-corner-tl"></div>
+      <div class="dl-corner-tr"></div>
+      <div class="dl-corner-bl"></div>
+      <div class="dl-corner-br"></div>
+      <div class="dl-namebox">白岁</div>
+      <div class="dl-text">真话。但没有温度。左城的人不欢迎外人。不是因为敌意——</div>
+      <div class="dl-hint">▷</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">2. 对话框 — 右城（圆角、暖金、丝绸质感）</div>
+  <div class="asset-label"><span>dialogue_right.png</span><span class="size">1600 × 260 px</span></div>
+  <div class="asset-wrapper">
+    <div class="dialogue-right">
+      <div class="texture"></div>
+      <div class="dr-namebox">云裳</div>
+      <div class="dr-text">你是我见过最好看的人！你的眉眼……像是从画里走出来的。</div>
+      <div class="dr-hint">▷</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">3. 对话框 — 镜墙 / 中性（半透明、极简）</div>
+  <div class="asset-label"><span>dialogue_mirror.png</span><span class="size">1600 × 260 px</span></div>
+  <div class="asset-wrapper">
+    <div class="dialogue-mirror">
+      <div class="texture"></div>
+      <div class="dm-text">你做了选择。每一个选择，都会改变这条裂缝的形状。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     2. 语言轮盘
+     ═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">4. 语言轮盘面板</div>
+  <div class="asset-label"><span>wheel_panel.png</span><span class="size">800 × ~540 px</span></div>
+  <div class="asset-wrapper">
+    <div class="wheel-panel">
+      <div class="wheel-context">石匠停下手里的刻刀，看着你。</div>
+      <div class="wheel-options">
+        <div class="wheel-btn truth">
+          <div class="wb-icon">❄</div>
+          <div class="wb-label">真话</div>
+          <div class="wb-example">我不知道自己是哪里的人。</div>
+          <div class="wb-key">按 1</div>
+        </div>
+        <div class="wheel-btn lie">
+          <div class="wb-icon">✿</div>
+          <div class="wb-label">假话</div>
+          <div class="wb-example">我是从很远的地方来的。</div>
+          <div class="wb-key">按 2</div>
+        </div>
+      </div>
+      <div class="wheel-silent-wrap">
+        <button class="wheel-silent">沉默</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     3. 按钮
+     ═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">5. 真话按钮（默认 + 悬停）</div>
+  <div class="asset-label"><span>btn_truth_idle.png / btn_truth_hover.png</span><span class="size">350 × 200 px</span></div>
+  <div class="btn-row">
+    <div class="asset-wrapper">
+      <div class="wheel-btn-standalone truth">
+        <div class="wb-icon">❄</div>
+        <div class="wb-label" style="color:#4A90D9">真话</div>
+        <div class="wb-example" style="color:#B8C4D0;margin-top:10px">直接、准确<br>可能伤人</div>
+      </div>
+    </div>
+    <div class="asset-wrapper">
+      <div class="wheel-btn-standalone truth" style="background:linear-gradient(135deg,#3A4A5C,#4A6FA5);border-color:rgba(74,144,217,.6);box-shadow:0 0 25px rgba(74,144,217,.2)">
+        <div class="wb-icon">❄</div>
+        <div class="wb-label" style="color:#4A90D9">真话</div>
+        <div class="wb-example" style="color:#B8C4D0;margin-top:10px">直接、准确<br>可能伤人</div>
+      </div>
+    </div>
+  </div>
+  <div class="hint-box">左：默认状态 idle → 右：悬停状态 hover</div>
+</div>
+
+<div class="section">
+  <div class="section-title">6. 假话按钮（默认 + 悬停）</div>
+  <div class="asset-label"><span>btn_lie_idle.png / btn_lie_hover.png</span><span class="size">350 × 200 px</span></div>
+  <div class="btn-row">
+    <div class="asset-wrapper">
+      <div class="wheel-btn-standalone lie">
+        <div class="wb-icon">✿</div>
+        <div class="wb-label" style="color:#D4A574">假话</div>
+        <div class="wb-example" style="color:#FFF8E7;margin-top:10px">温柔、美好<br>可能失实</div>
+      </div>
+    </div>
+    <div class="asset-wrapper">
+      <div class="wheel-btn-standalone lie" style="background:linear-gradient(135deg,#4A3A2C,#6A5A40);border-color:rgba(212,165,116,.6);box-shadow:0 0 25px rgba(212,165,116,.2)">
+        <div class="wb-icon">✿</div>
+        <div class="wb-label" style="color:#D4A574">假话</div>
+        <div class="wb-example" style="color:#FFF8E7;margin-top:10px">温柔、美好<br>可能失实</div>
+      </div>
+    </div>
+  </div>
+  <div class="hint-box">左：默认状态 idle → 右：悬停状态 hover</div>
+</div>
+
+<div class="section">
+  <div class="section-title">7. 沉默按钮</div>
+  <div class="asset-label"><span>btn_silent.png</span><span class="size">120 × 40 px</span></div>
+  <div class="btn-row">
+    <div class="asset-wrapper">
+      <button class="wheel-silent" style="animation:none;opacity:.5">沉默</button>
+    </div>
+    <div class="asset-wrapper">
+      <button class="wheel-silent" style="animation:none;opacity:1;background:rgba(155,155,155,.25);border-color:rgba(155,155,155,.4)">沉默</button>
+    </div>
+  </div>
+  <div class="hint-box">左：默认（呼吸动画、低透明度）→ 右：悬停</div>
+</div>
+
+<div class="section">
+  <div class="section-title">8. 暂停菜单按钮</div>
+  <div class="asset-label"><span>btn_pause.png</span><span class="size">280 × 50 px</span></div>
+  <div class="btn-row">
+    <div class="asset-wrapper">
+      <button class="pause-btn">返回游戏</button>
+    </div>
+    <div class="asset-wrapper">
+      <button class="pause-btn" style="color:#fff;background:rgba(255,255,255,.1)">返回游戏</button>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">9. 成就通知</div>
+  <div class="asset-label"><span>achievement_toast.png</span><span class="size">~500 × 56 px</span></div>
+  <div class="btn-row">
+    <div class="asset-wrapper">
+      <div class="ach-toast">
+        <div class="ach-icon">✦</div>
+        <div>
+          <div class="ach-text">醒</div>
+          <div class="ach-desc">你开始了旅程</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">10. HUD 镜像值条</div>
+  <div class="asset-label"><span>hud_mirror_bar.png</span><span class="size">180 × 20 px</span></div>
+  <div class="btn-row">
+    <div class="asset-wrapper">
+      <div>
+        <div class="hud-labels"><span style="color:#4A90D9">❄</span><span style="color:#D4A574">✿</span></div>
+        <div class="hud-bar"><div class="hud-bar-fill"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">11. 主菜单标题</div>
+  <div class="asset-label"><span>menu_title.png</span><span class="size">~600 × 120 px</span></div>
+  <div class="btn-row">
+    <div class="asset-wrapper">
+      <div style="text-align:center;padding:20px 40px">
+        <div style="font-size:52px;letter-spacing:.2em;color:#E8E8E8;text-shadow:0 0 30px rgba(192,192,192,.15)">镜 中 城</div>
+        <div style="font-size:16px;color:#606060;font-style:italic;letter-spacing:.08em;margin-top:8px">City of Mirrors</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 截图辅助：点击素材区域高亮边框，方便识别
+document.querySelectorAll('.asset-wrapper').forEach(el => {
+  el.addEventListener('click', () => {
+    el.style.outline = '2px solid #4A90D9';
+    setTimeout(() => el.style.outline = 'none', 1500);
+  });
+});
+</script>
+</body>
+</html>
