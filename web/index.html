@@ -278,7 +278,7 @@ body {
 #main-menu {
   position: absolute; inset: 0; z-index: 100;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  background: url('images/mirror_crack.jpg') center/cover no-repeat;
+  background: url('images/mirror_crack.png') center/cover no-repeat;
 }
 #main-menu::before {
   content: ''; position: absolute; inset: 0;
@@ -497,7 +497,7 @@ const SCENES = {
 
 /* ─────── Prologue ─────── */
 prologue: {
-  bg: "url('images/mirror_crack.jpg') center/cover",
+  bg: "url('images/mirror_crack.png') center/cover",
   bgLabel: '镜墙裂缝',
   bgm: 'bgm_menu',
   city: 'narrator',
@@ -521,7 +521,7 @@ prologue: {
 
 /* ─────── Chapter 1 — Left City ─────── */
 ch1_left_arrive: {
-  bg: "url('images/left_city_entrance.jpg') center/cover",
+  bg: "url('images/left_city_entrance.png') center/cover",
   bgLabel: '左城入口',
   city: 'left',
   chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
@@ -542,7 +542,7 @@ ch1_left_arrive: {
   ]
 },
 ch1_baisui_truth: {
-  bg: "url('images/left_city_street.jpg') center/cover",
+  bg: "url('images/left_city_street.png') center/cover",
   city: 'left', effect: { rel: ['baisui', 5], city: ['left', 2] },
   dialogue: [
     { charExpr: 'baisui', expr: 'surprised' },
@@ -555,7 +555,7 @@ ch1_baisui_truth: {
   ]
 },
 ch1_baisui_lie: {
-  bg: "url('images/left_city_street.jpg') center/cover",
+  bg: "url('images/left_city_street.png') center/cover",
   city: 'left', effect: { rel: ['baisui', -3], flag: 'ch1_lied_to_baisui' },
   dialogue: [
     { charExpr: 'baisui', expr: 'surprised' },
@@ -569,7 +569,7 @@ ch1_baisui_lie: {
   ]
 },
 ch1_baisui_silent: {
-  bg: "url('images/left_city_street.jpg') center/cover",
+  bg: "url('images/left_city_street.png') center/cover",
   city: 'left', effect: { rel: ['baisui', 8], flag: 'ch1_silent_to_baisui' },
   dialogue: [
     { text: '你沉默着站在原地。' },
@@ -583,7 +583,7 @@ ch1_baisui_silent: {
   ]
 },
 ch1_workshop: {
-  bg: "url('images/left_city_workshop.jpg') center/cover",
+  bg: "url('images/left_city_workshop.png') center/cover",
   bgLabel: '白岁工坊',
   city: 'left', chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
   dialogue: [
@@ -603,7 +603,7 @@ ch1_workshop: {
   ]
 },
 ch1_statue_truth: {
-  bg: "url('images/left_city_workshop.jpg') center/cover",
+  bg: "url('images/left_city_workshop.png') center/cover",
   city: 'left', effect: { rel: ['baisui', 3], memory: 'memory_sculptor_truth' },
   dialogue: [
     { speaker: '白岁', text: '……想。' },
@@ -614,7 +614,7 @@ ch1_statue_truth: {
   ]
 },
 ch1_statue_lie: {
-  bg: "url('images/left_city_workshop.jpg') center/cover",
+  bg: "url('images/left_city_workshop.png') center/cover",
   city: 'left', effect: { rel: ['baisui', -2], city: ['left', -1] },
   dialogue: [
     { speaker: '白岁', text: '……你又在说假话了。' },
@@ -625,7 +625,7 @@ ch1_statue_lie: {
   ]
 },
 ch1_statue_silent: {
-  bg: "url('images/left_city_workshop.jpg') center/cover",
+  bg: "url('images/left_city_workshop.png') center/cover",
   city: 'left', effect: { rel: ['baisui', 5], memory: 'memory_sculptor_silence' },
   dialogue: [
     { text: '你什么都没说。只是和白岁一起看着那座未完成的雕像。' },
@@ -639,7 +639,7 @@ ch1_statue_silent: {
 
 /* ─────── Chapter 1 — Right City ─────── */
 ch1_right_arrive: {
-  bg: "url('images/right_city_entrance.jpg') center/cover",
+  bg: "url('images/right_city_entrance.png') center/cover",
   bgLabel: '右城入口',
   city: 'right',
   chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
@@ -660,7 +660,7 @@ ch1_right_arrive: {
   ]
 },
 ch1_yunshang_truth: {
-  bg: "url('images/right_city_entrance.jpg') center/cover",
+  bg: "url('images/right_city_entrance.png') center/cover",
   city: 'right', effect: { rel: ['yunshang', 2], flag: 'ch1_truth_to_yunshang' },
   dialogue: [
     { speaker: '云裳', text: '不记得……没关系。' },
@@ -673,7 +673,7 @@ ch1_yunshang_truth: {
   ]
 },
 ch1_yunshang_lie: {
-  bg: "url('images/right_city_entrance.jpg') center/cover",
+  bg: "url('images/right_city_entrance.png') center/cover",
   city: 'right', effect: { rel: ['yunshang', 5], city: ['right', 2] },
   dialogue: [
     { speaker: '云裳', text: '真的吗？你真的期待吗？' },
@@ -684,7 +684,7 @@ ch1_yunshang_lie: {
   ]
 },
 ch1_yunshang_silent: {
-  bg: "url('images/right_city_entrance.jpg') center/cover",
+  bg: "url('images/right_city_entrance.png') center/cover",
   city: 'right', effect: { rel: ['yunshang', 8], memory: 'memory_painter_silence' },
   dialogue: [
     { text: '你什么都没说，只是微微点了点头。' },
@@ -696,7 +696,7 @@ ch1_yunshang_silent: {
   ]
 },
 ch1_studio: {
-  bg: "url('images/right_city_studio.jpg') center/cover",
+  bg: "url('images/right_city_studio.png') center/cover",
   bgLabel: '云裳画室',
   city: 'right', chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
   dialogue: [
@@ -717,7 +717,7 @@ ch1_studio: {
   ]
 },
 ch1_portrait_truth: {
-  bg: "url('images/right_city_studio.jpg') center/cover",
+  bg: "url('images/right_city_studio.png') center/cover",
   city: 'right', effect: { rel: ['yunshang', 5], memory: 'memory_painter_truth' },
   dialogue: [
     { text: '云裳的手微微颤抖了一下。' },
@@ -729,7 +729,7 @@ ch1_portrait_truth: {
   ]
 },
 ch1_portrait_lie: {
-  bg: "url('images/right_city_studio.jpg') center/cover",
+  bg: "url('images/right_city_studio.png') center/cover",
   city: 'right', effect: { rel: ['yunshang', 2], city: ['right', 1] },
   dialogue: [
     { speaker: '云裳', text: '谢谢你。' },
@@ -741,7 +741,7 @@ ch1_portrait_lie: {
   ]
 },
 ch1_portrait_silent: {
-  bg: "url('images/right_city_studio.jpg') center/cover",
+  bg: "url('images/right_city_studio.png') center/cover",
   city: 'right', effect: { rel: ['yunshang', 6], memory: 'memory_blank_canvas' },
   dialogue: [
     { text: '你走到空白画布前，和她一起看着。' },
@@ -755,7 +755,7 @@ ch1_portrait_silent: {
 
 /* ─────── Chapter 1 — Mirror Wall (converging point) ─────── */
 ch1_mirror_left: {
-  bg: "url('images/mirror_wall_outside.jpg') center/cover",
+  bg: "url('images/mirror_wall_outside.png') center/cover",
   bgLabel: '镜墙',
   city: 'mirror',
   chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
@@ -770,7 +770,7 @@ ch1_mirror_left: {
   ]
 },
 ch1_mirror_right: {
-  bg: "url('images/mirror_wall_outside.jpg') center/cover",
+  bg: "url('images/mirror_wall_outside.png') center/cover",
   bgLabel: '镜墙',
   city: 'mirror',
   chapter: { zh: '第一章：醒', en: 'Chapter 1: Awake' },
@@ -785,7 +785,7 @@ ch1_mirror_right: {
   ]
 },
 ch1_meeting: {
-  bg: "url('images/mirror_wall_outside.jpg') center/cover",
+  bg: "url('images/mirror_wall_outside.png') center/cover",
   city: 'mirror',
   dialogue: [
     { charHide: 'ying' },
@@ -811,7 +811,7 @@ ch1_meeting: {
   ]
 },
 ch1_meeting_truth: {
-  bg: "url('images/mirror_wall_outside.jpg') center/cover",
+  bg: "url('images/mirror_wall_outside.png') center/cover",
   city: 'mirror',
   dialogue: [
     { charExpr: 'baisui', expr: 'soft' },
@@ -825,7 +825,7 @@ ch1_meeting_truth: {
   ]
 },
 ch1_meeting_lie: {
-  bg: "url('images/mirror_wall_outside.jpg') center/cover",
+  bg: "url('images/mirror_wall_outside.png') center/cover",
   city: 'mirror',
   dialogue: [
     { charExpr: 'baisui', expr: 'surprised' },
@@ -839,7 +839,7 @@ ch1_meeting_lie: {
   ]
 },
 ch1_meeting_silent: {
-  bg: "url('images/mirror_wall_outside.jpg') center/cover",
+  bg: "url('images/mirror_wall_outside.png') center/cover",
   city: 'mirror',
   effect: { memory: 'memory_meeting_silent' },
   dialogue: [
@@ -854,7 +854,7 @@ ch1_meeting_silent: {
   ]
 },
 ch1_ending: {
-  bg: "url('images/mirror_crack.jpg') center/cover",
+  bg: "url('images/mirror_crack.png') center/cover",
   city: 'narrator',
   chapter: { zh: '', en: '' },
   dialogue: [
@@ -873,7 +873,7 @@ ch1_ending: {
 
 /* ─────── Chapter 2: Crack ─────── */
 ch2_start: {
-  bg: "url('images/mirror_wall_outside.jpg') center/cover",
+  bg: "url('images/mirror_wall_outside.png') center/cover",
   bgLabel: '镜墙前',
   city: 'mirror',
   chapter: { zh: '第二章：裂', en: 'Chapter 2: Crack' },
@@ -897,7 +897,7 @@ ch2_start: {
   ]
 },
 ch2_truth: {
-  bg: "url('images/mirror_inside.jpg') center/cover",
+  bg: "url('images/mirror_inside.png') center/cover",
   city: 'mirror',
   effect: { rel: ['li', 5], rel2: ['yao', 3], city: ['left', 5], city2: ['right', 3] },
   dialogue: [
@@ -913,7 +913,7 @@ ch2_truth: {
   ]
 },
 ch2_lie: {
-  bg: "url('images/mirror_inside.jpg') center/cover",
+  bg: "url('images/mirror_inside.png') center/cover",
   city: 'mirror',
   effect: { rel: ['li', 3], rel2: ['yao', 5] },
   dialogue: [
@@ -931,7 +931,7 @@ ch2_lie: {
   ]
 },
 ch2_silent: {
-  bg: "url('images/mirror_inside.jpg') center/cover",
+  bg: "url('images/mirror_inside.png') center/cover",
   city: 'mirror',
   effect: { rel: ['li', 8], rel2: ['yao', 8], memory: 'memory_mirror_heart' },
   dialogue: [
@@ -946,7 +946,7 @@ ch2_silent: {
   ]
 },
 ch2_end: {
-  bg: "url('images/mirror_crack.jpg') center/cover",
+  bg: "url('images/mirror_crack.png') center/cover",
   city: 'narrator',
   chapter: { zh: '', en: '' },
   dialogue: [
@@ -956,7 +956,7 @@ ch2_end: {
 },
 /* ── 支线：真话裁缝 ── */
 ch2_tailor: {
-  bg: "url('images/left_city_street.jpg') center/cover",
+  bg: "url('images/left_city_street.png') center/cover",
   bgLabel: '石之区',
   city: 'left',
   chapter: { zh: '第二章：裂', en: 'Chapter 2: Crack' },
@@ -975,7 +975,7 @@ ch2_tailor: {
   ]
 },
 ch2_tailor_truth: {
-  bg: "url('images/left_city_street.jpg') center/cover",
+  bg: "url('images/left_city_street.png') center/cover",
   city: 'left',
   effect: { rel: ['baisui', 2] },
   dialogue: [
@@ -987,7 +987,7 @@ ch2_tailor_truth: {
   ]
 },
 ch2_tailor_lie: {
-  bg: "url('images/left_city_street.jpg') center/cover",
+  bg: "url('images/left_city_street.png') center/cover",
   city: 'left',
   dialogue: [
     { speaker: '裁缝', text: '（头也不抬）你是右城来的吧。' },
@@ -997,7 +997,7 @@ ch2_tailor_lie: {
   ]
 },
 ch2_tailor_silent: {
-  bg: "url('images/left_city_street.jpg') center/cover",
+  bg: "url('images/left_city_street.png') center/cover",
   city: 'left',
   effect: { memory: 'memory_tailor' },
   dialogue: [
@@ -1011,7 +1011,7 @@ ch2_tailor_silent: {
 },
 /* ── 支线：假话医生 ── */
 ch2_doctor: {
-  bg: "url('images/right_city_square.jpg') center/cover",
+  bg: "url('images/right_city_square.png') center/cover",
   bgLabel: '花语广场',
   city: 'right',
   dialogue: [
@@ -1033,7 +1033,7 @@ ch2_doctor: {
   ]
 },
 ch2_doctor_truth: {
-  bg: "url('images/right_city_square.jpg') center/cover",
+  bg: "url('images/right_city_square.png') center/cover",
   city: 'right',
   effect: { rel: ['miyu', 3] },
   dialogue: [
@@ -1045,7 +1045,7 @@ ch2_doctor_truth: {
   ]
 },
 ch2_doctor_lie: {
-  bg: "url('images/right_city_square.jpg') center/cover",
+  bg: "url('images/right_city_square.png') center/cover",
   city: 'right',
   dialogue: [
     { speaker: '医生', text: '你是说……我应该告诉他？但我说不了真话。' },
@@ -1056,7 +1056,7 @@ ch2_doctor_lie: {
   ]
 },
 ch2_doctor_silent: {
-  bg: "url('images/right_city_square.jpg') center/cover",
+  bg: "url('images/right_city_square.png') center/cover",
   city: 'right',
   effect: { memory: 'memory_doctor' },
   dialogue: [
@@ -1071,7 +1071,7 @@ ch2_doctor_silent: {
    Chapter 3: 镜 (Mirror)
    ═══════════════════════════════════════════════════════════ */
 ch3_start: {
-  bg: "url('images/mirror_wall_outside.jpg') center/cover",
+  bg: "url('images/mirror_wall_outside.png') center/cover",
   bgm: 'bgm_mirror',
   bgLabel: '镜墙',
   city: 'mirror',
@@ -1096,7 +1096,7 @@ ch3_start: {
   ]
 },
 ch3_yan_truth: {
-  bg: "url('images/mirror_wall_outside.jpg') center/cover",
+  bg: "url('images/mirror_wall_outside.png') center/cover",
   city: 'mirror',
   effect: { rel: ['yan', 5], memory: 'memory_yan_smile' },
   dialogue: [
@@ -1108,7 +1108,7 @@ ch3_yan_truth: {
   ]
 },
 ch3_yan_lie: {
-  bg: "url('images/mirror_wall_outside.jpg') center/cover",
+  bg: "url('images/mirror_wall_outside.png') center/cover",
   city: 'mirror',
   effect: { rel: ['yan', 3] },
   dialogue: [
@@ -1121,7 +1121,7 @@ ch3_yan_lie: {
   ]
 },
 ch3_yan_silent: {
-  bg: "url('images/mirror_wall_outside.jpg') center/cover",
+  bg: "url('images/mirror_wall_outside.png') center/cover",
   city: 'mirror',
   effect: { rel: ['yan', 8], memory: 'memory_yan_wife' },
   dialogue: [
@@ -1135,7 +1135,7 @@ ch3_yan_silent: {
   ]
 },
 ch3_ming_intro: {
-  bg: "url('images/right_city_hospital.jpg') center/cover",
+  bg: "url('images/right_city_hospital.png') center/cover",
   bgm: 'bgm_right_city',
   bgLabel: '沉默疗养院',
   city: 'right',
@@ -1163,7 +1163,7 @@ ch3_ming_intro: {
   ]
 },
 ch3_ming_truth: {
-  bg: "url('images/right_city_hospital.jpg') center/cover",
+  bg: "url('images/right_city_hospital.png') center/cover",
   city: 'right',
   effect: { rel: ['ming', 5], rel2: ['miyu', 3], memory: 'memory_ming_truth' },
   dialogue: [
@@ -1178,7 +1178,7 @@ ch3_ming_truth: {
   ]
 },
 ch3_ming_lie: {
-  bg: "url('images/right_city_hospital.jpg') center/cover",
+  bg: "url('images/right_city_hospital.png') center/cover",
   city: 'right',
   effect: { rel: ['ming', 2], city: ['right', 2] },
   dialogue: [
@@ -1190,7 +1190,7 @@ ch3_ming_lie: {
   ]
 },
 ch3_ming_silent: {
-  bg: "url('images/right_city_hospital.jpg') center/cover",
+  bg: "url('images/right_city_hospital.png') center/cover",
   city: 'right',
   effect: { rel: ['ming', 8] },
   dialogue: [
@@ -1204,7 +1204,7 @@ ch3_ming_silent: {
   ]
 },
 ch3_discovery: {
-  bg: "url('images/mirror_inside.jpg') center/cover",
+  bg: "url('images/mirror_inside.png') center/cover",
   bgm: 'bgm_mirror',
   bgLabel: '镜墙内部',
   city: 'mirror',
@@ -1225,7 +1225,7 @@ ch3_discovery: {
   ]
 },
 ch3_end: {
-  bg: "url('images/mirror_crack.jpg') center/cover",
+  bg: "url('images/mirror_crack.png') center/cover",
   city: 'narrator',
   dialogue: [
     { charHide: 'ying' },
@@ -1237,7 +1237,7 @@ ch3_end: {
    Chapter 4: 虚 (Void)
    ═══════════════════════════════════════════════════════════ */
 ch4_start: {
-  bg: "url('images/right_city_square.jpg') center/cover",
+  bg: "url('images/right_city_square.png') center/cover",
   bgm: 'bgm_right_city',
   bgLabel: '右城广场',
   city: 'right',
@@ -1263,7 +1263,7 @@ ch4_start: {
   ]
 },
 ch4_truth: {
-  bg: "url('images/right_city_square.jpg') center/cover",
+  bg: "url('images/right_city_square.png') center/cover",
   city: 'right',
   effect: { city: ['right', -5], flag: 'ch4_introduce_truth' },
   dialogue: [
@@ -1277,7 +1277,7 @@ ch4_truth: {
   ]
 },
 ch4_lie: {
-  bg: "url('images/right_city_square.jpg') center/cover",
+  bg: "url('images/right_city_square.png') center/cover",
   city: 'right',
   effect: { city: ['right', 5], flag: 'ch4_reinforce_lies' },
   dialogue: [
@@ -1291,7 +1291,7 @@ ch4_lie: {
   ]
 },
 ch4_silent: {
-  bg: "url('images/right_city_square.jpg') center/cover",
+  bg: "url('images/right_city_square.png') center/cover",
   city: 'right',
   effect: { city: ['right', 2], memory: 'memory_tower_crack' },
   dialogue: [
@@ -1305,7 +1305,7 @@ ch4_silent: {
   ]
 },
 ch4_old_man: {
-  bg: "url('images/right_city_hospital.jpg') center/cover",
+  bg: "url('images/right_city_hospital.png') center/cover",
   bgLabel: '沉默疗养院·密室',
   city: 'right',
   dialogue: [
@@ -1327,7 +1327,7 @@ ch4_old_man: {
   ]
 },
 ch4_end: {
-  bg: "url('images/mirror_crack.jpg') center/cover",
+  bg: "url('images/mirror_crack.png') center/cover",
   city: 'narrator',
   dialogue: [
     { charHide: 'huayan' },
@@ -1340,7 +1340,7 @@ ch4_end: {
    Chapter 5: 真 (Truth)
    ═══════════════════════════════════════════════════════════ */
 ch5_start: {
-  bg: "url('images/left_city_garden.jpg') center/cover",
+  bg: "url('images/left_city_garden.png') center/cover",
   bgm: 'bgm_left_city',
   bgLabel: '静默花园',
   city: 'left',
@@ -1364,7 +1364,7 @@ ch5_start: {
   ]
 },
 ch5_garden_truth: {
-  bg: "url('images/left_city_garden.jpg') center/cover",
+  bg: "url('images/left_city_garden.png') center/cover",
   city: 'left',
   effect: { city: ['left', 3], flag: 'ch5_mother_truth' },
   dialogue: [
@@ -1378,7 +1378,7 @@ ch5_garden_truth: {
   ]
 },
 ch5_garden_lie: {
-  bg: "url('images/left_city_garden.jpg') center/cover",
+  bg: "url('images/left_city_garden.png') center/cover",
   city: 'left',
   effect: { flag: 'ch5_mother_lie' },
   dialogue: [
@@ -1392,7 +1392,7 @@ ch5_garden_lie: {
   ]
 },
 ch5_garden_silent: {
-  bg: "url('images/left_city_garden.jpg') center/cover",
+  bg: "url('images/left_city_garden.png') center/cover",
   city: 'left',
   effect: { rel: ['xiaoxue', 5], memory: 'memory_mother_silence' },
   dialogue: [
@@ -1405,7 +1405,7 @@ ch5_garden_silent: {
 },
 /* ── 左城的孩子 ── */
 ch5_child: {
-  bg: "url('images/left_city_street.jpg') center/cover",
+  bg: "url('images/left_city_street.png') center/cover",
   bgLabel: '左城边缘',
   city: 'left',
   dialogue: [
@@ -1423,7 +1423,7 @@ ch5_child: {
   ]
 },
 ch5_child_truth: {
-  bg: "url('images/left_city_street.jpg') center/cover",
+  bg: "url('images/left_city_street.png') center/cover",
   city: 'left',
   dialogue: [
     { speaker: '孩子', text: '（过了很久）我说了一句真话。' },
@@ -1440,7 +1440,7 @@ ch5_child_truth: {
   ]
 },
 ch5_child_lie: {
-  bg: "url('images/left_city_street.jpg') center/cover",
+  bg: "url('images/left_city_street.png') center/cover",
   city: 'left',
   dialogue: [
     { speaker: '孩子', text: '（过了很久）我说了一句真话。' },
@@ -1455,7 +1455,7 @@ ch5_child_lie: {
   ]
 },
 ch5_child_silent: {
-  bg: "url('images/left_city_street.jpg') center/cover",
+  bg: "url('images/left_city_street.png') center/cover",
   city: 'left',
   effect: { memory: 'memory_child' },
   dialogue: [
@@ -1472,7 +1472,7 @@ ch5_child_silent: {
   ]
 },
 ch5_philosopher: {
-  bg: "url('images/left_city_square.jpg') center/cover",
+  bg: "url('images/left_city_square.png') center/cover",
   bgLabel: '刻痕广场',
   city: 'left',
   dialogue: [
@@ -1495,7 +1495,7 @@ ch5_philosopher: {
   ]
 },
 ch5_shiyan_truth: {
-  bg: "url('images/left_city_square.jpg') center/cover",
+  bg: "url('images/left_city_square.png') center/cover",
   city: 'left',
   effect: { rel: ['shiyan', -5], flag: 'ch5_confronted_shiyan' },
   dialogue: [
@@ -1511,7 +1511,7 @@ ch5_shiyan_truth: {
   ]
 },
 ch5_shiyan_lie: {
-  bg: "url('images/left_city_square.jpg') center/cover",
+  bg: "url('images/left_city_square.png') center/cover",
   city: 'left',
   effect: { flag: 'ch5_supported_philosopher' },
   dialogue: [
@@ -1523,7 +1523,7 @@ ch5_shiyan_lie: {
   ]
 },
 ch5_shiyan_silent: {
-  bg: "url('images/left_city_square.jpg') center/cover",
+  bg: "url('images/left_city_square.png') center/cover",
   city: 'left',
   effect: { memory: 'memory_shiyan_back' },
   dialogue: [
@@ -1536,7 +1536,7 @@ ch5_shiyan_silent: {
   ]
 },
 ch5_end: {
-  bg: "url('images/mirror_crack.jpg') center/cover",
+  bg: "url('images/mirror_crack.png') center/cover",
   city: 'narrator',
   dialogue: [
     { charHide: 'shiyan' },
@@ -1549,7 +1549,7 @@ ch5_end: {
    Chapter 6: 合 (Merge)
    ═══════════════════════════════════════════════════════════ */
 ch6_start: {
-  bg: "url('images/mirror_inside.jpg') center/cover",
+  bg: "url('images/mirror_inside.png') center/cover",
   bgm: 'bgm_flashback',
   bgLabel: '镜墙内部',
   city: 'mirror',
@@ -1561,7 +1561,7 @@ ch6_start: {
   ]
 },
 ch6_flashback1: {
-  bg: "url('images/flashback_house.jpg') center/cover",
+  bg: "url('images/flashback_house.png') center/cover",
   bgLabel: '记忆：家',
   city: 'narrator',
   dialogue: [
@@ -1573,7 +1573,7 @@ ch6_flashback1: {
   ]
 },
 ch6_flashback2: {
-  bg: "url('images/flashback_rain.jpg') center/cover",
+  bg: "url('images/flashback_rain.png') center/cover",
   bgLabel: '记忆：雨夜',
   city: 'narrator',
   dialogue: [
@@ -1584,7 +1584,7 @@ ch6_flashback2: {
   ]
 },
 ch6_flashback3: {
-  bg: "url('images/flashback_hospital.jpg') center/cover",
+  bg: "url('images/flashback_hospital.png') center/cover",
   bgLabel: '记忆：医院',
   city: 'narrator',
   dialogue: [
@@ -1594,7 +1594,7 @@ ch6_flashback3: {
   ]
 },
 ch6_flashback4: {
-  bg: "url('images/flashback_river.jpg') center/cover",
+  bg: "url('images/flashback_river.png') center/cover",
   bgLabel: '记忆：河',
   city: 'narrator',
   dialogue: [
@@ -1607,7 +1607,7 @@ ch6_flashback4: {
   ]
 },
 ch6_four_selves: {
-  bg: "url('images/mirror_center.jpg') center/cover",
+  bg: "url('images/mirror_center.png') center/cover",
   bgm: 'bgm_mirror',
   bgLabel: '镜墙中央',
   city: 'mirror',
@@ -1628,7 +1628,7 @@ ch6_four_selves: {
   ]
 },
 ch6_self_truth: {
-  bg: "url('images/mirror_center.jpg') center/cover",
+  bg: "url('images/mirror_center.png') center/cover",
   city: 'mirror',
   effect: { flag: 'ch6_faced_truth', memory: 'memory_forgiveness' },
   dialogue: [
@@ -1639,7 +1639,7 @@ ch6_self_truth: {
   ]
 },
 ch6_self_lie: {
-  bg: "url('images/mirror_center.jpg') center/cover",
+  bg: "url('images/mirror_center.png') center/cover",
   city: 'mirror',
   effect: { flag: 'ch6_self_deception' },
   dialogue: [
@@ -1650,7 +1650,7 @@ ch6_self_lie: {
   ]
 },
 ch6_self_silent: {
-  bg: "url('images/mirror_center.jpg') center/cover",
+  bg: "url('images/mirror_center.png') center/cover",
   city: 'mirror',
   effect: { flag: 'ch6_silent_acceptance', memory: 'memory_child_hand' },
   dialogue: [
@@ -1660,7 +1660,7 @@ ch6_self_silent: {
   ]
 },
 ch6_xiaomo: {
-  bg: "url('images/flashback_child_room.jpg') center/cover",
+  bg: "url('images/flashback_child_room.png') center/cover",
   bgm: 'bgm_flashback',
   bgLabel: '记忆：小默的房间',
   city: 'narrator',
@@ -1674,7 +1674,7 @@ ch6_xiaomo: {
   ]
 },
 ch6_ying_farewell: {
-  bg: "url('images/mirror_center.jpg') center/cover",
+  bg: "url('images/mirror_center.png') center/cover",
   bgm: 'bgm_mirror',
   city: 'mirror',
   dialogue: [
@@ -1696,7 +1696,7 @@ ch6_ying_farewell: {
   ]
 },
 ch6_ready: {
-  bg: "url('images/mirror_center.jpg') center/cover",
+  bg: "url('images/mirror_center.png') center/cover",
   city: 'mirror',
   dialogue: [
     { speaker: '影', text: '好。那么——镜墙必须碎裂。' },
@@ -1712,7 +1712,7 @@ ch6_ready: {
    Chapter 7: 渡 (Ferry) — Final Chapter
    ═══════════════════════════════════════════════════════════ */
 ch7_start: {
-  bg: "url('images/mirror_wall_outside.jpg') center/cover",
+  bg: "url('images/mirror_wall_outside.png') center/cover",
   bgm: 'bgm_final_choice',
   bgLabel: '镜墙前',
   city: 'mirror',
@@ -1728,7 +1728,7 @@ ch7_start: {
     { speaker: '花言', text: '镜墙碎了……不要害怕。我们会用赞美保护自己。' },
     { charHide: 'huayan' },
     { text: '镜墙碎裂——不是碎片飞散，而是像水一样融化。两座城市的人第一次看到彼此。' },
-    { bg: "url('images/city_merge_chaos.jpg') center/cover", bgLabel: '融合混乱' },
+    { bg: "url('images/city_merge_chaos.png') center/cover", bgLabel: '融合混乱' },
     { text: '混乱开始。左城居民喊——「你们都是骗子！」右城居民喊——「你们才是怪物！」' },
     { charShow: 'ying' },
     { charExpr: 'ying', expr: 'neutral' },
@@ -1739,7 +1739,7 @@ ch7_start: {
   ]
 },
 ch7_final_choice: {
-  bg: "url('images/city_merge_center.jpg') center/cover",
+  bg: "url('images/city_merge_center.png') center/cover",
   bgLabel: '融合中心',
   city: 'mirror',
   dialogue: [
@@ -1756,7 +1756,7 @@ ch7_final_choice: {
   ]
 },
 ch7_split_choice: {
-  bg: "url('images/city_merge_center.jpg') center/cover",
+  bg: "url('images/city_merge_center.png') center/cover",
   city: 'mirror',
   dialogue: [
     { text: '你闭上眼睛。小默的画从你口袋里飘出来。' },
@@ -1768,7 +1768,7 @@ ch7_split_choice: {
   ]
 },
 ending_truth: {
-  bg: "url('images/ending_truth.jpg') center/cover",
+  bg: "url('images/ending_truth.png') center/cover",
   bgm: 'bgm_ending',
   bgLabel: '结局：真话',
   city: 'narrator',
@@ -1788,7 +1788,7 @@ ending_truth: {
   ]
 },
 ending_lie: {
-  bg: "url('images/ending_lie.jpg') center/cover",
+  bg: "url('images/ending_lie.png') center/cover",
   bgm: 'bgm_ending',
   bgLabel: '结局：假话',
   city: 'narrator',
@@ -1806,7 +1806,7 @@ ending_lie: {
   ]
 },
 ending_silent: {
-  bg: "url('images/ending_silent.jpg') center/cover",
+  bg: "url('images/ending_silent.png') center/cover",
   bgm: 'bgm_ending',
   bgLabel: '结局：沉默',
   city: 'narrator',
@@ -1820,7 +1820,7 @@ ending_silent: {
   ]
 },
 game_end: {
-  bg: "url('images/river_sunset.jpg') center/cover",
+  bg: "url('images/river_sunset.png') center/cover",
   bgm: 'bgm_ending',
   bgLabel: '河岸',
   city: 'narrator',
@@ -2006,7 +2006,7 @@ function changeExpr(id, expr) {
   if(!img) return;
   const folder = CHAR_IMG_MAP[id] || 'left_city/'+id;
   const fileName = expr === 'normal' ? id : `${id}_${expr}`;
-  img.src = `images/characters/${folder.replace(/\/[^/]+$/, '')}/${fileName}.jpg`;
+  img.src = `images/characters/${folder.replace(/\/[^/]+$/, '')}/${fileName}.png`;
 }
 function hideCharacter(id) {
   const el = document.getElementById('char-'+id);
@@ -2014,8 +2014,6 @@ function hideCharacter(id) {
 }
 
 function showDialogue(speaker, text) {
-  // Clear any lingering typing state from previous dialogue
-  if(S.typing && S.typeTimer) { clearInterval(S.typeTimer); S.typeTimer=null; S.typing=false; }
   const db = $('#dialogue-box');
   db.classList.remove('hidden');
   Audio.dialogue();
@@ -2025,7 +2023,6 @@ function showDialogue(speaker, text) {
   const dt = $('#dialogue-text');
   if(!speaker && S.currentCity==='narrator') dt.classList.add('narrator-text');
   else dt.classList.remove('narrator-text');
-  typeText(dt, text);
   typeText(dt, text);
 }
 function hideDialogue() { $('#dialogue-box').classList.add('hidden'); }
@@ -2088,7 +2085,7 @@ function choose(type) {
   else if(type==='lie') { S.lieScore++; Audio.lie(); }
   else { S.silentCount++; Audio.silent(); }
   updateHUD();
-  if(S.choiceCallback) { const cb=S.choiceCallback; cb(type); }
+  if(S.choiceCallback) { const cb=S.choiceCallback; S.choiceCallback=null; cb(type); }
 }
 
 /* ── Achievement ──────────────────────────────────────────── */
@@ -2115,15 +2112,14 @@ function applyEffects(eff) {
 }
 
 /* ── Scene Engine ─────────────────────────────────────────── */
-/* ── Game Engine ─────────────────────────────────────────── */
-let _dialogueBusy = false;
-
 async function playScene(sceneId) {
   const scene = SCENES[sceneId];
   if(!scene) { console.error('Scene not found:', sceneId); return; }
 
+  // Background
   if(scene.bg) setBg(scene.bg, scene.bgLabel||'');
 
+  // BGM
   const bgmMap = {
     left: 'bgm_left_city', right: 'bgm_right_city', mirror: 'bgm_mirror',
     narrator: null
@@ -2134,6 +2130,7 @@ async function playScene(sceneId) {
   }
   if(scene.city) setCity(scene.city);
 
+  // Chapter title
   if(scene.chapter && scene.chapter.zh) {
     $('#hud-chapter').textContent = scene.chapter.zh;
     $('#hud-chapter').classList.add('show');
@@ -2142,79 +2139,74 @@ async function playScene(sceneId) {
     $('#hud-chapter').classList.remove('show');
   }
 
+  // Apply scene-level effects
   applyEffects(scene.effect);
 
-  S.sceneQueue = [...scene.dialogue];
+  // Play dialogue
+  S.sceneQueue = scene.dialogue;
   S.sceneIndex = 0;
-  await _runQueue();
+  await advanceDialogue();
 }
 
-function _runQueue() {
+function advanceDialogue() {
   return new Promise(resolve => {
-    function processNext() {
-      if(S.sceneIndex >= S.sceneQueue.length) { resolve(); return; }
+    if(S.sceneIndex >= S.sceneQueue.length) { resolve(); return; }
+    const item = S.sceneQueue[S.sceneIndex];
+    S.sceneIndex++;
 
-      const item = S.sceneQueue[S.sceneIndex];
-      S.sceneIndex++;
+    // Character show
+    if(item.charShow) { showCharacter(item.charShow, item.expr); advanceDialogue().then(resolve); return; }
+    if(item.charExpr) { changeExpr(item.charExpr, item.expr || 'normal'); advanceDialogue().then(resolve); return; }
+    if(item.charHide) { hideCharacter(item.charHide); advanceDialogue().then(resolve); return; }
 
-      // Instant actions — process recursively without waiting
-      if(item.charShow)  { showCharacter(item.charShow, item.expr); processNext(); return; }
-      if(item.charExpr)  { changeExpr(item.charExpr, item.expr||'normal'); processNext(); return; }
-      if(item.charHide)  { hideCharacter(item.charHide); processNext(); return; }
-      if(item.achievement) {
-        showAchievement(item.achievement.id, item.achievement.name, item.achievement.desc);
-        processNext(); return;
-      }
-      if(item.autoNext) {
-        playScene(item.autoNext).then(resolve);
-        return;
-      }
-
-      // Choice — suspend queue, wait for player
-      if(item.choice) {
-        const ch = item.choice;
-        S.choiceCallback = (type) => {
-          S.choiceCallback = null;
-          const sel = type==='truth'?ch.truth: type==='lie'?ch.lie:ch.silent;
-          if(sel && sel.text) {
-            showDialogue('', sel.text);
-            // Wait for user to read the result, then auto-advance
-            setTimeout(() => {
-              playScene(sel.next).then(resolve);
-            }, 1500);
-          } else if(sel && sel.next) {
-            playScene(sel.next).then(resolve);
-          }
-        };
-        const truthText = ch.truth ? ((ch.truth.label||'真话') + (ch.truth.text ? '\n'+ch.truth.text : '')) : '真话';
-        const lieText = ch.lie ? ((ch.lie.label||'假话') + (ch.lie.text ? '\n'+ch.lie.text : '')) : '假话';
-        showWheel(ch.context, truthText, lieText, !!ch.silent);
-        return;
-      }
-
-      // Dialogue — show text, wait for click
-      const text = typeof item.text === 'function' ? item.text() : item.text;
-      showDialogue(item.speaker || '', text);
-      _waitForClick().then(processNext);
+    // Achievement
+    if(item.achievement) {
+      showAchievement(item.achievement.id, item.achievement.name, item.achievement.desc);
+      advanceDialogue().then(resolve); return;
     }
 
-    processNext();
-  });
-}
+    // Auto next scene
+    if(item.autoNext) {
+      playScene(item.autoNext).then(resolve); return;
+    }
 
-function _waitForClick() {
-  return new Promise(resolve => {
-    function handler() {
-      // Skip typing on first click
+    // Choice
+    if(item.choice) {
+      const ch = item.choice;
+      S.choiceCallback = (type) => {
+        const sel = type==='truth'?ch.truth: type==='lie'?ch.lie:ch.silent;
+        if(sel && sel.text) {
+          // Show chosen text briefly
+          showDialogue('', sel.text);
+          setTimeout(() => playScene(sel.next).then(resolve), 2200);
+        } else if(sel && sel.next) {
+          playScene(sel.next).then(resolve);
+        }
+      };
+      const hasSilent = !!ch.silent;
+      const truthText = ch.truth ? ((ch.truth.label||'真话') + (ch.truth.text ? '\n'+ch.truth.text : '')) : '真话';
+      const lieText = ch.lie ? ((ch.lie.label||'假话') + (ch.lie.text ? '\n'+ch.lie.text : '')) : '假话';
+      showWheel(ch.context, truthText, lieText, hasSilent);
+      return;
+    }
+
+    // Dialogue
+    const text = typeof item.text === 'function' ? item.text() : item.text;
+    showDialogue(item.speaker || '', text);
+
+    // Wait for click
+    const handler = () => {
       if(S.typing) {
+        // Skip typing
         clearInterval(S.typeTimer); S.typeTimer=null; S.typing=false;
-        const typed = $('#dialogue-text').querySelector('#typed-text');
-        if(typed) { /* typing already complete */ }
+        const dt = $('#dialogue-text');
+        const typed = dt.querySelector('#typed-text');
+        if(typed) typed.textContent = text;
         return;
       }
       $('#dialogue-text').removeEventListener('click', handler);
-      resolve();
-    }
+      advanceDialogue().then(resolve);
+    };
     $('#dialogue-text').addEventListener('click', handler);
   });
 }
@@ -2276,18 +2268,15 @@ document.addEventListener('keydown', e => {
 });
 
 /* ── Init ─────────────────────────────────────────────────── */
-// Global click handler removed — per-scene handlers manage clicks
-// Keyboard shortcut for typing skip (Space/Enter)
-document.addEventListener('keydown', e => {
-  if((e.key===' '||e.key==='Enter') && S.typing) {
+$('#dialogue-text').addEventListener('click', () => {
+  if(S.typing) {
     clearInterval(S.typeTimer); S.typeTimer=null; S.typing=false;
-    const typed = document.querySelector('#typed-text');
-    if(typed) {
-      const curr = S.sceneQueue[S.sceneIndex-1];
-      if(curr && curr.text) {
-        const t = typeof curr.text==='function'? curr.text():curr.text;
-        typed.textContent = t;
-      }
+    const dt = $('#dialogue-text');
+    const typed = dt.querySelector('#typed-text');
+    const curr = S.sceneQueue[S.sceneIndex-1];
+    if(typed && curr && curr.text) {
+      const t = typeof curr.text==='function'? curr.text():curr.text;
+      typed.textContent = t;
     }
   }
 });
