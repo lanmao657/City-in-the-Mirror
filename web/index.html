@@ -40,9 +40,17 @@ body {
 }
 
 #game-container {
-  position: relative; width: 1280px; height: 720px;
-  background: var(--bg); overflow: hidden; border-radius: 4px;
+  position: relative; width: 100vw; height: 100vh;
+  max-width: 1920px; max-height: 1080px;
+  background: var(--bg); overflow: hidden; border-radius: 0;
   box-shadow: 0 0 80px rgba(0,0,0,.8);
+}
+/* 保持 16:9 比例 */
+@media (min-aspect-ratio: 16/9) {
+  #game-container { width: calc(100vh * 16 / 9); height: 100vh; }
+}
+@media (max-aspect-ratio: 16/9) {
+  #game-container { width: 100vw; height: calc(100vw * 9 / 16); }
 }
 
 /* ── Background Layer ── */
@@ -101,9 +109,14 @@ body {
 }
 .char-sprite {
   display: flex; flex-direction: column; align-items: center;
-  margin: 0 30px; opacity: 0; transform: translateY(20px);
+  margin: 0 20px; opacity: 0; transform: translateY(20px);
   transition: all .6s ease;
+  position: relative;
 }
+.char-sprite.city-left  { order: 0; margin-right: auto; margin-left: 100px; }
+.char-sprite.city-right { order: 2; margin-left: auto; margin-right: 100px; }
+.char-sprite.city-mirror,
+.char-sprite.city-main   { order: 1; }
 .char-sprite.visible { opacity: 1; transform: translateY(0); }
 .char-body {
   width: 120px; height: 280px; border-radius: 4px 4px 0 0;
@@ -364,9 +377,7 @@ body {
 #achievement-toast .ach-desc { font-size: 13px; color: #808080; margin-top: 2px; }
 
 /* ── Responsive ── */
-@media (max-width: 1300px) {
-  #game-container { width: 100vw; height: 56.25vw; max-height: 100vh; border-radius: 0; }
-}
+/* 小屏幕下移动端适配 */
 @media (max-width: 800px) {
   #wheel-options { flex-direction: column; }
   .wheel-btn { min-height: 120px; }
@@ -1683,8 +1694,13 @@ ch6_ying_farewell: {
     { charExpr: 'ying', expr: 'sad' },
     { speaker: '影', text: '小默……一直在河对岸等你。TA没有恨你。TA一直在画画。' },
     { speaker: '影', text: '你造了这座城市，是为了保护别人不再受伤。但你真正想保护的——是不要再有人经历你经历的事。' },
-    { speaker: '影', text: '我守了这面墙多久？我不记得了。但我知道——我的存在，就是为了等你准备好。' },
+    { charExpr: 'ying', expr: 'knowing' },
+    { speaker: '影', text: '我守了这面墙多久？我不记得了。但你知道吗——' },
+    { speaker: '影', text: '我是你造的。' },
+    { speaker: '影', text: '当你把河劈成两半，造了这座城的时候，你把自己的一部分留在了镜墙里。' },
+    { speaker: '影', text: '那个部分，就是我。' },
     { charExpr: 'ying', expr: 'peace' },
+    { speaker: '影', text: '我守了这面墙多久？我不记得了。但我知道——我的存在，就是为了等你准备好。' },
     { speaker: '影', text: '现在你准备好了吗？' },
     {
       choice: {
@@ -1747,9 +1763,36 @@ ch7_final_choice: {
   dialogue: [
     { text: '你站在两座城市的交汇处。所有人都在看着你。' },
     { text: '砾拉着瑶的手。蜜语抱着明的手臂。白岁握着石杖。云裳拿着画笔。小雪握着画笔。' },
+    { charShow: 'baisui', expr: 'soft' },
+    { speaker: '白岁', text: '你告诉我们该怎么办。' },
+    { charHide: 'baisui' },
+    { charShow: 'yunshang', expr: 'wonder' },
+    { speaker: '云裳', text: '你说什么，我们都听。' },
+    { charHide: 'yunshang' },
+    { charShow: 'li', expr: 'love' },
+    { speaker: '砾', text: '我相信你。' },
+    { charHide: 'li' },
+    { charShow: 'yao', expr: 'love' },
+    { speaker: '瑶', text: '我也是。' },
+    { charHide: 'yao' },
+    { charShow: 'miyu', expr: 'hope' },
+    { speaker: '蜜语', text: '拜托了。' },
+    { charHide: 'miyu' },
+    { charShow: 'ming', expr: 'peace' },
+    { speaker: '明', text: '……拜托了。' },
+    { charHide: 'ming' },
+    { charShow: 'shiyan', expr: 'accept' },
+    { speaker: '石言', text: '……说吧。' },
+    { charHide: 'shiyan' },
+    { charShow: 'huayan', expr: 'broken' },
+    { speaker: '花言', text: '……我听着。' },
+    { charHide: 'huayan' },
+    { charShow: 'xiaoxue', expr: 'hope' },
+    { charShow: 'hua_child', expr: 'watch' },
+    { text: '小雪紧紧握着画笔。画在旁边，安静地看着你。' },
     {
       choice: {
-        context: '这是你最后的机会。你会说什么？',
+        context: '这是你最后的机会。所有人都在等你开口。',
         truth:  { text: '对所有人说真话', next: 'ending_truth' },
         lie:    { text: '对所有人说假话', next: 'ending_lie' },
         silent: { next: 'ch7_split_choice' }
@@ -1761,12 +1804,24 @@ ch7_split_choice: {
   bg: "url('images/city_merge_center.png') center/cover",
   city: 'mirror',
   dialogue: [
+    { charHide: 'xiaoxue' },
+    { charHide: 'hua_child' },
     { text: '你闭上眼睛。小默的画从你口袋里飘出来。' },
     { text: '画落在地上——画里是一个人站在镜子前，镜子里的人在笑。' },
     { text: '画的背面写着一行字——小默的笔迹：「爸爸/妈妈，笑一个。」' },
     { text: '所有人看到这幅画。左城的人看到：画里的笑是真实的。右城的人看到：画里的笑是温暖的。' },
     { text: '两城的人第一次——同时笑了。' },
-    { autoNext: 'ending_silent' }
+    {
+      autoNext: function() {
+        const t = S.truthScore, l = S.lieScore, s = S.silentCount;
+        const total = t + l || 1;
+        // 如果真话和假话倾向均在 30%-70%，触发"分别说话"结局
+        if (t/total >= 0.3 && t/total <= 0.7 && l/total >= 0.3 && l/total <= 0.7) {
+          return 'ending_split';
+        }
+        return 'ending_silent';
+      }
+    }
   ]
 },
 ending_truth: {
@@ -1821,6 +1876,45 @@ ending_silent: {
     { autoNext: 'game_end' }
   ]
 },
+ending_split: {
+  bg: "url('images/ending_split.png') center/cover",
+  bgm: 'bgm_ending',
+  bgLabel: '结局：分别说话',
+  city: 'narrator',
+  dialogue: [
+    { text: '你转向左城——' },
+    { text: '「你们需要学会温柔。」' },
+    { text: '「真话不需要是刀子。真话可以是——」' },
+    { charShow: 'xiaoxue', expr: 'hope' },
+    { text: '「一个孩子画的画。」' },
+    { charShow: 'baisui', expr: 'soft' },
+    { text: '「一块刻了二十年的石头。」' },
+    { text: '「真话可以是沉默。但沉默不是因为害怕。沉默是因为——有些话，需要先用心去感受。」' },
+    { charHide: 'xiaoxue' },
+    { charHide: 'baisui' },
+    { text: '你转向右城——' },
+    { text: '「你们需要学会诚实。」' },
+    { text: '「假话不是毒药。假话是——」' },
+    { charShow: 'yunshang', expr: 'painting' },
+    { text: '「一幅画里的真实。」' },
+    { charShow: 'miyu', expr: 'hope' },
+    { text: '「一个人在深夜的陪伴。」' },
+    { text: '「假话可以是温柔。但温柔不是欺骗。温柔是——知道真相之后，依然选择善良。」' },
+    { charHide: 'yunshang' },
+    { charHide: 'miyu' },
+    { text: '—— 一年后 ——' },
+    { text: '左城和右城的边界开始模糊。' },
+    { text: '石匠白岁第一次尝试了「圆角」的雕刻——一座既锐利又柔和的雕塑，立在广场中央。' },
+    { text: '画师云裳第一次画了一幅真实的肖像——画里的人不完美，但眼神里有真正的光。' },
+    { text: '砾和瑶终于在一起了。' },
+    { text: '砾对瑶说「你今天看起来有点累」。瑶对砾说「你今天的诗让我哭了」。' },
+    { text: '两句真话，但包裹着温柔。' },
+    { text: '城市在融合中，有冲突，但也有理解。' },
+    { text: '你用两种语言，说给了两种人。而他们——都听懂了。' },
+    { achievement: { id: 'ferry', name: '渡', desc: '你做出了最终选择' } },
+    { autoNext: 'game_end' }
+  ]
+},
 game_end: {
   bg: "url('images/river_sunset.png') center/cover",
   bgm: 'bgm_ending',
@@ -1845,9 +1939,13 @@ game_end: {
       text: function() {
         const a = S.truthScore, b = S.lieScore, c = S.silentCount;
         const t = a+b+c || 1;
+        const total = a+b || 1;
         let al = '行者';
-        if(c/t>.4) al='沉默者'; else if(a/t>.7) al='言真者';
-        else if(b/t>.7) al='织谎者'; else if(a/t>=.3) al='渡者';
+        if(c/t>.4) al='沉默者';
+        else if(a/total>.7) al='言真者';
+        else if(b/total>.7) al='织谎者';
+        else if(a/total>=.3 && a/total<=.7 && b/total>=.3 && b/total<=.7) al='分别说话者';
+        else al='渡者';
         return `—— 你的旅程 ——\n真话 ${a} · 假话 ${b} · 沉默 ${c} · 倾向「${al}」`;
       }
     },
@@ -1974,6 +2072,13 @@ const CHAR_IMG_MAP = {
   ying:'mirror/ying', hua_child:'mirror/hua_child',
   wuyan:'main/wuyan'
 };
+// 角色所属城市：left/right/mirror/main
+const CHAR_CITY = {
+  baisui:'left', xiaoxue:'left', shiyan:'left', yan:'left', li:'left',
+  yunshang:'right', miyu:'right', huayan:'right', ming:'right', yao:'right',
+  ying:'mirror', hua_child:'mirror',
+  wuyan:'main'
+};
 const CHAR_NAMES = {baisui:'白岁',yunshang:'云裳',ying:'影',xiaoxue:'小雪',
   shiyan:'石言',yan:'岩',li:'砾',yao:'瑶',miyu:'蜜语',huayan:'花言',ming:'明',
   hua_child:'画',wuyan:'勿言'};
@@ -1986,14 +2091,16 @@ function showCharacter(id, expr) {
   if(!el) {
     el = document.createElement('div');
     el.id = 'char-'+id;
-    el.className = 'char-sprite';
+    const city = CHAR_CITY[id] || 'mirror';
+    el.className = 'char-sprite city-' + city;
     const nc = CHAR_NAME_COLORS[id] || '#B0B0B0';
     const nm = CHAR_NAMES[id] || id;
-    el.innerHTML = `<img class="char-img" src="" style="height:320px;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(0,0,0,.5))" onerror="this.style.display='none'">
+    el.innerHTML = `<img class="char-img" src="" style="height:320px;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(0,0,0,.5))" onerror="this.style.visibility='hidden';this.style.height='0'">
       <div class="char-name-tag" style="color:${nc};background:${nc}20;border:1px solid ${nc}40">${nm}</div>`;
     $('#character-layer').appendChild(el);
   }
-  changeExpr(id, expr || 'normal');
+  // 默认不传 expr 则使用无后缀的基础立绘
+  changeExpr(id, expr || null);
   requestAnimationFrame(()=> el.classList.add('visible'));
 }
 function changeExpr(id, expr) {
@@ -2002,7 +2109,11 @@ function changeExpr(id, expr) {
   const img = el.querySelector('.char-img');
   if(!img) return;
   const folder = CHAR_IMG_MAP[id] || 'left_city/'+id;
-  const fileName = expr === 'normal' ? id : `${id}_${expr}`;
+  // expr 为 null/undefined/'normal' 时使用基础立绘（无后缀），否则使用 角色名_表情.png
+  const fileName = (!expr || expr === 'normal') ? id : `${id}_${expr}`;
+  // 重置可能被 onerror 隐藏的图片
+  img.style.visibility = '';
+  img.style.height = '320px';
   img.src = `images/characters/${folder.replace(/\/[^/]+$/, '')}/${fileName}.png`;
 }
 function hideCharacter(id) {
@@ -2109,6 +2220,19 @@ function applyEffects(eff) {
 }
 
 /* ── Scene Engine ─────────────────────────────────────────── */
+// 根据场景章节自动推断 wuyan 表情
+function getWuyanExprForScene(sceneId) {
+  if (!sceneId) return 'neutral';
+  // 闪回/回忆场景 -> sad
+  if (sceneId.includes('flashback') || sceneId.includes('xiaomo')) return 'sad';
+  // 结局/最终场景 -> smile
+  if (sceneId.includes('ending') || sceneId === 'game_end') return 'smile';
+  // 镜墙内部/揭示真相 -> determined
+  if (sceneId.includes('mirror_inside') || sceneId.includes('discovery') || sceneId.includes('four_selves')) return 'determined';
+  // 默认
+  return 'neutral';
+}
+
 async function playScene(sceneId) {
   const scene = SCENES[sceneId];
   if(!scene) { console.error('Scene not found:', sceneId); return; }
@@ -2126,6 +2250,13 @@ async function playScene(sceneId) {
     if(bgmMap[scene.city]) Audio.playBgm(bgmMap[scene.city]);
   }
   if(scene.city) setCity(scene.city);
+
+  // 旁白/叙述场景自动显示主角勿言，其他场景隐藏
+  if (scene.city === 'narrator') {
+    showCharacter('wuyan', getWuyanExprForScene(sceneId));
+  } else {
+    hideCharacter('wuyan');
+  }
 
   // Chapter title
   if(scene.chapter && scene.chapter.zh) {
@@ -2164,7 +2295,8 @@ function advanceDialogue() {
 
     // Auto next scene
     if(item.autoNext) {
-      playScene(item.autoNext).then(resolve); return;
+      const next = typeof item.autoNext === 'function' ? item.autoNext() : item.autoNext;
+      playScene(next).then(resolve); return;
     }
 
     // Choice
@@ -2173,8 +2305,10 @@ function advanceDialogue() {
       S.choiceCallback = (type) => {
         const sel = type==='truth'?ch.truth: type==='lie'?ch.lie:ch.silent;
         if(sel && sel.text) {
+          // 显示主角立绘 — 玩家选择了这句话
+          showCharacter('wuyan', type==='truth'?'determined': type==='lie'?'smile':'neutral');
           // Show chosen text briefly
-          showDialogue('', sel.text);
+          showDialogue('勿言', sel.text);
           setTimeout(() => playScene(sel.next).then(resolve), 2200);
         } else if(sel && sel.next) {
           playScene(sel.next).then(resolve);
