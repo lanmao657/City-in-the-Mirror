@@ -24,3 +24,7 @@ __pycache__/
 *.pyc
 game/cache/
 game/saves/
+
+# EdgeOne deployment
+web/.edgeone/
+web/.env
